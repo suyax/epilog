@@ -38,4 +38,5 @@
     "react-redux": "3.1.0",
     "redux": "3.1.0",
     "sequelize": "3.18.0",
+  }
 }
