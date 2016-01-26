@@ -29,28 +29,10 @@ class EpiLogApp extends Component {
   }
 }
 
-/*var styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'lightgrey',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch',
-    flex: 1
-  },
-  navOption: {
-    fontSize: 20,
-    color: 'red',
-  },
-});*/
-
-/*export default connect(state => ({
-  currentView: state.viewControl.currentView
-}),
-(dispatch) => ({
-  setView: bindActionCreators(, s)
-})
-)*/
-
-
-module.exports = EpiLogApp;
+export default connect(state => ({
+    currentView: state.viewControl.currentView
+  }),
+  (dispatch) => ({
+  })
+)(EpiLogApp);
 
