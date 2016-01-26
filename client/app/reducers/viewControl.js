@@ -1,5 +1,5 @@
 const initialStates = {
-  currentView : "Home"
+  currentView : "HOME"
 };
 
 export default function viewControl(state = initialStates, action = {}) {
