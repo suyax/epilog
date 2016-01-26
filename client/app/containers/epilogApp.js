@@ -7,10 +7,11 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+
 import * as viewControlActions from '../actions/viewControlActions';
-import NavBar from '../components/navBar';
-
-
+import Home from '../components/home';
+import Capture from '../components/capture';
+import Library from '../components/library';
 //router for the app
 class EpiLogApp extends Component {
   render() {
@@ -23,7 +24,7 @@ class EpiLogApp extends Component {
       case "CAPTURE":
         return <Capture />;
       default:
-        return <Home />;
+        return <Library />;
     }
   }
 }
