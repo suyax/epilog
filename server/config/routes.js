@@ -12,9 +12,7 @@ module.exports = function(app) {
   // app.post('/api/signup', );
   // app.get('/api/recent', );
   
-  app.get('/api/stories', function (req, res) {
-    controller.stories.getAllStories(req, res);
-  });
+  app.get('/api/stories', controller.stories.getAllStories);
 
 
   app.get('/api/stories/:id', function (req, res) {

@@ -1,22 +1,7 @@
 var Sequelize = require('Sequelize');
 var Promise = require('bluebird');
+var moments = require('../db/dbModel.js').Moment;
 
-module.exports = function (sequelize) {
-  return sequelize.define('moments', {
-    id: {
-      type: Sequelize.INTEGER, 
-      primaryKey: true,
-      autoIncrement: true    
-    },
+module.exports = {
 
-    url: {
-      type: Sequelize.STRING,
-      notNull: true
-    },
-
-    caption: {
-      type: Sequelize.STRING,
-      notNull: true
-    }
-  }, { timestamps: true });
 };
