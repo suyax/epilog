@@ -6,6 +6,7 @@ import React, {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import NavBar from '../components/navBar';
+import { connet } from 'react-redux';
 
 class EpiLogApp extends Component {
   render() {
@@ -32,7 +33,6 @@ var styles = StyleSheet.create({
   navOption: {
     fontSize: 20,
     color: 'red',
-    marginTop: 10
   },
 });
 
