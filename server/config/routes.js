@@ -25,14 +25,10 @@ module.exports = function(app) {
   });
 
 
-  app.post('/api/moments', function (req, res) {
-
-  });
+  app.post('/api/moments/:storyId', controller.moments.addMoment);
 
 
-  app.get('/api/moments/:storyTitle', function (req, res) {
-
-  });
+  app.get('/api/moments/:storyId', controller.moments.getAllMoments);
 
   // app.get('/api/moments/:tagId', );
   // app.get('/api/tags', );

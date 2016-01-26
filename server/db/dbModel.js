@@ -41,15 +41,15 @@ var Moment = sequelize.define('moments', {
     type: Sequelize.STRING,
     notNull: true
   }
-}, { timestamps: true });
+}, { timestamps: false });
 
 // var Comment
 // var Tag
 // var User
 
 var init = function () {
-  Moment.belongsTo(Story, { foreignKey: 'storyId' });
-  Story.hasMany(Moment, { foreignKey: 'storyId' });
+  Moment.belongsTo(Story, { foreignKey: 'storyid' });
+  Story.hasMany(Moment, { foreignKey: 'storyid' });
   sequelize.sync();
 };
 
