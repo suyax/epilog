@@ -4,7 +4,9 @@ var request = require('request');
 
 module.exports = function(app) {
 
-  app.get('/', );
+  app.get('/', function (req, res) {
+    
+  });
 
   // app.post('/api/signin', );
   // app.post('/api/signup', );
