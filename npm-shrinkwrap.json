@@ -194,7 +194,14 @@
         "babel-core": {
           "version": "5.8.35",
           "from": "babel-core@>=5.6.21 <6.0.0",
-          "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-5.8.35.tgz"
+          "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-5.8.35.tgz",
+          "dependencies": {
+            "bluebird": {
+              "version": "2.10.2",
+              "from": "bluebird@>=2.9.33 <3.0.0",
+              "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.10.2.tgz"
+            }
+          }
         },
         "babylon": {
           "version": "5.8.35",
@@ -726,9 +733,9 @@
       "resolved": "https://registry.npmjs.org/bl/-/bl-1.0.1.tgz"
     },
     "bluebird": {
-      "version": "2.10.2",
-      "from": "bluebird@>=2.9.33 <3.0.0",
-      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.10.2.tgz"
+      "version": "3.1.4",
+      "from": "bluebird@*",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.1.4.tgz"
     },
     "body-parser": {
       "version": "1.14.2",
@@ -1415,7 +1422,8 @@
       "dependencies": {
         "esprima-fb": {
           "version": "15001.1001.0-dev-harmony-fb",
-          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0"
+          "from": "esprima-fb@15001.1001.0-dev-harmony-fb",
+          "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
         },
         "window-size": {
           "version": "0.1.4",
@@ -4780,7 +4788,14 @@
     "retry-as-promised": {
       "version": "2.0.0",
       "from": "retry-as-promised@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/retry-as-promised/-/retry-as-promised-2.0.0.tgz"
+      "resolved": "https://registry.npmjs.org/retry-as-promised/-/retry-as-promised-2.0.0.tgz",
+      "dependencies": {
+        "bluebird": {
+          "version": "2.10.2",
+          "from": "bluebird@>=2.9.27 <3.0.0",
+          "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.10.2.tgz"
+        }
+      }
     },
     "right-align": {
       "version": "0.1.3",
