@@ -5,7 +5,7 @@ var request = require('request');
 module.exports = function(app) {
 
   app.get('/', function (req, res) {
-    
+
   });
 
   // app.post('/api/signin', );
@@ -13,7 +13,7 @@ module.exports = function(app) {
   // app.get('/api/recent', );
   
   app.get('/api/stories', function (req, res) {
-
+    controller.stories.getAllStories(req, res);
   });
 
 

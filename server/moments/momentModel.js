@@ -1,7 +1,8 @@
 var Sequelize = require('Sequelize');
+var Promise = require('bluebird');
 
 module.exports = function (sequelize) {
-  return sequelize.define('Moment', {
+  return sequelize.define('moments', {
     id: {
       type: Sequelize.INTEGER, 
       primaryKey: true,
