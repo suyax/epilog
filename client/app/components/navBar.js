@@ -39,16 +39,18 @@ class NavBar extends Component {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch',
+    backgroundColor: '#81c04d',
     flexDirection: 'row',
   },
   navOption: {
+    textAlign:'center',
+    fontWeight:'bold',
+    flex: 1,
     fontSize: 20,
-    color: 'red',
-    marginTop: 10
+    color: '#fff',
+    margin: 40,
   },
 });
 
