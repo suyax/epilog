@@ -12,12 +12,12 @@ var Story = sequelize.define('stories', {
   
   title: {
     type: Sequelize.STRING,
-    unique: true,
     notNull: true
   },
 
   description: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    notNull: true
   }
 
   // Add characters later
