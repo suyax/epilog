@@ -1,14 +1,15 @@
+
 var Sequelize = require('Sequelize');
 var Promise = require('bluebird');
 var moments = require('../db/dbModel').Moment;
 
 module.exports = {
 
-  add: function (moment){
+  add: function (momentInfo){
     return moments.build({
-      url: moment.url,
-      caption: moment.caption,
-      storyid: moment.storyid
+      url: momentInfo.url,
+      caption: momentInfo.caption,
+      storyid: momentInfo.storyid
     })
     .save()
     .then(function (results){
