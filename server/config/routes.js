@@ -11,7 +11,8 @@ module.exports = function(app) {
   // app.post('/api/signin', );
   // app.post('/api/signup', );
   // app.get('/api/recent', );
-  
+
+  ////////////////////////////////////STORIES//////////////////////////////////////////
   app.get('/api/stories', controller.stories.getAllStories);
 
 
@@ -20,10 +21,11 @@ module.exports = function(app) {
 
   app.post('/api/stories', controller.stories.addStory);
 
-
+  ////////////////////////////////////MOMENTS//////////////////////////////////////////
   app.post('/api/moments/:storyId', controller.moments.addMoment);
 
-
+  
+  //might not need this going forward...
   app.get('/api/moments/:storyId', controller.moments.getAllMoments);
 
   // app.get('/api/moments/:tagId', );
