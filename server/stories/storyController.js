@@ -10,10 +10,10 @@ module.exports =  {
 
   	storyModel.add(story)
   	  .then(function (results){
-  	    res.status(201).send(results);
+  	    res.status(201).json(results);
   	  })
   	  .catch(function (error){
-  	    res.status(404).send();
+  	    res.status(404).json();
   	  });
   },
 
@@ -21,20 +21,20 @@ module.exports =  {
   	var storyId = req.params.storyId;
     storyModel.getOne(storyId)
       .then(function (result) {
-        res.status(200).send(result);
+        res.status(200).json(result);
       })
       .catch(function (error) {
-        res.status(404).send();
+        res.status(404).json();
       });
   },
   
   getAllStories: function (req, res) {
     storyModel.getAll()
       .then(function (results) {
-        res.status(200).send(results);
+        res.status(200).json(results);
       })
       .catch(function (error) {
-        res.status(404).send();
+        res.status(404).json();
       });
   }
 };
