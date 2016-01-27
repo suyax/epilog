@@ -11,10 +11,10 @@ module.exports =  {
 
     momentModel.add(moment)
       .then(function (results){
-        res.status(201).send(results);
+        res.status(201).json(results);
       })
       .catch(function (error){
-        res.status(404).send();
+        res.status(404).json();
       });
   },
 
@@ -22,10 +22,10 @@ module.exports =  {
     var storyId = req.params.storyId;
     momentModel.getAll(storyId)
       .then(function (results) {
-        res.status(200).send(results);
+        res.status(200).json(results);
       })
       .catch(function (error) {
-        res.status(404).send();
+        res.status(404).json();
       });
   }
 };
