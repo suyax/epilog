@@ -15,24 +15,16 @@ module.exports = function(app) {
   app.get('/api/stories', controller.stories.getAllStories);
 
 
-  app.get('/api/stories/:id', function (req, res) {
-
-  });
+  app.get('/api/stories/:storyId', controller.stories.getOneStory);
 
 
-  app.post('/api/stories/:title', function (req, res) {
-
-  });
+  app.post('/api/stories', controller.stories.addStory);
 
 
-  app.post('/api/moments', function (req, res) {
-
-  });
+  app.post('/api/moments/:storyId', controller.moments.addMoment);
 
 
-  app.get('/api/moments/:storyTitle', function (req, res) {
-
-  });
+  app.get('/api/moments/:storyId', controller.moments.getAllMoments);
 
   // app.get('/api/moments/:tagId', );
   // app.get('/api/tags', );
