@@ -39,12 +39,18 @@ module.exports = {
   getAll: function () {
     console.log('Calling getAll in storyModel: ',stories);
     return stories.findAll({
-        include: [moments]
+        include: [moments],
+        required: true
       })
       .then(function (results) {
-        var allStories = results.map(function (storyAndMoments) {          
+        var allStories = {};
+
+        var storyArray = results.map(function (storyAndMoments) {          
           return storyAndMoments.dataValues;
         });
+
+        allStories['stories'] = storyArray;
+
         return allStories;
       })
       .catch(function (error) {
