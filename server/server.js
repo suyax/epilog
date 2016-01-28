@@ -1,9 +1,10 @@
 //define requirements
+var dummy = require('./config/dummydata.js');
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
-var seedDummyData = require('./config/dummyData.js');
 var db = require('./db/dbModel');
+
 
 //create instance of express server
 var app = express();
@@ -28,5 +29,6 @@ app.listen(port, function(){
 //create database
 db.init();
 
+setTimeout(dummy, 3000);
 //export server
 module.exports = app;

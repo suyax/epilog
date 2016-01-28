@@ -53,8 +53,9 @@ var init = function () {
   sequelize.sync();
 };
 
+
 module.exports = {
   Story: Story,
   Moment: Moment,
-  init: init
+  init: init,
 };
