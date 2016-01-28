@@ -1,7 +1,7 @@
 var Sequelize = require('Sequelize');
 var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/epilog';
 var sequelize = new Sequelize(connectionString);
-
+var seedDummyData = require('../config/dummyData.js');
 
 var Story = sequelize.define('stories', {
   id: { 
@@ -53,8 +53,9 @@ var init = function () {
   sequelize.sync();
 };
 
+
 module.exports = {
   Story: Story,
   Moment: Moment,
-  init: init
+  init: init,
 };
