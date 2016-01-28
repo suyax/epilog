@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var tempStorage = '/../temp_storage';
+var images = '/../images';
 var Promise = require('bluebird');
 var momentModel = require('./momentModel');
 
@@ -13,7 +13,7 @@ module.exports =  {
     //uniqueMomentIdentifier --> creates unique identifier for each moment based on data provided (NOTE: this is temporary);
     var uniqueMomentIdentifier = momentData.caption.split(" ").join("")+momentData.storyid;
     //filePath --> temp location in file tree where we will dump images
-    var filePath = path.join(__dirname, tempStorage + "/" + uniqueMomentIdentifier + ".jpeg");
+    var filePath = path.join(__dirname, images + "/" + uniqueMomentIdentifier + ".jpeg");
 
     //check to see if file path exists...
     fs.stat(filePath, function (err, file){
