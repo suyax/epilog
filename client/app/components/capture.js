@@ -11,32 +11,19 @@ import React, {
 import NavBar from './navBar';
 import CameraRollView from './CameraRollView';
 
+
 const CAMERA_ROLL_VIEW = 'camera_roll_view';
 
 class Capture extends Component {
-  
-  loadAsset(asset){
-    // TODO: Go to single image view
-
-    // We don't use navigator LAWL
-    if (this.props.navigator) {
-      this.props.navigator.push({
-        title: 'Camera Roll Image',
-        component: AssetScaledImageExampleView,
-        backButtonTitle: 'Back',
-        passProps: { asset: asset },
-      });
-    }
-  }
 
   _renderImage(asset) {
     const imageSize = 150;
     const imageStyle = [cameraRollStyles.image, {width: imageSize, height: imageSize}];
     const location = asset.node.location.longitude ?
       JSON.stringify(asset.node.location) : 'Unknown location';
-    console.log("_renderImage is running this is what it thinks about loadAsset: " + this.loadAsset);
+    const { onTouchImage } = this.props;
     return (
-      <TouchableOpacity key={asset} onPress={ this.loadAsset.bind( this, asset ) }>
+      <TouchableOpacity key={asset} onPress={()=>{onTouchImage(asset);}}>
         <View style={cameraRollStyles.row}>
           <Image
             source={asset.node.image}
@@ -54,8 +41,6 @@ class Capture extends Component {
   }
   
   render() {
-    console.log("_renderImage: " + this._renderImage);
-    console.log("loadAsset: " + this.loadAsset);
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -117,4 +102,22 @@ var cameraRollStyles = StyleSheet.create({
   },
 })
 
-module.exports = Capture;
+module.exports = Capture
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

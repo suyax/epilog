@@ -6,6 +6,8 @@ import React, {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actions from '../actions/viewControlActions';
+
 
 
 import * as viewControlActions from '../actions/viewControlActions';
@@ -15,24 +17,36 @@ import Library from '../components/library';
 //router for the app
 class EpiLogApp extends Component {
   render() {
-    const { currentView } = this.props;
-    switch (currentView) {
+    const { viewControlState, viewControlActions } = this.props;
+    switch (viewControlState.currentView) {
       case "HOME":
         return <Home />;
       case "LIBRARY":
         return <Library />;
       case "CAPTURE":
-        return <Capture />;
+        return (
+          <Capture 
+          onTouchImage={
+            (asset)=>{
+              viewControlActions.setView('EDIT_MOMENT', {
+                asset:asset
+              });
+            }}
+          />
+        );
+      case "EDIT_MOMENT":
+        return(<EditMoment />);
       default:
-        return <Library />;
+        return <Home />;
     }
   }
 }
 
 export default connect(state => ({
-    currentView: state.viewControl.currentView
+    viewControlState: state.viewControl
   }),
   (dispatch) => ({
+    viewControlActions: bindActionCreators(actions, dispatch),
   })
 )(EpiLogApp);
 
