@@ -1,9 +1,10 @@
-export function setView(viewName, passProps) {
+export function setView(viewName, passedProps) {
   return {
     type: 'SET_VIEW', 
     payload: {
       viewName: viewName,
-      passProps: passProps
-    }
+      passedProps: passedProps
+    },
+    error: null,
   };
 }

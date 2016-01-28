@@ -6,7 +6,7 @@ import React, {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../actions/viewControlActions';
+import * as actions from '../actions/index';
 
 
 
@@ -14,6 +14,7 @@ import * as viewControlActions from '../actions/viewControlActions';
 import Home from '../components/home';
 import Capture from '../components/capture';
 import Library from '../components/library';
+import EditMoment from '../components/editMoment';
 //router for the app
 class EpiLogApp extends Component {
   render() {
@@ -35,7 +36,7 @@ class EpiLogApp extends Component {
           />
         );
       case "EDIT_MOMENT":
-        return(<EditMoment />);
+        return(<EditMoment asset={viewControlState.passedProps.asset} />);
       default:
         return <Home />;
     }
@@ -43,10 +44,10 @@ class EpiLogApp extends Component {
 }
 
 export default connect(state => ({
-    viewControlState: state.viewControl
+    viewControlState: state.viewControl,
   }),
   (dispatch) => ({
-    viewControlActions: bindActionCreators(actions, dispatch),
+    viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
   })
 )(EpiLogApp);
 

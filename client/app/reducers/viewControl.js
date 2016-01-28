@@ -14,3 +14,13 @@ export default function viewControl(state = initialStates, action = {}) {
       return state;
   }
 }
+
+// Store will look something like this.
+// {
+//   ...
+//   viewControl: {
+//     currentView:
+//     passedProps:
+//   }
+//   ...
+// }
