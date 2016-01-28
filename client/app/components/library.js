@@ -2,6 +2,8 @@ import React, {
   Component,
   Image,
   ListView,
+  TouchableHightlight,
+  RecyclerViewBackedScrollView,
   StyleSheet,
   Text,
   View,
@@ -53,6 +55,8 @@ class Library extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderStory}
+          renderScrollComponent={props => <RecyclerViewBackedScrollView
+            {...props} />}
           contentContainerStyle={styles.listView}
           style={styles.list}
         />
@@ -96,7 +100,8 @@ var styles = StyleSheet.create({
     margin: 5,
     backgroundColor: '#F6F6F6',
     alignItems: 'center',
-    width: 150,
+    width: 180,
+    height: 135,
     borderWidth: 1,
     borderColor: '#CCC'
   },
@@ -111,8 +116,8 @@ var styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   thumbnail: {
-    width: 64,
-    height: 64
+    width: 80,
+    height: 80
   },
   list: {
     flex: 11
