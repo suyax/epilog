@@ -43,21 +43,21 @@ module.exports =  {
         for (var prop in req.body) {
           image = prop;
         }
-        var buffer = new Buffer(image);
-        var encodedImage = buffer.toString('base64');
+        // var buffer = new Buffer(image);
+        // var encodedImage = buffer.toString('base64');
         console.log(req.body);
         console.log('Image: ', image);
-        writeStream.write(encodedImage);
+        writeStream.write(image);
         //once the data has been received, call the add method in the momentModel to input the moment data into the database
-        // req.on('end', function (){
-        //   momentModel.add(moment)
-        //     .then(function (results){
+        req.on('end', function (){
+          momentModel.add(moment)
+            .then(function (results){
               res.status(201).json(results);
-        //     })
-        //     .catch(function (error){
-        //       res.status(404).json();
-        //     });
-        // });
+            })
+            .catch(function (error){
+              res.status(404).json();
+            });
+        });
       }
     });
   },
