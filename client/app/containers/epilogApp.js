@@ -36,7 +36,10 @@ class EpiLogApp extends Component {
           />
         );
       case "EDIT_MOMENT":
-        return(<EditMoment asset={viewControlState.passedProps.asset} />);
+        return(<EditMoment 
+          asset={viewControlState.passedProps.asset} 
+          onCancel={()=>{viewControlActions.setView('CAPTURE')}}
+          />);
       default:
         return <Home />;
     }
