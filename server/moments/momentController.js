@@ -9,7 +9,7 @@ module.exports =  {
   addMoment: function (req, res){
     //Define Variables
     //momentData --> location within request object, where header information lives
-    var momentData = JSON.parse(req.headers.momentdata);
+    var momentData = JSON.parse(req.headers['momentdata']);
     //uniqueMomentIdentifier --> creates unique identifier for each moment based on data provided (NOTE: this is temporary);
     var uniqueMomentIdentifier = momentData.caption.split(" ").join("")+momentData.storyid;
     //filePath --> temp location in file tree where we will dump images
@@ -36,19 +36,28 @@ module.exports =  {
         );
 
         //add each of the incoming data chunks from the client to the filepath specified above
-        req.on('data', function (chunk){
-            writeStream.write(chunk);
-          });
+        // req.on('data', function (chunk){
+        //     writeStream.write(chunk);
+        //   });
+        var image;
+        for (var prop in req.body) {
+          image = prop;
+        }
+        var buffer = new Buffer(image);
+        var encodedImage = buffer.toString('base64');
+        console.log(req.body);
+        console.log('Image: ', image);
+        writeStream.write(encodedImage);
         //once the data has been received, call the add method in the momentModel to input the moment data into the database
-        req.on('end', function (){
-          momentModel.add(moment)
-            .then(function (results){
+        // req.on('end', function (){
+        //   momentModel.add(moment)
+        //     .then(function (results){
               res.status(201).json(results);
-            })
-            .catch(function (error){
-              res.status(404).json();
-            });
-        });
+        //     })
+        //     .catch(function (error){
+        //       res.status(404).json();
+        //     });
+        // });
       }
     });
   },
