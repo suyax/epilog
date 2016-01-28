@@ -50,7 +50,7 @@ class Library extends Component {
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderStory}
+          renderRow={this.renderStory.bind(this)}
           renderScrollComponent={props => <RecyclerViewBackedScrollView
             {...props} />}
           contentContainerStyle={styles.listView}
@@ -73,15 +73,12 @@ class Library extends Component {
     );
   }
 
-  renderImage () {
-    console.log(this.props);
-
-  }
   renderStory(story) {
     return (
       <View>
         <TouchableHighlight
-          onPress={this.renderImage}
+          key={story}
+          onPress={()=>{ this.props.onTouchImage(story)}}
           onShowUnderlay={this.onHighlight}
           onHideUnderlay={this.onUnhighlight}>
           <View style={styles.storyContainer}>

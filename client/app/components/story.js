@@ -4,7 +4,11 @@ import React, {
   StyleSheet,
   Image,
   Text,
-  View
+  View,
+  ScrollView,
+  ListView,
+  PixelRatio,
+  Dimensions
 } from 'react-native';
 
 import NavBar from './navBar';
@@ -12,20 +16,32 @@ import NavBar from './navBar';
 class Story extends Component {
 
   render() {
+    let { width, height } = Dimensions.get('window');
     const {asset} = this.props;
-    var moment = asset.moments[0];
+    const story = this.props.asset;
     return (
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.title}>
-            story Page !
-          </Text>
-        </View>
-        <View style={styles.navBar}>
-          <NavBar />
+      <ScrollView
+        style={[styles.scrollView, styles.horizontalScrollView]}
+        automaticallyAdjustContentInsets={false}
+        horizontal={true}
+        snapToInterval={width - 20 }
+        snapToAlignment={'start'}>
+        {story.moments.map(this.createRow)}
+      </ScrollView>
+    );
+  }
+  createRow(moment) {
+    return (
+      <View key={moment.id} style={styles.container}>
+        <View style={styles.storyContainer}>
+          <Image
+            source={{uri: moment.url}}
+            style={styles.thumbnail}
+          />
+            <Text style={styles.title}>{moment.caption}</Text>
         </View>
       </View>
-    );
+      )
   }
 }
 
@@ -37,18 +53,27 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'column',
   },
+  scrollView: {
+    backgroundColor: '#6A85B1',
+    height: 300,
+  },
+  horizontalScrollView: {
+    height: 120,
+  },
   content: {
     flex: 11,
     justifyContent: 'center',
     backgroundColor: 'green',
   },
-  navBar: {
-    flex: 1
+  thumbnail: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height-50,
   },
   title: {
     textAlign: 'center',
     fontSize: 20,
-    color: 'red'
+    color: 'white'
   },
 });
 

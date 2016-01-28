@@ -2,7 +2,8 @@ import React, {
   StyleSheet,
   Component,
   Text,
-  View
+  View,
+  Dimension
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -27,15 +28,16 @@ class EpiLogApp extends Component {
         return (
           <Library
           onTouchImage={
-            (asset)=>{
+            asset =>{
+              console.log("onTouch get asset", asset);
               viewControlActions.setView('STORY', {
                 asset: asset
-              });
+              })
             }}
             />
           );
       case "STORY":
-        return (<Story asset={viewControlActions.passedProps.asset} />);
+        return (<Story asset={viewControlState.passedProps.asset} />);
       case "CAPTURE":
         return (
           <Capture
@@ -48,8 +50,8 @@ class EpiLogApp extends Component {
           />
         );
       case "EDIT_MOMENT":
-        return(<EditMoment 
-          asset={viewControlState.passedProps.asset} 
+        return(<EditMoment
+          asset={viewControlState.passedProps.asset}
           onCancel={()=>{viewControlActions.setView('CAPTURE')}}
           />);
       default:
