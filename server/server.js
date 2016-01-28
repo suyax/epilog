@@ -28,5 +28,7 @@ app.listen(port, function(){
 
 //create database
 db.init();
+
+setTimeout(dummy, 3000);
 //export server
 module.exports = app;

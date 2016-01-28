@@ -7,6 +7,8 @@ module.exports = {
 
   add: function (story){
     console.log("story object -->", story);
+    console.log(stories);
+    console.log(moments);
     return stories.build({
       title: story.title,
       description: story.description
@@ -35,6 +37,7 @@ module.exports = {
   },
 
   getAll: function () {
+    console.log('Calling getAll in storyModel: ',stories);
     return stories.findAll({
         include: [moments]
       })
