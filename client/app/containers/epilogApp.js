@@ -6,33 +6,48 @@ import React, {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as actions from '../actions/index';
+
 
 
 import * as viewControlActions from '../actions/viewControlActions';
 import Home from '../components/home';
 import Capture from '../components/capture';
 import Library from '../components/library';
+import EditMoment from '../components/editMoment';
 //router for the app
 class EpiLogApp extends Component {
   render() {
-    const { currentView } = this.props;
-    switch (currentView) {
+    const { viewControlState, viewControlActions } = this.props;
+    switch (viewControlState.currentView) {
       case "HOME":
         return <Home />;
       case "LIBRARY":
         return <Library />;
       case "CAPTURE":
-        return <Capture />;
+        return (
+          <Capture 
+          onTouchImage={
+            (asset)=>{
+              viewControlActions.setView('EDIT_MOMENT', {
+                asset:asset
+              });
+            }}
+          />
+        );
+      case "EDIT_MOMENT":
+        return(<EditMoment asset={viewControlState.passedProps.asset} />);
       default:
-        return <Library />;
+        return <Home />;
     }
   }
 }
 
 export default connect(state => ({
-    currentView: state.viewControl.currentView
+    viewControlState: state.viewControl,
   }),
   (dispatch) => ({
+    viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
   })
 )(EpiLogApp);
 

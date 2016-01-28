@@ -1,5 +1,5 @@
 const initialStates = {
-  currentView : "LIBRARY"
+  currentView : "HOME"
 };
 
 export default function viewControl(state = initialStates, action = {}) {
@@ -7,9 +7,20 @@ export default function viewControl(state = initialStates, action = {}) {
     case "SET_VIEW":
       return {
         ...state,
-        currentView: action.viewName
+        currentView: action.payload.viewName,
+        passedProps: action.payload.passedProps
       };
     default:
       return state;
   }
 }
+
+// Store will look something like this.
+// {
+//   ...
+//   viewControl: {
+//     currentView:
+//     passedProps:
+//   }
+//   ...
+// }
