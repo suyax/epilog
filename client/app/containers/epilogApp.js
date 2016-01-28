@@ -14,6 +14,7 @@ import * as viewControlActions from '../actions/viewControlActions';
 import Home from '../components/home';
 import Capture from '../components/capture';
 import Library from '../components/library';
+import Story from '../components/story';
 import EditMoment from '../components/editMoment';
 //router for the app
 class EpiLogApp extends Component {
@@ -23,14 +24,25 @@ class EpiLogApp extends Component {
       case "HOME":
         return <Home />;
       case "LIBRARY":
-        return <Library />;
+        return (
+          <Library
+          onTouchImage={
+            (asset)=>{
+              viewControlActions.setView('STORY', {
+                asset: asset
+              });
+            }}
+            />
+          );
+      case "STORY":
+        return (<Story asset={viewControlActions.passedProps.asset} />);
       case "CAPTURE":
         return (
-          <Capture 
+          <Capture
           onTouchImage={
             (asset)=>{
               viewControlActions.setView('EDIT_MOMENT', {
-                asset:asset
+                asset: asset
               });
             }}
           />

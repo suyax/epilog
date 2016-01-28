@@ -2,7 +2,7 @@ import React, {
   Component,
   Image,
   ListView,
-  TouchableHightlight,
+  TouchableHighlight,
   RecyclerViewBackedScrollView,
   StyleSheet,
   Text,
@@ -11,10 +11,6 @@ import React, {
 
 import NavBar from './navBar';
 
-var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
-var API_URL = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json';
-var PAGE_SIZE = 25;
-var PARAMS = '?apikey=' + API_KEY + '&page_limit=' + PAGE_SIZE;
 var REQUEST_URL = 'http://127.0.0.1:3000/api/stories';
 
 class Library extends Component {
@@ -77,17 +73,29 @@ class Library extends Component {
     );
   }
 
+  renderImage () {
+    console.log(this.props);
+
+  }
   renderStory(story) {
     return (
-      <View style={styles.storyContainer}>
-        <Image
-          source={{uri: story.moments[0].url}}
-          style={styles.thumbnail}
-        />
-          <Text style={styles.title}>{story.title}</Text>
-      </View>
+      <View>
+        <TouchableHighlight
+          onPress={this.renderImage}
+          onShowUnderlay={this.onHighlight}
+          onHideUnderlay={this.onUnhighlight}>
+          <View style={styles.storyContainer}>
+            <Image
+              source={{uri: story.moments[0].url}}
+              style={styles.thumbnail}
+            />
+              <Text style={styles.title}>{story.title}</Text>
+          </View>
+        </TouchableHighlight>
+    </View>
     );
   }
+
 }
 
 var styles = StyleSheet.create({
