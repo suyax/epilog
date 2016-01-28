@@ -14,7 +14,7 @@ var {
 class EditMoment extends Component{
 
   render() {
-    const {asset} = this.props;
+    const {asset, onCancel, onSumbit} = this.props;
     var image = asset.node.image;
     return (
       <ScrollView>
@@ -25,7 +25,7 @@ class EditMoment extends Component{
           <TouchableHighlight>
             <View><Text>Submit</Text></View>
           </TouchableHighlight>
-          <TouchableHighlight>
+          <TouchableHighlight onPress={onCancel}>
             <View><Text>Cancel</Text></View>
           </TouchableHighlight>
         </View>
