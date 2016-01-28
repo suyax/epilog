@@ -36,25 +36,18 @@ module.exports =  {
         );
 
         //add each of the incoming data chunks from the client to the filepath specified above
-        // req.on('data', function (chunk){
-        //     writeStream.write(chunk);
-        //   });
-        var image;
-        for (var prop in req.body) {
-          image = prop;
-        }
-        // var buffer = new Buffer(image);
-        // var encodedImage = buffer.toString('base64');
-        console.log(req.body);
-        console.log('Image: ', image);
-        writeStream.write(image);
-        //once the data has been received, call the add method in the momentModel to input the moment data into the database
+        req.on('data', function (chunk){
+            writeStream.write(chunk);
+        });
+     
         req.on('end', function (){
           momentModel.add(moment)
             .then(function (results){
+              writeStream.end();
               res.status(201).json(results);
             })
             .catch(function (error){
+              writeStream.end();
               res.status(404).json();
             });
         });

@@ -31,10 +31,11 @@ class EditMoment extends Component{
                   headers: {
                     'momentData': JSON.stringify({
                       'caption': 'test caption for moment',
-                      'storyid': 3
-                    })
+                      'storyid': 3,
+                    }),
+                    'content-type': 'image/jpeg'
                   },
-                  body: JSON.stringify( [image] )
+                  body: image
                 })
               })
             }
