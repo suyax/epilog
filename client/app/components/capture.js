@@ -23,7 +23,9 @@ class Capture extends Component {
       JSON.stringify(asset.node.location) : 'Unknown location';
     const { onTouchImage } = this.props;
     return (
-      <TouchableOpacity key={asset} onPress={()=>{onTouchImage(asset);}}>
+      <TouchableOpacity key={asset} onPress={()=>{
+        console.log(this.props)
+        onTouchImage(asset); }}>
         <View style={cameraRollStyles.row}>
           <Image
             source={asset.node.image}
@@ -39,7 +41,7 @@ class Capture extends Component {
       </TouchableOpacity>
     );
   }
-  
+
   render() {
     return (
       <View style={styles.container}>
@@ -51,7 +53,7 @@ class Capture extends Component {
             ref={CAMERA_ROLL_VIEW}
             batchSize={20}
             groupTypes="All"
-            renderImage={this._renderImage.bind(this)} 
+            renderImage={this._renderImage.bind(this)}
           />
         </View>
         <View style={styles.navBar}>

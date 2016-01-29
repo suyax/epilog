@@ -2,6 +2,8 @@ import React, {
   Component,
   Image,
   ListView,
+  TouchableHighlight,
+  RecyclerViewBackedScrollView,
   StyleSheet,
   Text,
   View,
@@ -9,10 +11,6 @@ import React, {
 
 import NavBar from './navBar';
 
-var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
-var API_URL = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json';
-var PAGE_SIZE = 25;
-var PARAMS = '?apikey=' + API_KEY + '&page_limit=' + PAGE_SIZE;
 var REQUEST_URL = 'http://127.0.0.1:3000/api/stories';
 
 class Library extends Component {
@@ -52,7 +50,9 @@ class Library extends Component {
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderStory}
+          renderRow={this.renderStory.bind(this)}
+          renderScrollComponent={props => <RecyclerViewBackedScrollView
+            {...props} />}
           contentContainerStyle={styles.listView}
           style={styles.list}
         />
@@ -74,16 +74,26 @@ class Library extends Component {
   }
 
   renderStory(story) {
+    console.log(story);
     return (
-      <View style={styles.storyContainer}>
-        <Image
-          source={{uri: story.moments[0].url}}
-          style={styles.thumbnail}
-        />
-          <Text style={styles.title}>{story.title}</Text>
-      </View>
+      <View>
+        <TouchableHighlight
+          key={story}
+          onPress={()=>{this.props.onTouchImage(story)}}
+          onShowUnderlay={this.onHighlight}
+          onHideUnderlay={this.onUnhighlight}>
+          <View style={styles.storyContainer}>
+            <Image
+              source={{uri: story.moments[0].url}}
+              style={styles.thumbnail}
+            />
+              <Text style={styles.title}>{story.title}</Text>
+          </View>
+        </TouchableHighlight>
+    </View>
     );
   }
+
 }
 
 var styles = StyleSheet.create({
@@ -96,7 +106,8 @@ var styles = StyleSheet.create({
     margin: 5,
     backgroundColor: '#F6F6F6',
     alignItems: 'center',
-    width: 150,
+    width: 180,
+    height: 135,
     borderWidth: 1,
     borderColor: '#CCC'
   },
@@ -111,8 +122,8 @@ var styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   thumbnail: {
-    width: 64,
-    height: 64
+    width: 80,
+    height: 80
   },
   list: {
     flex: 11
