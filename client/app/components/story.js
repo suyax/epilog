@@ -21,8 +21,8 @@ class Story extends Component {
     const {asset, onBack} = this.props;
     const story = this.props.asset;
     return (
-      <View>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.scrollViewContainer}>
           <ScrollView
               style={[styles.scrollView, styles.horizontalScrollView]}
               automaticallyAdjustContentInsets={false}
@@ -51,9 +51,11 @@ class Story extends Component {
         <View style={styles.storyContainer}>
           <Image
             source={{uri: moment.url}}
-            style={styles.thumbnail}
-          />
+            style={styles.thumbnail}>
+            <View>
             <Text style={styles.title}>{moment.caption}</Text>
+            </View>
+          </Image>
         </View>
       </View>
       )
@@ -62,6 +64,9 @@ class Story extends Component {
 
 var styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollViewContainer: {
     flex: 11,
   },
   scrollView: {
@@ -84,7 +89,8 @@ var styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 20,
-    color: 'white'
+    color: 'white',
+    fontWeight: 'bold'
   },
   buttonText: {
     textAlign: 'center',
