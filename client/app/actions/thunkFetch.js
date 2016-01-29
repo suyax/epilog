@@ -11,10 +11,11 @@ export function thunkFetch (url, fetchOptions, requestAction,successAction,failu
   return function (dispatch) {
     dispatch(requestAction());
 
-    return fetch(url, fetchOptions)
-    .then(response => response.json())
-    .then(data => dispatch(successAction(data))
-    .catch(error => dispatch(failureAction(error)));
+    return ( fetch(url, fetchOptions)
+      .then(response => response.json())
+      .then(data => dispatch(successAction(data)))
+      .catch(error => dispatch(failureAction(error)))
+    );
   }
 
 }
