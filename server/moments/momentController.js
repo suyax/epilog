@@ -14,7 +14,7 @@ module.exports =  {
     //uniqueMomentIdentifier --> creates unique identifier for each moment based on data provided (NOTE: this is temporary);
     var uniqueMomentIdentifier = momentData.caption.split(" ").join("")+momentData.storyid;
     //filePath --> temp location in file tree where we will dump images
-    var filePath = path.join(__dirname, images + "/" + uniqueMomentIdentifier + ".jpeg");
+    var filePath = path.join(__dirname, images + "/" + uniqueMomentIdentifier + ".png");
 
     //check to see if file path exists...
     fs.stat(filePath, function (err, file){
@@ -36,7 +36,14 @@ module.exports =  {
           {flags: 'ax'}
         );
 
-        req.pipe(base64.decode()).pipe(writeStream);
+        // req.pipe(base64.decode()).pipe(writeStream);
+        req.pipe(writeStream);
+
+        //add each of the incoming data chunks from the client to the filepath specified above
+        // req.on('data', function (chunk){
+        //   console.log("CHUNK: ", chunk);
+        //     writeStream.write(chunk);
+        // });
      
         req.on('end', function (){
           momentModel.add(moment)
