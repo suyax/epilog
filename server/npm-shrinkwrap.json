@@ -69,6 +69,11 @@
       "from": "aws-sign2@>=0.6.0 <0.7.0",
       "resolved": "https://registry.npmjs.org/aws-sign2/-/aws-sign2-0.6.0.tgz"
     },
+    "base64-stream": {
+      "version": "0.1.3",
+      "from": "base64-stream@latest",
+      "resolved": "https://registry.npmjs.org/base64-stream/-/base64-stream-0.1.3.tgz"
+    },
     "bl": {
       "version": "1.0.1",
       "from": "bl@>=1.0.0 <1.1.0",

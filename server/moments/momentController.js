@@ -3,6 +3,7 @@ var path = require('path');
 var images = '/../images';
 var Promise = require('bluebird');
 var momentModel = require('./momentModel');
+var base64 = require('base64-stream');
 
 module.exports =  {
 
@@ -32,13 +33,16 @@ module.exports =  {
         //open up fileStream on filePath 
         var writeStream = fs.createWriteStream(
           filePath,
-          {flags: 'ax', encoding: 'base64'}
+          {flags: 'ax'}
         );
 
+        req.pipe(base64.decode()).pipe(writeStream);
+
         //add each of the incoming data chunks from the client to the filepath specified above
-        req.on('data', function (chunk){
-            writeStream.write(chunk);
-        });
+        // req.on('data', function (chunk){
+        //   console.log("CHUNK: ", chunk);
+        //     writeStream.write(chunk);
+        // });
      
         req.on('end', function (){
           momentModel.add(moment)
