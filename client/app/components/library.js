@@ -74,11 +74,12 @@ class Library extends Component {
   }
 
   renderStory(story) {
+    console.log(story);
     return (
       <View>
         <TouchableHighlight
           key={story}
-          onPress={()=>{ this.props.onTouchImage(story)}}
+          onPress={()=>{this.props.onTouchImage(story)}}
           onShowUnderlay={this.onHighlight}
           onHideUnderlay={this.onUnhighlight}>
           <View style={styles.storyContainer}>

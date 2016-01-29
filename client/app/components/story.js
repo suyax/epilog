@@ -8,7 +8,8 @@ import React, {
   ScrollView,
   ListView,
   PixelRatio,
-  Dimensions
+  Dimensions,
+  TouchableHighlight
 } from 'react-native';
 
 import NavBar from './navBar';
@@ -17,19 +18,33 @@ class Story extends Component {
 
   render() {
     let { width, height } = Dimensions.get('window');
-    const {asset} = this.props;
+    const {asset, onBack} = this.props;
     const story = this.props.asset;
     return (
-      <ScrollView
-        style={[styles.scrollView, styles.horizontalScrollView]}
-        automaticallyAdjustContentInsets={false}
-        horizontal={true}
-        snapToInterval={width - 20 }
-        snapToAlignment={'start'}>
-        {story.moments.map(this.createRow)}
-      </ScrollView>
+      <View>
+        <View style={styles.container}>
+          <ScrollView
+              style={[styles.scrollView, styles.horizontalScrollView]}
+              automaticallyAdjustContentInsets={false}
+              horizontal={true}
+              snapToInterval={width - 20}
+              snapToAlignment={'start'}>
+              {story.moments.map(this.createRow)}
+          </ScrollView>
+        </View>
+        <View style={styles.row}>
+          <TouchableHighlight
+            key={story}
+            onPress={onBack}
+            onShowUnderlay={this.onHighlight}
+            onHideUnderlay={this.onUnhighlight}>
+            <View style={styles.row}><Text style={styles.buttonText}>Back</Text></View>
+          </TouchableHighlight>
+        </View>
+      </View>
     );
   }
+
   createRow(moment) {
     return (
       <View key={moment.id} style={styles.container}>
@@ -47,18 +62,14 @@ class Story extends Component {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch',
-    flexDirection: 'column',
+    flex: 11,
   },
   scrollView: {
     backgroundColor: '#6A85B1',
-    height: 300,
+    height: 500,
   },
   horizontalScrollView: {
-    height: 120,
+    height: Dimensions.get('window').height-50,
   },
   content: {
     flex: 11,
@@ -74,6 +85,16 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     color: 'white'
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: 'white'
+  },
+  row: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#81c04d'
   },
 });
 

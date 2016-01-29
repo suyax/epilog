@@ -37,7 +37,11 @@ class EpiLogApp extends Component {
             />
           );
       case "STORY":
-        return (<Story asset={viewControlState.passedProps.asset} />);
+        return (
+          <Story
+          asset={viewControlState.passedProps.asset}
+          onBack={()=>{viewControlActions.setView('LIBRARY')}}
+          />);
       case "CAPTURE":
         return (
           <Capture
