@@ -11,51 +11,26 @@ import React, {
 
 import NavBar from './navBar';
 
-var REQUEST_URL = 'http://127.0.0.1:3000/api/stories';
-
 class Library extends Component {
-  constructor(props) {
-      super(props);
-      this.state = {
-        dataSource: new ListView.DataSource({
-          rowHasChanged: (row1, row2) => row1 !== row2,
-        }),
-        loaded: false,
-      };
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData() {
-      fetch(REQUEST_URL)
-        .then((response) => response.json())
-        .then((responseData) => {
-        console.log('The Response Data: ', responseData.stories);
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(responseData.stories),
-            loaded: true,
-          });
-        })
-      .done();
-  }
-
+  
   render() {
-    if (!this.state.loaded) {
+    const { stories } = this.props
+
+    if (!stories.loaded) {
       return this.renderLoadingView();
     }
 
     return (
       <View style={styles.container}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderStory.bind(this)}
-          renderScrollComponent={props => <RecyclerViewBackedScrollView
-            {...props} />}
-          contentContainerStyle={styles.listView}
-          style={styles.list}
-        />
+        <RecyclerViewBackedScrollView style={styles.list}>
+          <View style = {styles.listView}>
+            {stories.data.map(
+              (story) => { 
+                return this.renderStory(story);
+              })
+            }
+          </View>
+        </RecyclerViewBackedScrollView>
         <View style={styles.navBar}>
           <NavBar />
         </View>
@@ -66,19 +41,22 @@ class Library extends Component {
   renderLoadingView() {
     return (
       <View style={styles.container}>
-        <Text>
-          Loading stories...
-        </Text>
+        <View style={styles.list}>
+          <Text>
+            Loading stories...
+          </Text>
+        </View>
+        <View style={styles.navBar}>
+          <NavBar />
+        </View>
       </View>
     );
   }
 
   renderStory(story) {
-    console.log(story);
     return (
-      <View>
         <TouchableHighlight
-          key={story}
+          key={story.id}
           onPress={()=>{this.props.onTouchImage(story)}}
           onShowUnderlay={this.onHighlight}
           onHideUnderlay={this.onUnhighlight}>
@@ -90,7 +68,6 @@ class Library extends Component {
               <Text style={styles.title}>{story.title}</Text>
           </View>
         </TouchableHighlight>
-    </View>
     );
   }
 
