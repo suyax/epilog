@@ -2,7 +2,7 @@ var storyModel = require('./storyModel');
 
 module.exports =  {
 
-  addStory: function (req, res){
+  add: function (req, res){
   	var story = {
   	  title: req.body.title,
   	  description: req.body.description
@@ -17,7 +17,7 @@ module.exports =  {
   	  });
   },
 
-  getOneStory: function (req, res) {
+  getOne: function (req, res) {
   	var storyId = req.params.storyId;
     storyModel.getOne(storyId)
       .then(function (result) {
@@ -28,7 +28,7 @@ module.exports =  {
       });
   },
   
-  getAllStories: function (req, res) {
+  getAll: function (req, res) {
     storyModel.getAll()
       .then(function (results) {
         res.status(200).json(results);
