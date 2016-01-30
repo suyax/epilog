@@ -43,8 +43,8 @@ module.exports = function(app) {
     //eventually needs to include all moments tags and comments
   
   //add new or existing user to story 
-    //new users --> SKIP FOR NOW
-    //existing users (for MVP)
+    //new users (SKIP FOR NOW)
+    //existing users (COMPLETED V1)
   
 
   //ROUTES THAT SHOULDN'T AFFECT USERS...but may want to think about this more...
