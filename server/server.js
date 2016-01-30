@@ -10,7 +10,7 @@ var db = require('./db/dbModel');
 var app = express();
 
 //set up middleware
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({limit: '1gb', extended: true}));
 app.use(bodyParser.json());
 //serve up static files upon initialization of server
 app.use(express.static(path.join(__dirname, "/client")));

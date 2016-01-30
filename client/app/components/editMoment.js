@@ -40,20 +40,9 @@ class EditMoment extends Component{
 
           <TouchableHighlight key={asset} onPress={() => {
               NativeModules.ReadImageData.readImage(image.uri, (image) => {
-                fetch('http://127.0.0.1:3000/api/moments/3', {
-                  method: 'POST',
-                  headers: {
-                    'momentData': JSON.stringify({
-                      'caption': 'test caption for moment',
-                      'storyid': 3,
-                    }),
-                    'content-type': 'image/jpeg'
-                  },
-                  body: image
-                })
-              });
-
-              this.props.onTouchImage(asset);
+                console.log(image);
+                // Pass in momentData information
+              })
             }
           }>
             <View><Text style={styles.button}>Submit</Text></View>
