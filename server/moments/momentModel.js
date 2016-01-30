@@ -5,11 +5,11 @@ var moments = require('../db/dbModel').Moment;
 
 module.exports = {
 
-  add: function (momentInfo){
+  add: function (momentData){
     return moments.build({
-      url: momentInfo.url,
-      caption: momentInfo.caption,
-      storyid: momentInfo.storyid
+      url: momentData.url,
+      caption: momentData.caption,
+      storyid: momentData.storyid
     })
     .save()
     .then(function (results){
@@ -17,7 +17,7 @@ module.exports = {
       return results.dataValues;
     })
     .catch(function (error){
-      console.error("you dumb: ", error);
+      console.error("Error at adding a moment: ", error);
     });
   },
 

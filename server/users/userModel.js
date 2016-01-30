@@ -34,9 +34,6 @@ module.exports = {
     });
   },
 
-  add: function (story){
-
-  },
 
   remove: function (storyId){
 

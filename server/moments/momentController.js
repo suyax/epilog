@@ -25,7 +25,7 @@ module.exports =  {
       //otherwise...
       else {
         //define moment object that contains info related to moment
-        var moment = {
+        var momentData = {
           url: filePath,
           caption: momentData.caption,
           storyid: momentData.storyid
@@ -46,7 +46,7 @@ module.exports =  {
         // });
      
         req.on('end', function (){
-          momentModel.add(moment)
+          momentModel.add(momentData)
             .then(function (results){
               writeStream.end();
               res.status(201).json(results);

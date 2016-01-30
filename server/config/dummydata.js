@@ -1,8 +1,6 @@
 var db = require('../db/dbModel');
 var path = require('path');
-var userModel = require('../users/userModel.js');
-var momentModel = require('../moments/momentModel.js');
-var storyModel = require('../stories/storyModel.js');
+var model = require('../models');
 
 //will need to change once we have oauth
 var dummyUserData = [
@@ -45,7 +43,7 @@ module.exports = function () {
   //add dummyUserData
   for(var i = 0; i < dummyUserData.length; i++){
     var user = dummyUserData[i];
-    userModel.add(user)
+    model.users.add(user)
       .then(function(result){
         console.log('User seeded');
       })
@@ -57,7 +55,7 @@ module.exports = function () {
   //add dummyStoryData
   for (var i = 0; i < dummyStoryData.length; i++) {
     var story = dummyStoryData[i];
-    storyModel.add(story)
+    model.stories.add(story)
       .then(function (result) {
         console.log('Story seeded');
       })
@@ -69,7 +67,7 @@ module.exports = function () {
   //add dummyMomentData
   for (var i = 0; i < dummyMomentData.length; i++) {
     var moment = dummyMomentData[i];
-    momentModel.add(moment)
+    model.moments.add(moment)
       .then(function (result) {
         console.log('Moment seeded');
       })

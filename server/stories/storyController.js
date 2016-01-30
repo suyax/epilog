@@ -3,7 +3,7 @@ var storyModel = require('./storyModel');
 module.exports =  {
 
   add: function (req, res){
-    console.log("req body from client-->", req.body);
+    // console.log("req body from client-->", req.body);
   	var storyData = {
   	  title: req.body.title,
   	  description: req.body.description,
