@@ -24,7 +24,6 @@ class Capture extends Component {
     const { onTouchImage } = this.props;
     return (
       <TouchableOpacity key={asset} onPress={()=>{
-        console.log(this.props)
         onTouchImage(asset); }}>
         <View style={cameraRollStyles.row}>
           <Image

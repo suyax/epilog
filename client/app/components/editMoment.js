@@ -17,6 +17,7 @@ class EditMoment extends Component{
 
   render() {
     const {asset, onCancel, onSumbit} = this.props;
+    var textFields = {};
     var image = asset.node.image;
     return (
       <View style={styles.container}>
@@ -26,9 +27,10 @@ class EditMoment extends Component{
 
         <View style={styles.content}>
           <View style={ styles.textContainer }>
-            <TextInput style={ styles.textInput }/>
-            <TextInput style={ styles.textInput }/>
-            <TextInput style={ styles.textInput }/>
+            <TextInput style={ styles.textInput }
+              onChangeText={(text)=>textFields.caption = text}/>
+            <TextInput style={ styles.textInput }
+              onChangeText={(text)=>textFields.storyTitle = text}/>
           </View>
         </View>
 
