@@ -121,6 +121,7 @@ var init = function () {
 
 
 module.exports = {
+  sequelize: sequelize,
   User: User,
   Story: Story,
   Moment: Moment,

@@ -3,12 +3,15 @@ var storyModel = require('./storyModel');
 module.exports =  {
 
   add: function (req, res){
-  	var story = {
+  	var storyData = {
   	  title: req.body.title,
-  	  description: req.body.description
+  	  description: req.body.description,
+      //expecting an array of user ids
+      existingUsersToInclude: req.body.existingUsers
+      //eventually will want to do something with new users!!
   	};
 
-  	storyModel.add(story)
+  	storyModel.add(storyData)
   	  .then(function (results){
   	    res.status(201).json(results);
   	  })
