@@ -10,7 +10,6 @@ import React, {
 
 import NavBar from './navBar';
 
-
 class LogIn extends React.Component {
   constructor(props) {
     super(props);
@@ -27,12 +26,12 @@ class LogIn extends React.Component {
 
   _submitForm () {
     const { username, password } = this.fields
-
+    console.log('form works', this.fields)
     this.setState({
       username,
       password
     })
-    console.log(submited)
+
   }
 
   render() {
@@ -48,14 +47,11 @@ class LogIn extends React.Component {
           <Text style={styles.buttonText}>
           Login
           </Text>
-          <Text style={styles.buttonText}>
-          {this.state.password}
-          </Text>
           <TextInput
             ref="username"
             placeholder={'username'}
             value={this.state.username}
-            onChangeTex={text => this.fields.username = text}
+            onChangeText={text => this.fields.username = text}
             onSubmitEditing={() => this.refs.password.focus()}
             style={styles.input}
             />
@@ -65,12 +61,12 @@ class LogIn extends React.Component {
               placeholder={'password'}
               value={this.state.password}
               secureTextEntry={true}
-              onChangeTex={text => this.fields.password = text}
+              onChangeText={text => this.fields.password = text}
               onSubmitEditing={this._submitForm}
               style={styles.input}
             />
 
-          <TouchableHighlight onPress={this._submitForm}>
+          <TouchableHighlight onPress={this._submitForm.bind(this)}>
             <Text>Submit</Text>
           </TouchableHighlight>
         </View>
