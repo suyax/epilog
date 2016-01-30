@@ -15,7 +15,8 @@ class SignUp extends React.Component {
 
     this.state = {
       user: undefined,
-      password: undefined
+      password: undefined,
+      email: undefined
     }
   }
 
@@ -47,6 +48,13 @@ class SignUp extends React.Component {
           value={this.state.text}
           secureTextEntry={true}
           onSubmitEditing={(text) => this.setState({text})}
+        />
+      <TextInput
+          style={styles.input}
+          placeholder={'Email'}
+          value={this.state.text}
+          secureTextEntry={true}
+          onSubmitEditing={(email) => this.setState({email})}
         />
       <View style={styles.button}>
         <Text style={styles.buttonText}>

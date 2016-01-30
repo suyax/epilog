@@ -8,13 +8,15 @@ import React, {
   AlertIOS
 } from 'react-native';
 
+import NavBar from './navBar';
+
 
 class LogIn extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      user: undefined,
+      username: undefined,
       password: undefined
     }
   }
@@ -27,7 +29,10 @@ class LogIn extends React.Component {
     const {asset, onSignUp} = this.props;
     return (
       <View style={{flex:1, backgroundColor:'#6A85B1'}} >
-      <View style={{flex:11}}>
+      <View style={styles.navBar}>
+        <NavBar />
+      </View>
+      <View style={{flex:10}}>
       </View>
       <View style={{flex: 1}}>
         <Text style={styles.buttonText}>
@@ -38,15 +43,15 @@ class LogIn extends React.Component {
         autoFocus={true}
         placeholder={'username'}
         style={styles.input}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(username) => this.setState({username})}
+        value={this.state.username}
         />
       <TextInput
           style={styles.input}
           placeholder={'password'}
-          value={this.state.text}
+          value={this.state.password}
           secureTextEntry={true}
-          onSubmitEditing={(text) => this.setState({text})}
+          onSubmitEditing={(password) => this.setState({password})}
         />
       <View style={styles.button}>
         <Text style={styles.buttonText}>
@@ -66,6 +71,9 @@ class LogIn extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  navBar:{
+    flex:1,
+  },
   input:{
     height: 40,
     backgroundColor:'white',

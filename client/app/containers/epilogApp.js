@@ -8,7 +8,6 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-
 import Home from '../components/home';
 import Capture from '../components/capture';
 import Library from '../components/library';
@@ -57,7 +56,7 @@ class EpiLogApp extends Component {
       case "HOME":
         return (
           <Home
-          onLogin={()=>{viewControlActions.setView('LOGIN')}}
+          onLogOut={()=>{viewControlActions.setView('LOGIN')}}
           />)
       case "LOGIN":
         return (
@@ -71,6 +70,8 @@ class EpiLogApp extends Component {
           <SignUp
           onLogIn={()=>{viewControlActions.setView('LOGIN')}}
           />)
+      case "LOGOUT":
+        return <LogIn/>
       case "LIBRARY":
         return (
           <Library
@@ -125,7 +126,7 @@ class EpiLogApp extends Component {
           />);
 
       default:
-        return <Home />;
+        return <LogIn />;
     }
   }
 }

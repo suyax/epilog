@@ -11,7 +11,7 @@ import NavBar from './navBar';
 
 class Home extends Component {
   render() {
-    const {onLogin} = this.props;
+    const {onLogOut} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -21,9 +21,9 @@ class Home extends Component {
         </View>
         <TouchableHighlight
           style={styles.navBar}
-          onPress={onLogin}>
+          onPress={onLogOut}>
           <View>
-            <Text style={styles.title}>Login</Text>
+            <Text style={styles.title}>Log Out</Text>
           </View>
         </TouchableHighlight>
         <View style={styles.navBar}>
