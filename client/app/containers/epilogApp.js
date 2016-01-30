@@ -16,6 +16,7 @@ import Home from '../components/home';
 import Capture from '../components/capture';
 import Library from '../components/library';
 import Story from '../components/story';
+import NewStory from '../components/newStory';
 import EditMoment from '../components/editMoment';
 //router for the app
 class EpiLogApp extends Component {
@@ -42,6 +43,13 @@ class EpiLogApp extends Component {
           asset={viewControlState.passedProps.asset}
           onBack={()=>{viewControlActions.setView('LIBRARY')}}
           />);
+      case "NEW_STORY":
+        return (
+          <NewStory 
+          asset={viewControlState.passedProps.asset}
+          onBack={()=>{viewControlActions.setView('EDIT_MOMENT')}}
+          />
+        );
       case "CAPTURE":
         return (
           <Capture
@@ -57,6 +65,13 @@ class EpiLogApp extends Component {
         return(<EditMoment
           asset={viewControlState.passedProps.asset}
           onCancel={()=>{viewControlActions.setView('CAPTURE')}}
+          onTouchImage={
+            (asset)=>{
+              viewControlActions.setView('NEW_STORY', {
+                asset: asset
+              });
+            }
+          }
           />);
       default:
         return <Home />;
