@@ -23,16 +23,15 @@ module.exports = {
           title: dataForStoryTable.title,
           description: dataForStoryTable.description
         }, {transaction: t})
-        //then add existing users a part of story to users_stories join table
+        //then add existing users a part of story to users_stories join table (including user that created story)
         .then(function (addedStory) {
           console.log("story added to DB-->", addedStory.dataValues);
           var dataForUsersStoriesTable = storyData.existingUsersToInclude.map(function(userID){
             return {storyId: addedStory.dataValues.id, userId: userID};
           });
-          console.log(dataForUsersStoriesTable)
-          return users_stories.bulkCreate(
-            dataForUsersStoriesTable
-            ,{transaction: t});
+            return users_stories.bulkCreate(
+              dataForUsersStoriesTable
+              ,{transaction: t});
         });
     }).then(function (result) {
       console.log("successfully added a story and new users");

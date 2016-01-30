@@ -63,7 +63,7 @@ module.exports = function(app) {
   app.get('/api/stories/:storyId', controller.stories.getOne);
 
 
-  app.post('/api/stories', controller.stories.add);
+  app.post('/api/:userId/stories', controller.stories.add);
 
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
   app.post('/api/moments/:storyId', controller.moments.add);

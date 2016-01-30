@@ -3,11 +3,14 @@ var storyModel = require('./storyModel');
 module.exports =  {
 
   add: function (req, res){
-    // console.log("req body from client-->", req.body);
-  	var storyData = {
+    //convert param representing storyCreator to number
+    var storyCreator = Number(req.params.userId);
+    //modify req.body.existingUsersToInclude to include the storyCreator
+    req.body.existingUsersToInclude.unshift(storyCreator);
+    var storyData = {
   	  title: req.body.title,
   	  description: req.body.description,
-      //expecting an array of user ids
+      //NOTE: for this to work, expecting an array of user ids
       existingUsersToInclude: req.body.existingUsersToInclude
       //eventually will want to do something with new users!!
   	};

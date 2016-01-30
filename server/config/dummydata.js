@@ -1,6 +1,10 @@
 var db = require('../db/dbModel');
 var path = require('path');
-var model = require('../models');
+// var model = require('../models');
+var stories = require('../db/dbModel').Story;
+var moments = require('../db/dbModel').Moment;
+var users = require('../db/dbModel').User;
+var users_stories = require('../db/dbModel').Users_Stories;
 
 //will need to change once we have oauth
 var dummyUserData = [
@@ -11,11 +15,11 @@ var dummyUserData = [
 ];
 
 var dummyStoryData = [
-  {"title": "my life", "description": "is amazing. i play dota all the time"},
-  {"title": "me and my gf", "description": "my mom introduced us. sure, whatever"},
-  {"title": "my family", "description": "the wu-tang clan"},
-  {"title": "me and marley", "description": "my pet otter"},
-  {"title": "me and suya", "description": "bruises everywhere"}
+  {"title": "my life", "description": "is amazing. i play dota all the time", "existingUsersToInclude": []},
+  {"title": "me and my gf", "description": "my mom introduced us. sure, whatever", "existingUsersToInclude": [3]},
+  {"title": "my family", "description": "the wu-tang clan", "existingUsersToInclude": [1,3,4]},
+  {"title": "me and marley", "description": "my pet otter", "existingUsersToInclude": [1,3]},
+  {"title": "me and suya", "description": "bruises everywhere", "existingUsersToInclude": [1]}
 ];
 
 var dummyMomentData = [
@@ -37,42 +41,23 @@ var dummyMomentData = [
 ];
 
 module.exports = function () {
-  // console.log("trying to add stories");
-  // console.log("Database Instance: ", db);
- 
-  //add dummyUserData
-  for(var i = 0; i < dummyUserData.length; i++){
-    var user = dummyUserData[i];
-    model.users.add(user)
-      .then(function(result){
-        console.log('User seeded');
-      })
-      .catch(function(error){
-        console.log('User seed failed');
-      });
-  };
-
-  //add dummyStoryData
-  for (var i = 0; i < dummyStoryData.length; i++) {
-    var story = dummyStoryData[i];
-    model.stories.add(story)
-      .then(function (result) {
-        console.log('Story seeded');
-      })
-      .catch(function (error) {
-        console.log('Story seed failed');
-      });
-  };
-  
-  //add dummyMomentData
-  for (var i = 0; i < dummyMomentData.length; i++) {
-    var moment = dummyMomentData[i];
-    model.moments.add(moment)
-      .then(function (result) {
-        console.log('Moment seeded');
-      })
-      .catch(function (error) {
-        console.log('Moment seed failed');
-      });
-  };
+  return users.bulkCreate(dummyUserData)
+    .then(function(users){
+      return stories.bulkCreate(dummyStoryData)
+        .then(function(addedStories){
+          var userStoriesData = [];
+          for(var i = 1; i <= addedStories.length; i++){
+            for(var j = 0; j < dummyStoryData[i-1]["existingUsersToInclude"].length; j++){
+              userStoriesData.push({storyId: i, userId: dummyStoryData[i-1]["existingUsersToInclude"][j]});
+            }
+          }
+          users_stories.bulkCreate(userStoriesData);
+        });
+    })
+    .then(function(){
+      return moments.bulkCreate(dummyMomentData);
+    })
+    .catch(function(err){
+      console.error("Error at seeding: ", err);
+    })
 };
