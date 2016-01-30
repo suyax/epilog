@@ -9,9 +9,8 @@ module.exports = function(app) {
   });
 
   ////////////////////////////////////USERS//////////////////////////////////////////
-  // app.post('/api/signin', );
-  // app.post('/api/signup', );
-  // app.get('/api/recent', );
+
+  //CLIENT SIDE ROUTES THAT WILL AFFECT USER TABLE...
 
   //sign up 
     //add user info to database (including password and name etc.)
@@ -39,7 +38,9 @@ module.exports = function(app) {
   //add new or existing user to story 
     //new users --> SKIP FOR NOW
     //existing users (for MVP)
+  
 
+  //ROUTES THAT SHOULDN'T AFFECT USERS...but may want to think about this more...
   //create a new moment
     //need to be able to add a comment, tag
   
