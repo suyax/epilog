@@ -1,8 +1,16 @@
 var db = require('../db/dbModel');
 var path = require('path');
+var userModel = require('../users/userModel.js');
 var momentModel = require('../moments/momentModel.js');
 var storyModel = require('../stories/storyModel.js');
 
+//will need to change once we have oauth
+var dummyUserData = [
+  {"first_name": "Suya", "last_name": "X", "email": "Suya@Suya.com", "token": "token", "password":"pw"},
+  {"first_name": "Alex", "last_name": "W", "email": "Alex@Alex.com", "token": "token", "password":"pw"},
+  {"first_name": "Julien", "last_name": "X", "email": "Julien@Julien.com", "token": "token", "password":"pw"},
+  {"first_name": "Akash", "last_name": "X", "email": "Akash@Akash.com", "token": "token", "password":"pw"}
+];
 
 var dummyStoryData = [
   {"title": "my life", "description": "is amazing. i play dota all the time"},
@@ -31,8 +39,22 @@ var dummyMomentData = [
 ];
 
 module.exports = function () {
-  console.log("trying to add stories");
-  console.log("Database Instance: ", db);
+  // console.log("trying to add stories");
+  // console.log("Database Instance: ", db);
+ 
+  //add dummyUserData
+  for(var i = 0; i < dummyUserData.length; i++){
+    var user = dummyUserData[i];
+    userModel.add(user)
+      .then(function(result){
+        console.log('User seeded');
+      })
+      .catch(function(error){
+        console.log('User seed failed');
+      });
+  };
+
+  //add dummyStoryData
   for (var i = 0; i < dummyStoryData.length; i++) {
     var story = dummyStoryData[i];
     storyModel.add(story)
@@ -43,7 +65,8 @@ module.exports = function () {
         console.log('Story seed failed');
       });
   };
-
+  
+  //add dummyMomentData
   for (var i = 0; i < dummyMomentData.length; i++) {
     var moment = dummyMomentData[i];
     momentModel.add(moment)

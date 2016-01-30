@@ -16,6 +16,9 @@ module.exports = function(app) {
     //add user info to database (including password and name etc.)
   app.post('/api/users/signup', controller.auth.createUser);
   
+    //will need to modify eventually to incorporate password/tokens etc...
+    app.get('/api/stories', controller.stories.getAll);
+  
   //invited page
     //verify if identifer exists in db
       //if so ask for remaining user info and create a session

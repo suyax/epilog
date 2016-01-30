@@ -4,12 +4,13 @@ var Promise = require('bluebird');
 var stories = require('../db/dbModel').Story;
 var moments = require('../db/dbModel').Moment;
 var users = require('../db/dbModel'). User;
-var users_stories = require('../db/dbModel').User_Stories;
+var users_stories = require('../db/dbModel').Users_Stories;
 
 module.exports = {
 
   add: function (storyData){
-    //data to go into story table    
+    //data to go into story table 
+    console.log("story data from controller-->",storyData);   
     var dataForStoryTable = {
       title: storyData.title,
       description: storyData.description
@@ -17,23 +18,25 @@ module.exports = {
 
     return sequelize.transaction(function (t) {
       //first add new story to story table
-      return Story.create(
+      return stories.create(
         {
           title: dataForStoryTable.title,
           description: dataForStoryTable.description
         }, {transaction: t})
         //then add existing users a part of story to users_stories join table
         .then(function (addedStory) {
+          console.log("story added to DB-->", addedStory.dataValues);
           var dataForUsersStoriesTable = storyData.existingUsersToInclude.map(function(userID){
-            return {storyid: addedStory.id, userid: userID};
+            return {storyId: addedStory.dataValues.id, userId: userID};
           });
-          return Users_Stories.bulkCreate(
+          console.log(dataForUsersStoriesTable)
+          return users_stories.bulkCreate(
             dataForUsersStoriesTable
             ,{transaction: t});
         });
     }).then(function (result) {
       console.log("successfully added a story and new users");
-      return results.dataValues;
+      return result.dataValues;
     }).catch(function (err) {
       console.error("Error at adding a story: ", err)
     });
