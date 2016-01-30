@@ -15,44 +15,66 @@ class LogIn extends React.Component {
   constructor(props) {
     super(props);
 
+    this.fields = {
+      username: null,
+      password: null,
+    }
+
     this.state = {
-      username: undefined,
-      password: undefined
+      ...this.fields,
     }
   }
 
-  buttonClicked() {
-      console.log('button clicked');
+  _submitForm () {
+    const { username, password } = this.fields
+
+    this.setState({
+      username,
+      password
+    })
+    console.log(submited)
   }
 
   render() {
     const {asset, onSignUp} = this.props;
     return (
       <View style={{flex:1, backgroundColor:'#6A85B1'}} >
-      <View style={styles.navBar}>
-        <NavBar />
-      </View>
-      <View style={{flex:10}}>
-      </View>
-      <View style={{flex: 1}}>
-        <Text style={styles.buttonText}>
-        Login
-        </Text>
-      </View>
-      <TextInput
-        autoFocus={true}
-        placeholder={'username'}
-        style={styles.input}
-        onChangeText={(username) => this.setState({username})}
-        value={this.state.username}
-        />
-      <TextInput
-          style={styles.input}
-          placeholder={'password'}
-          value={this.state.password}
-          secureTextEntry={true}
-          onSubmitEditing={(password) => this.setState({password})}
-        />
+        <View style={styles.navBar}>
+          <NavBar />
+        </View>
+        <View style={{flex:5}}>
+        </View>
+        <View style={{flex: 5}}>
+          <Text style={styles.buttonText}>
+          Login
+          </Text>
+          <Text style={styles.buttonText}>
+          {this.state.password}
+          </Text>
+          <TextInput
+            ref="username"
+            placeholder={'username'}
+            value={this.state.username}
+            onChangeTex={text => this.fields.username = text}
+            onSubmitEditing={() => this.refs.password.focus()}
+            style={styles.input}
+            />
+
+          <TextInput
+              ref="password"
+              placeholder={'password'}
+              value={this.state.password}
+              secureTextEntry={true}
+              onChangeTex={text => this.fields.password = text}
+              onSubmitEditing={this._submitForm}
+              style={styles.input}
+            />
+
+          <TouchableHighlight onPress={this._submitForm}>
+            <Text>Submit</Text>
+          </TouchableHighlight>
+        </View>
+
       <View style={styles.button}>
         <Text style={styles.buttonText}>
         Don't have an account?
