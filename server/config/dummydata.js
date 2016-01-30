@@ -1,10 +1,10 @@
 var db = require('../db/dbModel');
 var path = require('path');
-// var model = require('../models');
 var stories = require('../db/dbModel').Story;
 var moments = require('../db/dbModel').Moment;
 var users = require('../db/dbModel').User;
 var users_stories = require('../db/dbModel').Users_Stories;
+var model = require('../models');
 
 //will need to change once we have oauth
 var dummyUserData = [
@@ -13,6 +13,8 @@ var dummyUserData = [
   {"first_name": "Julien", "last_name": "X", "email": "Julien@Julien.com", "token": "token", "password":"pw"},
   {"first_name": "Akash", "last_name": "X", "email": "Akash@Akash.com", "token": "token", "password":"pw"}
 ];
+
+var dummyStoryOwnerUserId = 2; 
 
 var dummyStoryData = [
   {"title": "my life", "description": "is amazing. i play dota all the time", "existingUsersToInclude": []},
@@ -42,17 +44,16 @@ var dummyMomentData = [
 
 module.exports = function () {
   return users.bulkCreate(dummyUserData)
-    .then(function(users){
-      return stories.bulkCreate(dummyStoryData)
-        .then(function(addedStories){
-          var userStoriesData = [];
-          for(var i = 1; i <= addedStories.length; i++){
-            for(var j = 0; j < dummyStoryData[i-1]["existingUsersToInclude"].length; j++){
-              userStoriesData.push({storyId: i, userId: dummyStoryData[i-1]["existingUsersToInclude"][j]});
-            }
-          }
-          users_stories.bulkCreate(userStoriesData);
-        });
+    .then(function(){
+      for(var i = 1; i <=dummyStoryData.length; i++){
+        var allCharacters = [dummyStoryOwnerUserId].concat(dummyStoryData[i-1]["existingUsersToInclude"]);
+        var storyData = {
+          title: dummyStoryData[i-1]["title"],
+          description: dummyStoryData[i-1]["description"], 
+          existingUsersToInclude: allCharacters
+        };
+        model.stories.add(storyData);
+      }
     })
     .then(function(){
       return moments.bulkCreate(dummyMomentData);

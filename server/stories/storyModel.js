@@ -9,8 +9,8 @@ var users_stories = require('../db/dbModel').Users_Stories;
 module.exports = {
 
   add: function (storyData){
+    // console.log("story data from controller-->",storyData);   
     //data to go into story table 
-    console.log("story data from controller-->",storyData);   
     var dataForStoryTable = {
       title: storyData.title,
       description: storyData.description
