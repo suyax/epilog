@@ -13,10 +13,13 @@ module.exports = function(app) {
   // app.post('/api/signup', );
   // app.get('/api/recent', );
 
-  //actions that will ultimately affect users:
   //sign up 
     //add user info to database (including password and name etc.)
-
+  
+  //invited page
+    //verify if identifer exists in db
+      //if so ask for remaining user info and create a session
+      //if not, direct to sign up page
   //sign in 
     //verify whether or not user exists
       //if so, create a session
@@ -33,14 +36,17 @@ module.exports = function(app) {
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
   
-  //create a new story
-    //need to be able add users to story
-  
+  //add new or existing user to story 
+    //new users --> SKIP FOR NOW
+    //existing users (for MVP)
+
   //create a new moment
-    //need to be able to add a comment, tag, and existing users
+    //need to be able to add a comment, tag
   
   //get a moment
-    //need to be able to view a comment, tag, and existing users
+    //need to be able to view a comment, tag
+ 
+  
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
   app.get('/api/stories', controller.stories.getAll);
