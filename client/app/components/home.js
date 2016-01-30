@@ -3,89 +3,59 @@ import React, {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
-  TextInput,
-  AlertIOS
+  TouchableHighlight
 } from 'react-native';
 
+import NavBar from './navBar';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      user: undefined,
-      password: undefined
-    }
-  }
-
-  buttonClicked() {
-      console.log('button clicked');
-  }
-
+class Home extends Component {
   render() {
-    const {asset, signUp} = this.props;
+    const {onLogin} = this.props;
     return (
-      <View style={{flex:1, backgroundColor:'#6A85B1'}} >
-      <View style={{flex:11}}>
-      </View>
-      <View style={{flex: 1}}>
-        <Text style={styles.buttonText}>
-        Login
-        </Text>
-      </View>
-      <TextInput
-        autoFocus={true}
-        placeholder={'username'}
-        style={styles.input}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
-        />
-      <TextInput
-          style={styles.input}
-          placeholder={'password'}
-          value={this.state.text}
-          secureTextEntry={true}
-          onSubmitEditing={(text) => this.setState({text})}
-        />
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>
-        Don't have an account?
-        </Text>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.title}>
+            Home Page !
+          </Text>
+        </View>
         <TouchableHighlight
-          style={styles.button}
-          onPress={signUp}>
+          style={styles.navBar}
+          onPress={onLogin}>
           <View>
-            <Text style={styles.buttonText}>Sign Up</Text>
+            <Text style={styles.title}>Login</Text>
           </View>
         </TouchableHighlight>
-      </View>
+        <View style={styles.navBar}>
+          <NavBar />
+        </View>
       </View>
     );
   }
 }
 
 var styles = StyleSheet.create({
-  input:{
-    height: 40,
-    backgroundColor:'white',
-    borderColor: 'gray',
-    borderWidth: 1,
-    textAlign: 'center'
-  },
-  wrapper: {
-    borderRadius: 5,
-    marginBottom: 5,
-  },
-  button: {
-    backgroundColor: '#eeeeee',
-    padding: 10,
-  },
-  buttonText: {
+  container: {
     flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    flexDirection: 'column',
+  },
+  content: {
+    flex: 11,
+    justifyContent: 'center',
+    backgroundColor: 'blue',
+  },
+  navBar: {
+    flex: 1
+  },
+  title: {
     textAlign: 'center',
     fontSize: 20,
+    color: 'red'
   },
 });
 
 module.exports = Home;
+

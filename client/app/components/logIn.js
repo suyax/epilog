@@ -9,7 +9,7 @@ import React, {
 } from 'react-native';
 
 
-class SignUp extends React.Component {
+class LogIn extends React.Component {
   constructor(props) {
     super(props);
 
@@ -24,14 +24,14 @@ class SignUp extends React.Component {
   }
 
   render() {
-    const {onLogIn} = this.props;
+    const {asset, onSignUp} = this.props;
     return (
       <View style={{flex:1, backgroundColor:'#6A85B1'}} >
       <View style={{flex:11}}>
       </View>
       <View style={{flex: 1}}>
         <Text style={styles.buttonText}>
-        SignUp
+        Login
         </Text>
       </View>
       <TextInput
@@ -50,13 +50,13 @@ class SignUp extends React.Component {
         />
       <View style={styles.button}>
         <Text style={styles.buttonText}>
-        Alreay have an account?
+        Don't have an account?
         </Text>
         <TouchableHighlight
           style={styles.button}
-          onPress={onLogIn}>
+          onPress={onSignUp}>
           <View>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Sign Up</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -88,4 +88,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = SignUp;
+module.exports = LogIn;

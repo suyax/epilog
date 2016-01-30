@@ -15,10 +15,11 @@ import Library from '../components/library';
 import Story from '../components/story';
 import NewStory from '../components/newStory';
 import EditMoment from '../components/editMoment';
-
 var REQUEST_URL = 'http://127.0.0.1:3000/api/stories';
 var CLIENT_KEY = 'putthelimeinthecoconut';
 var CLIENT_SECRET = 'iwanttobuytheworldacoke';
+import LogIn from '../components/logIn';
+import SignUp from '../components/signUp';
 
 //router for the app
 class EpiLogApp extends Component {
@@ -46,16 +47,30 @@ class EpiLogApp extends Component {
 
   render() {
     // Be explicit about what is availible as props
-    const { 
-      viewControlState, 
-      viewControlActions, 
+    const {
+      viewControlState,
+      viewControlActions,
       storiesState,
     } = this.props;
 
     switch (viewControlState.currentView) {
       case "HOME":
-        return <Home />;
-
+        return (
+          <Home
+          onLogin={()=>{viewControlActions.setView('LOGIN')}}
+          />)
+      case "LOGIN":
+        return (
+          <LogIn
+          onSignUp={()=>{
+            console.log('onSungup')
+            viewControlActions.setView('SIGNUP')}}
+          />)
+      case "SIGNUP":
+        return (
+          <SignUp
+          onLogIn={()=>{viewControlActions.setView('LOGIN')}}
+          />)
       case "LIBRARY":
         return (
           <Library
@@ -78,7 +93,7 @@ class EpiLogApp extends Component {
 
       case "NEW_STORY":
         return (
-          <NewStory 
+          <NewStory
           asset={viewControlState.passedProps.asset}
           onBack={()=>{viewControlActions.setView('EDIT_MOMENT')}}
           />
@@ -108,7 +123,7 @@ class EpiLogApp extends Component {
             }
           }
           />);
-        
+
       default:
         return <Home />;
     }
