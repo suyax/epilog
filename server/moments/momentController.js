@@ -7,7 +7,7 @@ var base64 = require('base64-stream');
 
 module.exports =  {
 
-  addMoment: function (req, res){
+  add: function (req, res){
     //Define Variables
     //momentData --> location within request object, where header information lives
     var momentData = JSON.parse(req.headers['momentdata']);
@@ -37,12 +37,6 @@ module.exports =  {
         );
 
         req.pipe(base64.decode()).pipe(writeStream);
-
-        //add each of the incoming data chunks from the client to the filepath specified above
-        // req.on('data', function (chunk){
-        //   console.log("CHUNK: ", chunk);
-        //     writeStream.write(chunk);
-        // });
      
         req.on('end', function (){
           momentModel.add(moment)
@@ -59,7 +53,7 @@ module.exports =  {
     });
   },
 
-  getAllMoments: function (req, res) {
+  getAll: function (req, res) {
     var storyId = req.params.storyId;
     momentModel.getAll(storyId)
       .then(function (results) {

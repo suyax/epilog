@@ -6,9 +6,9 @@ var moments = require('../db/dbModel').Moment;
 module.exports = {
 
   add: function (story){
-    console.log("story object -->", story);
-    console.log(stories);
-    console.log(moments);
+    // console.log("story object -->", story);
+    // console.log(stories);
+    // console.log(moments);
     return stories.build({
       title: story.title,
       description: story.description
