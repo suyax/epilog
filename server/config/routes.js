@@ -17,7 +17,7 @@ module.exports = function(app) {
   app.post('/api/users/signup', controller.auth.createUser);
   
     //will need to modify to incorporate password/tokens etc; created mvp for testing purposes...
-    app.get('/api/stories', controller.users.add);
+    app.get('/api/signup', controller.users.add);
   
   //invited page
     //verify if identifer exists in db

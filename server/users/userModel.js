@@ -6,12 +6,12 @@ var User = require('../db/dbModel').User;
 
 module.exports = {
 
+
   getByEmail: function (email){
     return User.findOne({
       where: {
         email: email,
       }
-    });
   },
 
   // inputs:
