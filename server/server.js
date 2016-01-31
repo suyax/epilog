@@ -1,7 +1,6 @@
 //define requirements
 var dummy = require('./config/dummydata.js');
 var express = require('express');
-var passport = require('passport');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var path = require('path');
@@ -17,15 +16,6 @@ app.use(bodyParser.json());
 //serve up static files upon initialization of server
 app.use(express.static(path.join(__dirname, "/client")));
 
-//Oauth server stuff
-app.use(session({ 
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-require('./auth/auth');
 
 //listen on routes   
 require('./config/routes.js')(app);

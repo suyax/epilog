@@ -1,164 +1,93 @@
 /**
  * Module dependencies.
  */
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy
-  , TokenStrategy = require('passport-http-oauth').TokenStrategy
-  , dbModel = require('../db/dbModel.js')
+var Users = require('../users/userModel');
+var bcrypt = require('bcrypt-nodejs');
+var Promise = require('bluebird');
+var uuid = require('node-uuid');
 
 
-/**
- * LocalStrategy
- *
- * This strategy is used to authenticate users based on a username and password.
- * Anytime a request is made to authorize an application, we must ensure that
- * a user is logged in before asking them to approve the request.
- */
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    db.users.findByUsername(username, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (user.password != password) { return done(null, false); }
-      return done(null, user);
-    });
-  }
-));
+// token store, should be a redis server but whateves.
+var tokens = {};
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
+// makes a token, stores it, and returns it
+var makeToken = function (userid) {
+  token = uuid.v4();
+  tokens[token] = {
+    userid: userid,
+    timestamp: Date.now(),
+  };
+  return token;
+};
 
-passport.deserializeUser(function(id, done) {
-  db.users.find(id, function (err, user) {
-    done(err, user);
-  });
-});
-
-
-/**
- * ConsumerStrategy
- *
- * This strategy is used to authenticate registered OAuth consumers (aka
- * clients).  It is employed to protect the `request_tokens` and `access_token`
- * endpoints, which consumers use to request temporary request tokens and access
- * tokens.
- */
-passport.use('consumer', new ConsumerStrategy(
-  // consumer callback
-  //
-  // This callback finds the registered client associated with `consumerKey`.
-  // The client should be supplied to the `done` callback as the second
-  // argument, and the consumer secret known by the server should be supplied
-  // as the third argument.  The `ConsumerStrategy` will use this secret to
-  // validate the request signature, failing authentication if it does not
-  // match.
-  function(consumerKey, done) {
-    db.clients.findByConsumerKey(consumerKey, function(err, client) {
-      if (err) { return done(err); }
-      if (!client) { return done(null, false); }
-      return done(null, client, client.consumerSecret);
-    });
-  },
-  // token callback
-  //
-  // This callback finds the request token identified by `requestToken`.  This
-  // is typically only invoked when a client is exchanging a request token for
-  // an access token.  The `done` callback accepts the corresponding token
-  // secret as the second argument.  The `ConsumerStrategy` will use this secret to
-  // validate the request signature, failing authentication if it does not
-  // match.
-  //
-  // Furthermore, additional arbitrary `info` can be passed as the third
-  // argument to the callback.  A request token will often have associated
-  // details such as the user who approved it, scope of access, etc.  These
-  // details can be retrieved from the database during this step.  They will
-  // then be made available by Passport at `req.authInfo` and carried through to
-  // other middleware and request handlers, avoiding the need to do additional
-  // unnecessary queries to the database.
-  function(requestToken, done) {
-    db.requestTokens.find(requestToken, function(err, token) {
-      if (err) { return done(err); }
-      
-      var info = { verifier: token.verifier,
-        clientID: token.clientID,
-        userID: token.userID,
-        approved: token.approved
-      }
-      done(null, token.secret, info);
-    });
-  },
-  // validate callback
-  //
-  // The application can check timestamps and nonces, as a precaution against
-  // replay attacks.  In this example, no checking is done and everything is
-  // accepted.
-  function(timestamp, nonce, done) {
-    done(null, true)
-  }
-));
-
-/**
- * TokenStrategy
- *
- * This strategy is used to authenticate users based on an access token.  The
- * user must have previously authorized a client application, which is issued an
- * access token to make requests on behalf of the authorizing user.
- */
-passport.use('token', new TokenStrategy(
-  // consumer callback
-  //
-  // This callback finds the registered client associated with `consumerKey`.
-  // The client should be supplied to the `done` callback as the second
-  // argument, and the consumer secret known by the server should be supplied
-  // as the third argument.  The `TokenStrategy` will use this secret to
-  // validate the request signature, failing authentication if it does not
-  // match.
-  function(consumerKey, done) {
-    db.clients.findByConsumerKey(consumerKey, function(err, client) {
-      if (err) { return done(err); }
-      if (!client) { return done(null, false); }
-      return done(null, client, client.consumerSecret);
-    });
-  },
-  // verify callback
-  //
-  // This callback finds the user associated with `accessToken`.  The user
-  // should be supplied to the `done` callback as the second argument, and the
-  // token secret known by the server should be supplied as the third argument.
-  // The `TokenStrategy` will use this secret to validate the request signature,
-  // failing authentication if it does not match.
-  //
-  // Furthermore, additional arbitrary `info` can be passed as the fourth
-  // argument to the callback.  An access token will often have associated
-  // details such as scope of access, expiration date, etc.  These details can
-  // be retrieved from the database during this step.  They will then be made
-  // available by Passport at `req.authInfo` and carried through to other
-  // middleware and request handlers, avoiding the need to do additional
-  // unnecessary queries to the database.
-  //
-  // Note that additional access control (such as scope of access), is an
-  // authorization step that is distinct and separate from authentication.
-  // It is an application's responsibility to enforce access control as
-  // necessary.
-  function(accessToken, done) {
-    db.accessTokens.find(accessToken, function(err, token) {
-      if (err) { return done(err); }
-      db.users.find(token.userID, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        // to keep this example simple, restricted scopes are not implemented
-        var info = { scope: '*' }
-        done(null, user, token.secret, info);
+// takes in username and password
+// return token or null
+var authenticateUser = function (email, password){
+  // if valid username and password
+  return Users.getByEmail(email)
+  .then(function(user){
+    if(!user){
+      return {error:'User does not exist'};
+    } else {
+      return Promise.promisify(bcrypt.compare)(password, user.password)
+      .then(function (match) {
+        if(match) {
+          // make a new token
+          // put token and user id in token store
+          // return token
+          return makeToken(user.id);
+        } else {
+          return {error:'Incorrect password'};
+        }
       });
-    });
-  },
-  // validate callback
-  //
-  // The application can check timestamps and nonces, as a precaution against
-  // replay attacks.  In this example, no checking is done and everything is
-  // accepted.
-  function(timestamp, nonce, done) {
-    done(null, true)
+    }
+  });
+}
+
+// takes a token
+// returns the user associated with the token
+// if the token is valid
+var authenticateToken = function (token) {
+  // expire tokens in 7 days
+  var expire = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds... I hope
+  if(tokens.hasOwnProperty(token) && 
+    (Date.now() - tokens[token].timestamp < expire)){
+    return tokens[token].userid;
+  } else {
+    // delete the token because it expired
+    delete tokens[token];
+    return undefined
   }
-));
+}
+
+  // inputs:
+    //  newUser: 
+    //    email: the useraname
+    //    password: the password
+    //    first_name: the first name
+    //    last_name: the last name
+    // output:
+    // in data field:
+    //    message: if failure, reason for failure
+    // side effects:
+    //    hashes the password
+var createUser = function (newUser){
+  return Users.create(newUser)
+  .then(function(user) {
+    // user successfully created
+    return makeToken(user.id);
+  });
+}
+
+var logout = function(token) {
+  if(tokens.hasOwnProperty(token)){
+    delete tokens[token];
+  }
+}
+
+module.exports = {
+  authenticateToken: authenticateToken,
+  authenticateUser: authenticateUser,
+  createUser: createUser,
+  logout: logout,
+}

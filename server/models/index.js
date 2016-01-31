@@ -2,7 +2,7 @@
 module.exports = {
   // comments: require('../comments/commentModel.js'),
   moments: require('../moments/momentModel.js'),
-  stories: require('../stories/storyModel.js')
+  stories: require('../stories/storyModel.js'),
   // tags: require('../tags/tagModel.js'),
-  // users: require('../users/userModel.js')
+  users: require('../users/userModel.js'),
 };

@@ -14,6 +14,7 @@ module.exports = function(app) {
 
   //sign up 
     //add user info to database (including password and name etc.)
+  app.post('/api/users/signup', controller.auth.createUser);
   
   //invited page
     //verify if identifer exists in db
@@ -23,10 +24,13 @@ module.exports = function(app) {
     //verify whether or not user exists
       //if so, create a session
       //if not, direct user to sign in page
+  app.post('/api/users/signin', controller.auth.authenticateUser);
+
   
   //log out
     //destroy session
     //route user to sign in page
+  app.get('/api/users/logout', controller.auth.logout);
   
   //get one story for a given user
     //needs to include all users for the story as well as tags/comments for that story

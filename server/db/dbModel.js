@@ -6,31 +6,12 @@ var sequelize = new Sequelize(connectionString);
 
 //individual tables in database
 var User = sequelize.define('users', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  first_name: {
-    type: Sequelize.STRING,
-    notNull: true
-  },
-  last_name: {
-    type: Sequelize.STRING,
-    notNull: true
-  },
-  email: {
-    type: Sequelize.STRING,
-    notNull: true
-  },
-  token: {
-    type: Sequelize.STRING,
-    notNull: true
-  },
-  password: {
-    type: Sequelize.STRING,
-    notNull: true
-  }
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  firstName: { type: Sequelize.STRING, field: 'first_name', notNull: true },
+  lastName: { type: Sequelize.STRING, field: 'laste_name', notNull: true },
+  email: { type: Sequelize.STRING, notNull: true, unique: true },
+  token: { type: Sequelize.STRING },
+  password: { type: Sequelize.STRING, notNull: true }
 }, {timestamps: false });
 
 
