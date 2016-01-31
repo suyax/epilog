@@ -12,7 +12,7 @@ import React, {
 import NavBar from './navBar';
 
 class Library extends Component {
-  
+
   render() {
     const { stories } = this.props
 
@@ -25,7 +25,7 @@ class Library extends Component {
         <RecyclerViewBackedScrollView style={styles.list}>
           <View style = {styles.listView}>
             {stories.data.map(
-              (story) => { 
+              (story) => {
                 return this.renderStory(story);
               })
             }

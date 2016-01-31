@@ -3,7 +3,8 @@ import React, {
   Component,
   Text,
   View,
-  Dimension
+  Dimension,
+  AsyncStorage
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ var CLIENT_KEY = 'putthelimeinthecoconut';
 var CLIENT_SECRET = 'iwanttobuytheworldacoke';
 import LogIn from '../components/logIn';
 import SignUp from '../components/signUp';
+import LogOut from '../components/logOut';
 
 //router for the app
 class EpiLogApp extends Component {
@@ -27,7 +29,7 @@ class EpiLogApp extends Component {
     this.fetchStories();
   }
 
-  // this coud be a thunk
+  // this could be a thunk
   fetchStories() {
     const { storiesActions } = this.props;
 
@@ -45,23 +47,31 @@ class EpiLogApp extends Component {
   }
 
   render() {
-    // Be explicit about what is availible as props
+    // Be explicit about what is available as props
     const {
       viewControlState,
       viewControlActions,
       storiesState,
+      authState,
+      authActions,
+
     } = this.props;
 
     switch (viewControlState.currentView) {
       case "HOME":
         return (
           <Home
-          onLogOut={()=>{viewControlActions.setView('LOGIN')}}
+          onLogOut={()=>{viewControlActions.setView('LOGOUT')}}
           />)
       case "LOGIN":
         return (
           <LogIn
-          onSignUp={()=>{
+          successLoggedIn={
+            ()=>{
+            viewControlActions.setView('HOME')
+          }}
+          onSignUp={
+            ()=>{
             console.log('onSungup')
             viewControlActions.setView('SIGNUP')}}
           />)
@@ -71,7 +81,7 @@ class EpiLogApp extends Component {
           onLogIn={()=>{viewControlActions.setView('LOGIN')}}
           />)
       case "LOGOUT":
-        return <LogIn/>
+        return <LogOut/>
       case "LIBRARY":
         return (
           <Library
@@ -134,10 +144,12 @@ class EpiLogApp extends Component {
 export default connect(state => ({
     viewControlState: state.viewControl,
     storiesState: state.stories,
+    authState: state.isLoggedin,
   }),
   (dispatch) => ({
     viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
     storiesActions: bindActionCreators(actions.storiesActions, dispatch),
+    authActions: bindActionCreators(actions.authActions, dispatch)
   })
 )(EpiLogApp);
 
