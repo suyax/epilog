@@ -81,7 +81,12 @@ class EpiLogApp extends Component {
           onLogIn={()=>{viewControlActions.setView('LOGIN')}}
           />)
       case "LOGOUT":
-        return <LogOut/>
+        return <LogOut
+          successLoggedOut={
+            ()=>{
+            viewControlActions.setView('LOGIN')
+          }}
+        />
       case "LIBRARY":
         return (
           <Library

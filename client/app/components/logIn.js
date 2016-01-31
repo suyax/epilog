@@ -44,6 +44,8 @@ class LogIn extends React.Component {
 
   fetchUser() {
     const { successLoggedIn } = this.props
+    //for testing purpose should be remove when database complete
+    successLoggedIn();
     console.log('fetch username',this.state.username,'fetch password', this.state.password)
     fetch('http://127.0.0.1:3000/api/signin', {
       method: 'POST',
@@ -56,7 +58,7 @@ class LogIn extends React.Component {
         secondParam: this.state.password,
       })
     })
-      .then((response) => response.json())
+      .then((response) => {response.json()})
       .then((responseData) => {
         console.log('get response data:', responseData.token);
         this.saveToken(responseData.token);
