@@ -23,6 +23,90 @@ import LogOut from '../components/logOut';
 //router for the app
 class EpiLogApp extends Component {
 
+  // This could also be a thunk fetch
+  submitMoment(textInputs, asset) {
+    var storyTitle = textInputs.storyTitle;
+    var momentCaption = textInputs.caption;
+    var submitMomentURL = 'http://127.0.0.1:3000/api/stories/check';
+
+
+    return AsyncStorage.getItem('token')
+      .then((result) => {
+        return fetch(submitMomentURL, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Token': result
+          },
+          body: JSON.stringify({
+            caption: momentCaption,
+            title: storyTitle
+          })
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+          if (responseData) {
+            var storyid = responseData.id;
+            var title = storyTitle.split(' ').join('+');
+            var caption = momentCaption.split(' ').join('+');
+            var userid = responseData.users[0].id;
+            var upload = {
+              uri: asset.node.image.uri,
+              uploadUrl: 'http://127.0.0.1:3000/api/moments',
+              fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
+              mimeType: 'image'
+            };
+
+            NativeModules.FileTransfer.upload(upload, (err, res) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(res);
+                return res;
+              }
+            });
+
+            return 'HOME';
+          }
+          
+          return 'NEW_STORY';
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      })
+      .then((result) => {
+        return result
+      });
+  }
+
+  submitNewStory(textInputs) {
+    var storyTitle = textInputs.newStoryTitle;
+    var storyDescription = textInputs.newStoryDescription;
+    var storyCharacters = textInputs.newStoryCharacters.split(', ');
+
+    fetch('http://127.0.0.1:3000/api/:userId/stories', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        storyTitle: storyTitle,
+        storyDescription: storyDescription,
+        storyCharacters: storyCharacters
+      })
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      // Send the user to the Story view
+    })
+    .catch((error) => {
+      console.error('Error adding new story: ', error);
+    });
+  }
+
   render() {
     // Be explicit about what is available as props
     const {
@@ -36,12 +120,15 @@ class EpiLogApp extends Component {
     } = this.props;
 
     switch (viewControlState.currentView) {
+<<<<<<< 0e9a04fa33768f29246e4e104207829e31a65672
       case "CAMERAVIEW":
         return (
           <CameraView
           onTakePicture={ () => {viewControlActions.setView('CAPTURE')}}
           />
           );
+=======
+>>>>>>> Work on adding new story functionality
       case "HOME":
         return (
           <Home
@@ -83,8 +170,10 @@ class EpiLogApp extends Component {
         return (
           <NewStory
           asset={viewControlState.passedProps.asset}
-          onBack={()=>{viewControlActions.setView('EDIT_MOMENT')}}
-          />);
+          storyTitle={viewControlState.passedProps.storyTitle}
+          onBack={()=>{viewControlActions.setView('CAPTURE')}}
+          />
+        );
       case "CAPTURE":
         return (
           <Capture
@@ -94,8 +183,21 @@ class EpiLogApp extends Component {
         return(<EditMoment
           asset={viewControlState.passedProps.asset}
           onCancel={()=>{viewControlActions.setView('CAPTURE')}}
-          onTouchImage={ (asset) => { viewControlActions.setView('NEW_STORY', { asset: asset }); }}
-          />);
+          onSubmit={(textInputs, asset)=>{
+              if (textInputs.caption && textInputs.storyTitle) {
+                this.submitMoment(textInputs, asset)
+                  .then((result) => {
+
+                    if (result === 'HOME') {
+                      viewControlActions.setView('HOME', {});
+                    } else {
+                      viewControlActions.setView('NEW_STORY', {'asset': asset});
+                    }
+                  });
+              }
+            }
+          }
+        />);
       default:
         return <LogIn />;
     }

@@ -16,7 +16,7 @@ var {
 class EditMoment extends Component{
 
   render() {
-    const {asset, onCancel, onSumbit} = this.props;
+    const {asset, onCancel, onSubmit} = this.props;
     var textFields = {};
     var image = asset.node.image;
     return (
@@ -27,9 +27,9 @@ class EditMoment extends Component{
 
         <View style={styles.content}>
           <View style={ styles.textContainer }>
-            <TextInput style={ styles.textInput }
+            <TextInput style={styles.textInput} placeholder='Caption your moment'
               onChangeText={(text)=>textFields.caption = text}/>
-            <TextInput style={ styles.textInput }
+            <TextInput style={styles.textInput} placeholder='Story title'
               onChangeText={(text)=>textFields.storyTitle = text}/>
           </View>
         </View>
@@ -41,10 +41,10 @@ class EditMoment extends Component{
           </TouchableHighlight>
 
           <TouchableHighlight key={asset} onPress={() => {
-              NativeModules.ReadImageData.readImage(image.uri, (image) => {
-                console.log(image);
-                // Pass in momentData information
-              })
+              // NativeModules.ReadImageData.readImage(image.uri, (image) => {
+              //   // Pass in momentData information
+              // });
+              onSubmit(textFields, asset);
             }
           }>
             <View><Text style={styles.button}>Submit</Text></View>
@@ -95,6 +95,7 @@ var styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     flex: 1,
+    textAlign: 'center'
   },
   imageWide: {
     width: 320,
