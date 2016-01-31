@@ -18,7 +18,7 @@ class NewStory extends Component {
 
   render() {
     let { width, height } = Dimensions.get('window');
-    const { asset, onBack } = this.props;
+    const { asset, onBack, onSubmit } = this.props;
     const newStory = this.props.asset;
     var textInputs = {
       newStoryTitle: this.props.storyTitle
@@ -50,9 +50,13 @@ class NewStory extends Component {
             </Text>
           </TouchableHighlight>
 
-          <Text style={ styles.button }>
-            Submit
-          </Text>
+          <TouchableHighlight onPress={() => {
+            onSubmit(textInputs);
+          }}>
+            <Text style={ styles.button }>
+              Submit
+            </Text>
+          </TouchableHighlight>
         </View>
 
         <View style={ styles.navBar }>
