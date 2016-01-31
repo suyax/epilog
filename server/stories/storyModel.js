@@ -8,6 +8,28 @@ var users_stories = require('../db/dbModel').Users_Stories;
 
 module.exports = {
 
+  check: function(userId, title){
+    console.log("check params from controller -->", userId, title);
+    return stories.find({
+        attributes: ['title'],
+        include: [{
+          model: users,
+          where: {
+            id: userId
+          }
+        }],
+        where: {
+          title: title
+        }
+      })
+      .then(function (result) {
+        return result !== null ? true : false;
+      })
+      .catch(function (error) {
+        console.error('Error checking a story: ', error);
+      });
+  },
+
   add: function (storyData){
     // console.log("story data from controller-->",storyData);   
     //data to go into story table 
@@ -44,7 +66,9 @@ module.exports = {
   getOne: function (storyId){
     return stories.find({
         where: { id: storyId },
-        include: [moments]
+        include: [{
+          model: moments, 
+        }]
       })
       .then(function (result) {
         return result.dataValues;

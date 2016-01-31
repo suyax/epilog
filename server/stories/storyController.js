@@ -2,6 +2,18 @@ var storyModel = require('./storyModel');
 
 module.exports =  {
 
+  check: function(req, res){
+    var userId = req.params.userId; 
+    var title = req.body.title;
+    storyModel.check(userId, title)
+      .then(function (result) {
+        res.status(200).json(result);
+      })
+      .catch(function (error) {
+        res.status(404).json();
+      });
+  },
+
   add: function (req, res){
     //convert param representing storyCreator to number
     var storyCreator = Number(req.params.userId);
@@ -25,7 +37,7 @@ module.exports =  {
   },
 
   getOne: function (req, res) {
-  	var storyId = req.params.storyId;
+    var storyId = req.params.storyId;
     storyModel.getOne(storyId)
       .then(function (result) {
         res.status(200).json(result);

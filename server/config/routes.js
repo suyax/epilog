@@ -10,7 +10,7 @@ module.exports = function(app) {
 
   ////////////////////////////////////USERS//////////////////////////////////////////
 
-  //CLIENT SIDE ROUTES THAT WILL AFFECT USER TABLE...
+  //CLIENT SIDE ROUTES THAT WILL AFFECT/MAKE USE OF USER TABLE...
 
   //sign up 
     //add user info to database (including password and name etc.)
@@ -30,47 +30,53 @@ module.exports = function(app) {
   app.post('/api/users/signin', controller.auth.authenticateUser);
 
   
-  //log out
+  //log out???
     //destroy session
     //route user to sign in page
   app.get('/api/users/logout', controller.auth.logout);
   
-  //get one story for a given user
+  //get one story for a given user (COMPLETED V1)
     //needs to include all users for the story as well as tags/comments for that story
   
-  //get all stories for a given user
+  //get all stories for a given user (COMPLETED V1)
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
+
+  //check if story is already associated to user (COMPLETED V1)
   
   //add new or existing user to story 
-    //new users (SKIP FOR NOW)
     //existing users (COMPLETED V1)
+    //new users (SKIP FOR NOW)
   
-
-  //ROUTES THAT SHOULDN'T AFFECT USERS...but may want to think about this more...
   //create a new moment
-    //need to be able to add a comment, tag
+    //need to be able to add a comment, tag, AND potentially add a new user to a story??
   
+  //ROUTES THAT SHOULDN'T AFFECT USERS...but may want to think about this more...
   //get a moment
     //need to be able to view a comment, tag
  
   // every route after this line will be authenticated witha token 
   app.use(controller.auth.authenticateToken);
   ////////////////////////////////////STORIES//////////////////////////////////////////
-  app.get('/api/stories', controller.stories.getAll);
-
-
-  app.get('/api/stories/:storyId', controller.stories.getOne);
-
-
+  
+  app.post('/api/:userId/stories/check', controller.stories.check);
+  
   app.post('/api/:userId/stories', controller.stories.add);
+  
+  //will need to refactor once we have access to sessions. for now using userId in req.params
+  app.get('/api/stories/:storyId', controller.stories.getOne);
+  
+  app.get('/api/:userId/stories', controller.stories.getAll);
+  
 
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
+  
   app.post('/api/moments/:storyId', controller.moments.add);
 
-  
   //might not need this going forward...
   app.get('/api/moments/:storyId', controller.moments.getAll);
+
+  app.get
 
   // app.get('/api/moments/:tagId', );
   // app.get('/api/tags', );
