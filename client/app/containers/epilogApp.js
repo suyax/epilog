@@ -78,6 +78,10 @@ class EpiLogApp extends Component {
       case "SIGNUP":
         return (
           <SignUp
+          successSignedUp={
+            ()=>{
+            viewControlActions.setView('HOME')
+          }}
           onLogIn={()=>{viewControlActions.setView('LOGIN')}}
           />)
       case "LOGOUT":

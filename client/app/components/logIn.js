@@ -9,7 +9,6 @@ import React, {
   AlertIOS,
 } from 'react-native';
 
-import NavBar from './navBar';
 var STORAGE_KEY = 'token';
 
 class LogIn extends React.Component {
@@ -25,6 +24,7 @@ class LogIn extends React.Component {
       ...this.fields,
     }
   }
+
   _submitForm () {
     const { username, password } = this.fields
     this.setState({
@@ -32,7 +32,7 @@ class LogIn extends React.Component {
       password,
     })
     this.fetchUser();
-    console.log('form works', this.state)
+    console.log('login form', this.state)
   }
 
   saveToken(token) {
@@ -54,18 +54,18 @@ class LogIn extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstParam: this.state.username,
-        secondParam: this.state.password,
+        username: this.state.username,
+        password: this.state.password,
       })
     })
       .then((response) => {response.json()})
       .then((responseData) => {
-        console.log('get response data:', responseData.token);
+        console.log('get response data:', responseData.token)
         this.saveToken(responseData.token);
         successLoggedIn();
       })
       .catch((error)=> {
-        console.log(error);
+        console.log(error.message)
       })
   }
 
@@ -73,9 +73,6 @@ class LogIn extends React.Component {
     const { onSignUp } = this.props;
     return (
       <View style={{flex:1, backgroundColor:'#6A85B1'}} >
-        <View style={styles.navBar}>
-          <NavBar />
-        </View>
         <View style={{flex:5}}>
         </View>
         <View style={{flex: 5}}>
@@ -124,9 +121,6 @@ class LogIn extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  navBar:{
-    flex:1,
-  },
   input:{
     height: 40,
     backgroundColor:'white',
