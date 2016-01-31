@@ -35,10 +35,10 @@ module.exports = function(app) {
     //route user to sign in page
   app.get('/api/users/logout', controller.auth.logout);
   
-  //get one story for a given user (COMPLETED V1 BUT DOUBLECHECK AFTER YOU CREATE MOMENTS)
+  //get one story for a given user (COMPLETED V1)
     //needs to include all users for the story as well as tags/comments for that story
   
-  //get all stories for a given user (PENDING)
+  //get all stories for a given user (COMPLETED V1)
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
 

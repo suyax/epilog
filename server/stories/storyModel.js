@@ -9,7 +9,7 @@ var users_stories = require('../db/dbModel').Users_Stories;
 module.exports = {
 
   check: function(userId, title){
-    console.log("check params from controller -->", userId, title);
+    // console.log("check params from controller -->", userId, title);
     return stories.find({
         attributes: ['title'],
         include: [{
@@ -47,7 +47,7 @@ module.exports = {
         }, {transaction: t})
         //then add existing users a part of story to users_stories join table (including user that created story)
         .then(function (addedStory) {
-          console.log("story added to DB-->", addedStory.dataValues);
+          // console.log("story added to DB-->", addedStory.dataValues);
           var dataForUsersStoriesTable = storyData.existingUsersToInclude.map(function(userID){
             return {storyId: addedStory.dataValues.id, userId: userID};
           });
@@ -63,45 +63,55 @@ module.exports = {
     });
   },
   
-  //should work when moments created properly...need to double check
   getOne: function (storyId){
     return stories.find({
-        where: { id: storyId },
-        include: [{
-          model: users, 
-          include: [{
-            model: moments
-          }]
-        }]
-      })
-      .then(function (result) {
-        return result.dataValues;
-      })
-      .catch(function (error) {
-        console.error('Error at getting a story: ', error);
-      });
+      where: { id: storyId },
+      include: [{
+        model: users
+      },
+      {
+        model: moments
+      }]
+    })
+    .then(function (result) {
+      return result.dataValues;
+    })
+    .catch(function (error) {
+      console.error('Error at getting a story: ', error);
+    });
   },
 
-  getAll: function () {
-    console.log('Calling getAll in storyModel: ',stories);
+  getAll: function (userId) {
+    // console.log('Calling getAll in storyModel: ',stories);
+    var returnData = [];
+    var self = this; 
+
     return stories.findAll({
-        include: [moments],
-        required: true
-      })
-      .then(function (results) {
-        var allStories = {};
-
-        var storyArray = results.map(function (storyAndMoments) {          
-          return storyAndMoments.dataValues;
-        });
-
-        allStories['stories'] = storyArray;
-
-        return allStories;
-      })
-      .catch(function (error) {
-        console.log('Error at getting all stories: ', error);
+      include: [{
+        model: users,
+        where: {id:userId},
+        }]
+    }).then(function(storiesOfUser){
+      return storiesOfUser.map(function(story){
+        return story.dataValues;
       });
+    }).then(function(arrayOfStoryObjs){
+      // console.log("array of storyObjs-->",arrayOfStoryObjs);
+      return arrayOfStoryObjs.map(function(obj){
+        return obj['id'];
+      });
+    }).then(function(storyIds){
+      // console.log("story ids -->", storyIds);
+      //NEED TO FIX!!!
+      return storyIds.map(function(id){
+        return self.getOne(id);
+      });
+    }).then(function(result){
+      console.log("get all result datavalues-->", result);
+
+    }).catch(function (error) {
+      console.log('Error at getting all stories: ', error);
+    });
   }
   
 };

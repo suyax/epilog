@@ -48,7 +48,8 @@ module.exports =  {
   },
   
   getAll: function (req, res) {
-    storyModel.getAll()
+    var userId = req.params.userId; 
+    storyModel.getAll(userId)
       .then(function (results) {
         res.status(200).json(results);
       })

@@ -31,6 +31,7 @@ app.listen(port, function(){
 //create database
 db.init();
 
+//seeds dummy data; comment out when testing!
 setTimeout(dummy, 3000);
 //export server
 module.exports = app;
