@@ -35,6 +35,8 @@ var authenticateUser = function (email, password){
           // make a new token
           // put token and user id in token store
           // return token
+          console.log("Tokens: ");
+          console.dir(tokens);
           return makeToken(user.id);
         } else {
           return {error:'Incorrect password'};
