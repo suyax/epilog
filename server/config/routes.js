@@ -51,23 +51,23 @@ module.exports = function(app) {
   //get a moment
     //need to be able to view a comment, tag
  
-  
-
+  // every route after this line will be authenticated witha token 
+  app.use(controller.auth.authenticateToken);
   ////////////////////////////////////STORIES//////////////////////////////////////////
-  app.get('/api/stories', controller.auth.authenticateToken, controller.stories.getAll);
+  app.get('/api/stories', controller.stories.getAll);
 
 
-  app.get('/api/stories/:storyId', controller.auth.authenticateToken, controller.stories.getOne);
+  app.get('/api/stories/:storyId', controller.stories.getOne);
 
 
-  app.post('/api/stories', controller.auth.authenticateToken, controller.stories.add);
+  app.post('/api/stories', controller.stories.add);
 
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
-  app.post('/api/moments/:storyId', controller.auth.authenticateToken, controller.moments.add);
+  app.post('/api/moments/:storyId', controller.moments.add);
 
   
   //might not need this going forward...
-  app.get('/api/moments/:storyId', controller.auth.authenticateToken, controller.moments.getAll);
+  app.get('/api/moments/:storyId', controller.moments.getAll);
 
   // app.get('/api/moments/:tagId', );
   // app.get('/api/tags', );
