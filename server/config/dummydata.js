@@ -25,21 +25,21 @@ var dummyStoryData = [
 ];
 
 var dummyMomentData = [
-  {"url": path.join(__dirname + '/../images/earthshaker.jpeg'), "caption": "earthshaker!!!!", "storyid": 1},
-  {"url": path.join(__dirname + '/../images/shadowfiend.jpeg'), "caption": "shadow friend", "storyid": 1},
-  {"url": path.join(__dirname + '/../images/arcwarden.jpeg'), "caption": "new guy", "storyid": 1},
-  {"url": path.join(__dirname + '/../images/tswift1.jpeg'), "caption": "happy 9th anniversary!", "storyid": 2},
-  {"url": path.join(__dirname + '/../images/tswift2.jpeg'), "caption": "nice hair dude", "storyid": 2},
-  {"url": path.join(__dirname + '/../images/tswift3.jpeg'), "caption": "surprised bae at work", "storyid": 2},
-  {"url": path.join(__dirname + '/../images/banks1.jpeg'), "caption": "say no more, fam", "storyid": 3},
-  {"url": path.join(__dirname + '/../images/banks2.jpeg'), "caption": "find the rapper", "storyid": 3},
-  {"url": path.join(__dirname + '/../images/banks3.jpeg'), "caption": "jeffrey dont smile", "storyid": 3},
-  {"url": path.join(__dirname + '/../images/mongoose.jpeg'), "caption": "what is these animals", "storyid": 4},
-  {"url": path.join(__dirname + '/../images/mongoose2.jpeg'), "caption": "mongo", "storyid": 4},
-  {"url": path.join(__dirname + '/../images/beaver.jpeg'), "caption": "#throwbackthursday", "storyid": 4},
-  {"url": path.join(__dirname + '/../images/afraid.jpeg'), "caption": "of suya", "storyid": 5},
-  {"url": path.join(__dirname + '/../images/dinosaur.jpeg'), "caption": "suya half the time", "storyid": 5},
-  {"url": path.join(__dirname + '/../images/boulder.jpeg'), "caption": "suya the other half of the time", "storyid": 5}
+  {"url": path.join(__dirname + '/../images/earthshaker.jpeg'), "caption": "earthshaker!!!!", "userid": 1, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/shadowfiend.jpeg'), "caption": "shadow friend", "userid": 2,  "storyid": 1},
+  {"url": path.join(__dirname + '/../images/arcwarden.jpeg'), "caption": "new guy", "userid": 2, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/tswift1.jpeg'), "caption": "happy 9th anniversary!", "userid": 3, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/tswift2.jpeg'), "caption": "nice hair dude", "userid": 1, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/tswift3.jpeg'), "caption": "surprised bae at work", "userid": 4, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/banks1.jpeg'), "caption": "say no more, fam", "userid": 4, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/banks2.jpeg'), "caption": "find the rapper", "userid": 3, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/banks3.jpeg'), "caption": "jeffrey dont smile", "userid": 2, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/mongoose.jpeg'), "caption": "what is these animals", "userid": 1,  "storyid": 4},
+  {"url": path.join(__dirname + '/../images/mongoose2.jpeg'), "caption": "mongo", "userid": 2,  "storyid": 2},
+  {"url": path.join(__dirname + '/../images/beaver.jpeg'), "caption": "#throwbackthursday", "userid": 1, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/afraid.jpeg'), "caption": "of suya", "userid": 3, "storyid": 2},
+  {"url": path.join(__dirname + '/../images/dinosaur.jpeg'), "caption": "suya half the time", "userid": 4, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/boulder.jpeg'), "caption": "suya the other half of the time", "userid": 3,"storyid": 3}
 ];
 
 module.exports = function () {
@@ -62,7 +62,16 @@ module.exports = function () {
     })
     //once users and stories are accounted for, seed moments
     .then(function(){
-      return moments.bulkCreate(dummyMomentData);
+      for(var i = 1; i <=dummyMomentData.length; i++){
+        var momentInfo = {
+          userid: dummyMomentData[i-1]["userid"],
+          url: dummyMomentData[i-1]["url"],
+          caption: dummyMomentData[i-1]["caption"],
+          storyid: dummyMomentData[i-1]["storyid"],
+          newCharacters: []
+        };
+        model.moments.add(momentInfo);
+      }
     })
     //account for errors
     .catch(function(err){

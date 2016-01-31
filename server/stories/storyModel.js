@@ -62,12 +62,16 @@ module.exports = {
       console.error("Error at adding a story: ", err)
     });
   },
-
+  
+  //should work when moments created properly...need to double check
   getOne: function (storyId){
     return stories.find({
         where: { id: storyId },
         include: [{
-          model: moments, 
+          model: users, 
+          include: [{
+            model: moments
+          }]
         }]
       })
       .then(function (result) {

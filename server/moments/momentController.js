@@ -11,8 +11,10 @@ module.exports =  {
     //Define Variables
     //momentData --> location within request object, where header information lives
     var momentData = JSON.parse(req.headers['momentdata']);
+    console.log("req params -->", req.headers['momentdata']);
     //uniqueMomentIdentifier --> creates unique identifier for each moment based on data provided (NOTE: this is temporary);
     var uniqueMomentIdentifier = momentData.caption.split(" ").join("")+momentData.storyid;
+    console.log("uniqueMomentIdentifier -->", uniqueMomentIdentifier);
     //filePath --> temp location in file tree where we will dump images
     var filePath = path.join(__dirname, images + "/" + uniqueMomentIdentifier + ".png");
 
@@ -25,10 +27,12 @@ module.exports =  {
       //otherwise...
       else {
         //define moment object that contains info related to moment
-        var momentData = {
+        var momentInfo = {
+          userid: Number(req.params.userId),
           url: filePath,
           caption: momentData.caption,
-          storyid: momentData.storyid
+          storyid: momentData.storyid,
+          newCharacters: momentData.newCharacters
         }
         //open up fileStream on filePath 
         var writeStream = fs.createWriteStream(
@@ -46,7 +50,7 @@ module.exports =  {
         // });
      
         req.on('end', function (){
-          momentModel.add(momentData)
+          momentModel.add(momentInfo)
             .then(function (results){
               writeStream.end();
               res.status(201).json(results);
