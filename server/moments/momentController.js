@@ -9,10 +9,16 @@ module.exports =  {
 
   add: function (req, res){
     //Define Variables
+
     //momentData --> location within request object, where header information lives
+    //NOTE: we decided to use headers to story the moment info as the actual req.body will contain an image
     var momentData = JSON.parse(req.headers['momentdata']);
+    // console.log("req params -->", req.headers['momentdata']);
+    
     //uniqueMomentIdentifier --> creates unique identifier for each moment based on data provided (NOTE: this is temporary);
     var uniqueMomentIdentifier = momentData.caption.split(" ").join("")+momentData.storyid;
+    // console.log("uniqueMomentIdentifier -->", uniqueMomentIdentifier);
+
     //filePath --> temp location in file tree where we will dump images
     var filePath = path.join(__dirname, images + "/" + uniqueMomentIdentifier + ".png");
 
@@ -25,10 +31,12 @@ module.exports =  {
       //otherwise...
       else {
         //define moment object that contains info related to moment
-        var moment = {
+        var momentInfo = {
+          userid: Number(req.params.userId),
           url: filePath,
           caption: momentData.caption,
-          storyid: momentData.storyid
+          storyid: momentData.storyid,
+          newCharacters: momentData.newCharacters
         }
         //open up fileStream on filePath 
         var writeStream = fs.createWriteStream(
@@ -36,17 +44,10 @@ module.exports =  {
           {flags: 'ax'}
         );
 
-        // req.pipe(base64.decode()).pipe(writeStream);
         req.pipe(writeStream);
 
-        //add each of the incoming data chunks from the client to the filepath specified above
-        // req.on('data', function (chunk){
-        //   console.log("CHUNK: ", chunk);
-        //     writeStream.write(chunk);
-        // });
-     
         req.on('end', function (){
-          momentModel.add(moment)
+          momentModel.add(momentInfo)
             .then(function (results){
               writeStream.end();
               res.status(201).json(results);

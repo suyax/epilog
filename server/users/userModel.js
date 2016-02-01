@@ -5,7 +5,6 @@ var User = require('../db/dbModel').User;
 
 
 module.exports = {
-
   getByEmail: function (email){
     return User.findOne({
       where: {
@@ -25,7 +24,7 @@ module.exports = {
     //    message: if failure, reason for failure
     // side effects:
     //    hashes the password
-  create: function (newUser){
+  create: function (newUser) {
     // hashing is not done by the model, though it probably should
     return Promise.promisify(bcrypt.hash)(newUser.password,null,null)
     .then(function (data) {
@@ -34,9 +33,6 @@ module.exports = {
     });
   },
 
-  add: function (story){
-
-  },
 
   remove: function (storyId){
 

@@ -28,9 +28,10 @@ app.listen(port, function(){
  console.log('Server listening on port ' + port);
 });  
 
-//create database
-db.init();
+//create database + seed db;
+db.init().then(function(initializedDB){
+	dummy();
+});
 
-setTimeout(dummy, 3000);
 //export server
 module.exports = app;
