@@ -9,6 +9,7 @@ import React, {
   AlertIOS
 } from 'react-native';
 
+var STORAGE_KEY = "token"
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -40,7 +41,8 @@ class SignUp extends React.Component {
 
   saveToken(token) {
     console.log('saveToken;',token)
-    AsyncStorage.setItem(STORAGE_KEY, token).then(
+    AsyncStorage.setItem(STORAGE_KEY, token)
+    .then(
       console.log('save token to disk: ' + token)
       ).done();
   }
@@ -56,13 +58,15 @@ class SignUp extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
+        firstName: this.state.firstname,
+        lastName: this.state.lastname,
         email: this.state.email,
         password: this.state.password
       })
     })
-    .then((response) => {response.json()})
+    .then((response) => {
+      console.log(response)
+      return response.json()})
     .then((responseData) => {
       console.log('get response data:', responseData)
       this.saveToken(responseData.token);
@@ -116,7 +120,7 @@ class SignUp extends React.Component {
         />
 
       <TouchableHighlight onPress={this._submitForm.bind(this)}>
-        <Text>Register</Text>
+        <Text style={styles.buttonText} >Register</Text>
       </TouchableHighlight>
       </View>
 

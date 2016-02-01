@@ -16,7 +16,7 @@ class LogIn extends React.Component {
     super(props);
 
     this.fields = {
-      username: null,
+      email: null,
       password: null,
     }
 
@@ -26,9 +26,9 @@ class LogIn extends React.Component {
   }
 
   _submitForm () {
-    const { username, password } = this.fields
+    const { email, password } = this.fields
     this.setState({
-      username,
+      email,
       password,
     })
     this.fetchUser();
@@ -46,7 +46,7 @@ class LogIn extends React.Component {
     const { successLoggedIn } = this.props
     //for testing purpose should be remove when database complete
     //successLoggedIn();
-    console.log('fetch username',this.state.username,'fetch password', this.state.password)
+    console.log('fetch email',this.state.email,'fetch password', this.state.password)
     fetch('http://127.0.0.1:3000/api/users/signin', {
       method: 'POST',
       header: {
@@ -54,18 +54,20 @@ class LogIn extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.state.username,
-        password: this.state.password,
+        "email": this.state.email,
+        "password": this.state.password,
       })
     })
-      .then((response) => {response.json()})
+      .then((response) => {
+        console.log(response)
+        return response.json()})
       .then((responseData) => {
         console.log('get response data:', responseData.token)
         this.saveToken(responseData.token);
         successLoggedIn();
       })
       .catch((error)=> {
-        console.log("response:",error);
+        console.log("response:",error.message);
       })
   }
 
@@ -80,10 +82,10 @@ class LogIn extends React.Component {
           Login
           </Text>
           <TextInput
-            ref="username"
-            placeholder={'username'}
-            value={this.state.username}
-            onChangeText={text => this.fields.username = text}
+            ref="email"
+            placeholder={'email'}
+            value={this.state.email}
+            onChangeText={text => this.fields.email = text}
             onSubmitEditing={() => this.refs.password.focus()}
             style={styles.input}
             />

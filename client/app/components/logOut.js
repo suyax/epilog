@@ -18,14 +18,14 @@ class LogOut extends React.Component {
   }
 
   LogOutRequest () {
-    const { successLoggedOut } = this.props
+    //const { successLoggedOut } = this.props
     //for testing purpose should be remove when database complete
-    successLoggedOut();
+    //successLoggedOut();
     AsyncStorage.getItem(STORAGE_KEY)
-    .then( (value) => {
+    .then((value) => {
       this.fetchUser(value);
     })
-    .catch((error)=>{
+    .catch((error) => {
       console.log(error);
     })
   }
@@ -48,33 +48,32 @@ class LogOut extends React.Component {
     .then((result)=>{
       if (!result){
       console.log('key has been destroyed')
-    }
-  }).done();
+      }
+    }).done();
   }
 
   fetchUser(value) {
     const { successLoggedOut } = this.props
     console.log('LogoutFetch token', value)
     fetch('http://127.0.0.1:3000/api/users/logout', {
-      method: 'POST',
+      method: 'GET',
       header: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        token: value,
-      })
+        'token': value
+      }
     })
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log('get response data:', responseData);
-        successLoggedOut();
-      }).then(() => {
-        this.destoryToken()
-      })
-      .catch((error)=> {
-        console.log(error);
-      })
+    .then((response) => {
+      console.log(response)
+      return response.json()})
+    .then((responseData) => {
+      console.log('get response data:', responseData)
+      this.destoryToken(STORAGE_KEY)
+      successLoggedOut()
+    })
+    .catch((error)=> {
+      console.log(error.message);
+    })
   }
 
   render() {
