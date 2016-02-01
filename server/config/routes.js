@@ -35,20 +35,20 @@ module.exports = function(app) {
     //route user to sign in page
   app.get('/api/users/logout', controller.auth.logout);
   
-  //get one story for a given user (COMPLETED V1)
+  //get one story for a given user (COMPLETED V1/CHECKED)
     //needs to include all users for the story as well as tags/comments for that story
   
-  //get all stories for a given user (COMPLETED V1)
+  //get all stories for a given user (COMPLETED V1/CHECKED)
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
 
-  //check if story is already associated to user (COMPLETED V1)
+  //check if story is already associated to user (COMPLETED V1/CHECKED)
   
   //add new or existing user to story 
-    //existing users (COMPLETED V1)
+    //existing users (COMPLETED V1/CHECKED)
     //new users (SKIP FOR NOW)
   
-  //create a new moment (COMPLETED V1 --> excluding functionality to add moment to multiple stories)
+  //create a new moment (COMPLETED V1/CHECKED --> excluding functionality to add moment to multiple stories)
     //need to be able to add a comment, tag, AND potentially add a new user to a story??
   
   //ROUTES THAT SHOULDN'T AFFECT USERS...but may want to think about this more...

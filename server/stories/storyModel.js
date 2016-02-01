@@ -9,7 +9,7 @@ var users_stories = require('../db/dbModel').Users_Stories;
 module.exports = {
 
   check: function(userId, title){
-    // console.log("check params from controller -->", userId, title);
+    console.log("check params from controller -->", userId, title);
     return stories.find({
         attributes: ['title'],
         include: [{
@@ -86,32 +86,22 @@ module.exports = {
     var returnData = [];
     var self = this; 
 
-    return stories.findAll({
+    return users.findOne({
+      where: {id: userId},
       include: [{
-        model: users,
-        where: {id:userId},
-        }]
-    }).then(function(storiesOfUser){
-      return storiesOfUser.map(function(story){
-        return story.dataValues;
+        model:stories,
+        include: [
+        {model: moments},
+        {model: users,
+         attributes: ['id', 'first_name', 'last_name', 'email']
+        }
+        ]
+      }]
+      }).then(function(result){
+        console.log(result.stories);
+        return result.stories;
+      }).catch(function(err){
+        console.error("error trying to get all story objects-->", err);
       });
-    }).then(function(arrayOfStoryObjs){
-      // console.log("array of storyObjs-->",arrayOfStoryObjs);
-      return arrayOfStoryObjs.map(function(obj){
-        return obj['id'];
-      });
-    }).then(function(storyIds){
-      // console.log("story ids -->", storyIds);
-      //NEED TO FIX!!!
-      return storyIds.map(function(id){
-        return self.getOne(id);
-      });
-    }).then(function(result){
-      console.log("get all result datavalues-->", result);
-
-    }).catch(function (error) {
-      console.log('Error at getting all stories: ', error);
-    });
   }
-  
 };
