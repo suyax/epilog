@@ -23,7 +23,7 @@ module.exports = {
           lastName: lastName,
         })
         .then(function (token) {
-          console.log('create user token', token)
+          //console.log('create user token', token)
           response.json({token: token});
         })
         .catch(function (error){
@@ -41,7 +41,7 @@ module.exports = {
     const body = JSON.parse(Object.keys(request.body)[0])
     const email = body.email
     const password = body.password
-    console.log("server, email, password", email, password)
+    //console.log("server, email, password", email, password)
 
     if(email && password){
       auth.authenticateUser(email, password)
@@ -71,7 +71,7 @@ module.exports = {
   logout: function (request, response) {
     //HACK: request.body that was sent from client side, came in as an json object
     //with params on key and value as empty
-    console.log('logout',request.get('token'))
+    //console.log('logout',request.get('token'))
     auth.logout(request.get('token'));
     response.json({message:'You are logged out'});
   },

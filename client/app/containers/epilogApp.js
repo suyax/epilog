@@ -15,9 +15,6 @@ import Library from '../components/library';
 import Story from '../components/story';
 import NewStory from '../components/newStory';
 import EditMoment from '../components/editMoment';
-var REQUEST_URL = 'http://127.0.0.1:3000/api/stories';
-var CLIENT_KEY = 'putthelimeinthecoconut';
-var CLIENT_SECRET = 'iwanttobuytheworldacoke';
 import LogIn from '../components/logIn';
 import SignUp from '../components/signUp';
 import LogOut from '../components/logOut';
@@ -34,7 +31,7 @@ class EpiLogApp extends Component {
     const { storiesActions } = this.props;
 
     storiesActions.fetchStories();
-    fetch(REQUEST_URL)
+    fetch('http://127.0.0.1:3000/api/stories')
       .then((response) => response.json())
       .then((responseData) => {
         console.log('The Response Data: ', responseData.stories);
@@ -153,7 +150,7 @@ class EpiLogApp extends Component {
 export default connect(state => ({
     viewControlState: state.viewControl,
     storiesState: state.stories,
-    authState: state.isLoggedin,
+    authState: state.authControl,
   }),
   (dispatch) => ({
     viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),

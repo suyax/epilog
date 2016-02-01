@@ -17,44 +17,34 @@ class LogOut extends React.Component {
     super(props);
   }
 
-  LogOutRequest () {
+  LogOutRequest() {
     //const { successLoggedOut } = this.props
     //for testing purpose should be remove when database complete
     //successLoggedOut();
     AsyncStorage.getItem(STORAGE_KEY)
     .then((value) => {
-      this.fetchUser(value);
+      this.fetchLogOut(value);
     })
     .catch((error) => {
       console.log(error);
     })
   }
 
-/*  async saveToken() {
-    var token = 'test'
-    console.log('saveToken;',token)
-    AsyncStorage.setItem(STORAGE_KEY, token)
-    .then(
-      console.log('save token to disk: ' + token)
-      )
-    .done();
-  }*/
-
   destoryToken(STORAGE_KEY) {
-    console.log('destoryToken;',STORAGE_KEY)
+    //console.log('destoryToken;',STORAGE_KEY)
     AsyncStorage.removeItem(STORAGE_KEY)
     .then(
       AsyncStorage.getItem(STORAGE_KEY))
-    .then((result)=>{
+    .then((result) => {
       if (!result){
-      console.log('key has been destroyed')
+      //console.log('key has been destroyed')
       }
     }).done();
   }
 
-  fetchUser(value) {
+  fetchLogOut(value) {
     const { successLoggedOut } = this.props
-    console.log('LogoutFetch token', value)
+    //console.log('LogoutFetch token', value)
     fetch('http://127.0.0.1:3000/api/users/logout', {
       method: 'GET',
       header: {
@@ -64,24 +54,24 @@ class LogOut extends React.Component {
       }
     })
     .then((response) => {
-      console.log(response)
+      //console.log (response)
       return response.json()})
     .then((responseData) => {
-      console.log('get response data:', responseData)
+      //console.log ('get response data:', responseData)
       this.destoryToken(STORAGE_KEY)
       successLoggedOut()
     })
-    .catch((error)=> {
+    .catch((error) => {
       console.log(error.message);
     })
   }
 
   render() {
     return (
-      <View style={{flex:1, backgroundColor:'#6A85B1'}} >
-        <View style={{flex:5}}>
+      <View style={styles.container}>
+        <View style={styles.positionBox}>
         </View>
-        <View style={{flex: 5}}>
+        <View style={styles.positionBox}>
           <Text style={styles.buttonText}>
           Are you sure you want to log out?
           </Text>
@@ -97,7 +87,20 @@ class LogOut extends React.Component {
 }
 
 var styles = StyleSheet.create({
-
+  container: {
+    flex:1,
+    backgroundColor:'#6A85B1'
+  },
+  positionBox: {
+    flex: 5
+  },
+  input: {
+    height: 40,
+    backgroundColor:'white',
+    borderColor: 'gray',
+    borderWidth: 1,
+    textAlign: 'center'
+  },
   wrapper: {
     borderRadius: 5,
     marginBottom: 5,

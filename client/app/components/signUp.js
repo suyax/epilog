@@ -35,19 +35,19 @@ class SignUp extends React.Component {
       email,
       password
     })
-    this.fetchUser();
-    console.log('signup form', this.state)
+    this.SignUp();
+    //console.log('signup form', this.state)
   }
 
   saveToken(token) {
-    console.log('saveToken;',token)
-    AsyncStorage.setItem(STORAGE_KEY, token)
+    //console.log('saveToken;',token)
+    return AsyncStorage.setItem(STORAGE_KEY, token)
     .then(
-      console.log('save token to disk: ' + token)
+      //console.log('save token to disk: ' + token)
       ).done();
   }
 
-  fetchUser() {
+  fetchSignUp() {
     const { successSignedUp } = this.props
     //for testing purpose should be remove when database complete
     //successSignedUp();
@@ -65,25 +65,27 @@ class SignUp extends React.Component {
       })
     })
     .then((response) => {
-      console.log(response)
+      //console.log(response)
       return response.json()})
     .then((responseData) => {
-      console.log('get response data:', responseData)
-      this.saveToken(responseData.token);
+      //console.log ('get response data:', responseData)
+      return this.saveToken(responseData.token)})
+    .then(() => {
       successSignedUp();
     })
     .catch((error)=> {
+      failSingUp();
       console.log(error.message)
     })
   }
 
   render() {
-    const {onLogIn} = this.props;
+    const { onLogIn } = this.props;
     return (
-      <View style={{flex:1, backgroundColor:'#6A85B1'}} >
-      <View style={{flex:5}}>
+      <View style={styles.container}>
+      <View style={styles.positionBox}>
       </View>
-      <View style={{flex: 5}}>
+      <View style={styles.positionBox}>
         <Text style={styles.buttonText}>
         SignUp
         </Text>
@@ -142,7 +144,14 @@ class SignUp extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  input:{
+  container: {
+    flex:1,
+    backgroundColor:'#6A85B1'
+  },
+  positionBox: {
+    flex: 5
+  },
+  input: {
     height: 40,
     backgroundColor:'white',
     borderColor: 'gray',

@@ -27,26 +27,23 @@ class LogIn extends React.Component {
 
   _submitForm () {
     const { email, password } = this.fields
-    this.setState({
-      email,
-      password,
-    })
-    this.fetchUser();
-    console.log('login form', this.state)
+    this.fetchLogIn()
+    //console.log ('login form', this.state)
   }
 
   saveToken(token) {
-    console.log('saveToken;',token)
-    AsyncStorage.setItem(STORAGE_KEY, token).then(
-      console.log('save token to disk: ' + token)
-      ).done();
+    //console.log('saveToken;',token)
+    return AsyncStorage.setItem(STORAGE_KEY, token)
+    .then(
+      //console.log('save token to disk: ' + token)
+      ).done()
   }
 
-  fetchUser() {
-    const { successLoggedIn } = this.props
+  fetchLogIn() {
+    //const { successLoggedIn } = this.props
     //for testing purpose should be remove when database complete
     //successLoggedIn();
-    console.log('fetch email',this.state.email,'fetch password', this.state.password)
+    //console.log('fetch email' ,this.state.email ,'fetch password', this.state.password)
     fetch('http://127.0.0.1:3000/api/users/signin', {
       method: 'POST',
       header: {
@@ -59,11 +56,12 @@ class LogIn extends React.Component {
       })
     })
       .then((response) => {
-        console.log(response)
+        //console.log(response)
         return response.json()})
       .then((responseData) => {
-        console.log('get response data:', responseData.token)
-        this.saveToken(responseData.token);
+        //console.log ('get response data:', responseData.token)
+        return this.saveToken(responseData.token)})
+      .then(() => {
         successLoggedIn();
       })
       .catch((error)=> {
@@ -74,10 +72,10 @@ class LogIn extends React.Component {
   render() {
     const { onSignUp } = this.props;
     return (
-      <View style={{flex:1, backgroundColor:'#6A85B1'}} >
-        <View style={{flex:5}}>
+      <View style={styles.container}>
+        <View style={styles.positionBox}>
         </View>
-        <View style={{flex: 5}}>
+        <View style={styles.positionBox}>
           <Text style={styles.buttonText}>
           Login
           </Text>
@@ -124,7 +122,14 @@ class LogIn extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  input:{
+  container: {
+    flex:1,
+    backgroundColor:'#6A85B1'
+  },
+  positionBox: {
+    flex: 5
+  },
+  input: {
     height: 40,
     backgroundColor:'white',
     borderColor: 'gray',

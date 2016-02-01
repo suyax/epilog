@@ -1,6 +1,5 @@
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
-export const RECIEVE_RESPOND = 'RECEIVE_RESPOND';
-
+export const RECIEVE_RESPONSE = 'RECEIVE_RESPONSE';
 
 export function requestLogIn () {
   return {
@@ -8,19 +7,19 @@ export function requestLogIn () {
   }
 }
 
-export function receiveRespond (respond) {
+export function receiveResponse (response) {
   return {
-    type: RECIEVE_RESPOND,
+    type: RECIEVE_RESPONSE,
     payload: {
-      respond: respond,
+      response: response,
       recievedAt: Date.now(),
     },
   };
 }
 
-export function failureRespond (error) {
+export function failureResponse (error) {
   return {
-    type: RECIEVE_RESPOND,
+    type: RECIEVE_RESPONSE,
     error: true,
     payload: error,
   };

@@ -1,7 +1,7 @@
 const initialStates = {
   requestSent: false,
   isLoggedIn: false,
-  respond: undefined,
+  response: undefined,
   lastUpdated: undefined,
   error: false,
   errorMessage: undefined,
@@ -14,7 +14,7 @@ export default function authControl(state = initialStates, action = {}) {
         ...state,
         requestSent: true
       }
-    case "RECEIVE_RESPOND":
+    case "RECEIVE_RESPONSE":
       if(action.error === true){
         return {
           ...state,
@@ -25,7 +25,7 @@ export default function authControl(state = initialStates, action = {}) {
       return {
         ...state,
         isLoggedIn: true,
-        respond: action.payload.respond
+        response: action.payload.response
         lastUpdated: action.payload.receiveAt,
       });
     }

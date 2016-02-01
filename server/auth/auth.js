@@ -80,7 +80,6 @@ var createUser = function (newUser){
 }
 
 var logout = function(token) {
-  console.log('logout')
   if(tokens.hasOwnProperty(token)){
     delete tokens[token];
   }
