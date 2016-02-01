@@ -51,8 +51,8 @@ module.exports = function(app) {
   //get a moment
     //need to be able to view a comment, tag
  
-  
-
+  // every route after this line will be authenticated witha token 
+  app.use(controller.auth.authenticateToken);
   ////////////////////////////////////STORIES//////////////////////////////////////////
   app.get('/api/stories', controller.stories.getAll);
 

@@ -29,10 +29,10 @@ module.exports = {
     if(request.body.email && request.body.password){
       auth.authenticateUser(request.body.email, request.body.password)
       .then(function (token) {
-        if(token){
-          response.json({token: token});
+        if(token.error){
+          response.status(401).end();
         } else {
-          response.status(401);
+          response.json({token: token});
         }
       })
       .catch(function (error) {
@@ -42,7 +42,8 @@ module.exports = {
   },
 
   authenticateToken: function (request, response, next) {
-    var userid = auth.authenticateToken(request.header.token);
+    console.log("Request Header: " + request.header);
+    var userid = auth.authenticateToken(request.get('token'));
     if(userid){
       request.user = {id: token.userid};
       next();
