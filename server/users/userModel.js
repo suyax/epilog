@@ -10,6 +10,7 @@ module.exports = {
       where: {
         email: email,
       }
+    });
   },
 
   // inputs:
@@ -23,7 +24,7 @@ module.exports = {
     //    message: if failure, reason for failure
     // side effects:
     //    hashes the password
-  create: function (newUser){
+  create: function (newUser) {
     // hashing is not done by the model, though it probably should
     return Promise.promisify(bcrypt.hash)(newUser.password,null,null)
     .then(function (data) {

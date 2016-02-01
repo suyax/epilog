@@ -3,7 +3,7 @@ var storyModel = require('./storyModel');
 module.exports =  {
 
   check: function(req, res){
-    console.log("req coming in from client-->",req.body);
+    // console.log("req coming in from client-->",req.body);
     var userId = req.params.userId; 
     var title = req.body.title;
     storyModel.check(userId, title)
@@ -16,10 +16,12 @@ module.exports =  {
   },
 
   add: function (req, res){
+    // console.log("req body coming in from client-->", req.body);
+    
     //convert param representing storyCreator to number
-    console.log("req body coming in from client-->", req.body);
     var storyCreator = Number(req.params.userId);
-    console.log("req params-->", req.params.userId);
+    // console.log("req params-->", req.params.userId);
+    
     //modify req.body.existingUsersToInclude to include the storyCreator
     req.body.existingUsersToInclude.unshift(storyCreator);
     var storyData = {

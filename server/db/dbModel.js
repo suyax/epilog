@@ -8,7 +8,7 @@ var sequelize = new Sequelize(connectionString);
 var User = sequelize.define('users', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   firstName: { type: Sequelize.STRING, field: 'first_name', notNull: true },
-  lastName: { type: Sequelize.STRING, field: 'laste_name', notNull: true },
+  lastName: { type: Sequelize.STRING, field: 'last_name', notNull: true },
   email: { type: Sequelize.STRING, notNull: true, unique: true },
   token: { type: Sequelize.STRING },
   password: { type: Sequelize.STRING, notNull: true }
@@ -116,7 +116,7 @@ var init = function () {
   Moment.belongsToMany(Tag, { through: Tags_Moments});
 
   //build out all tables
-  sequelize.sync();
+  return sequelize.sync();
 };
 
 

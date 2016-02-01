@@ -9,7 +9,7 @@ var users_stories = require('../db/dbModel').Users_Stories;
 module.exports = {
 
   check: function(userId, title){
-    console.log("check params from controller -->", userId, title);
+    // console.log("check params from controller -->", userId, title);
     return stories.find({
         attributes: ['title'],
         include: [{
@@ -31,7 +31,8 @@ module.exports = {
   },
 
   add: function (storyData){
-    // console.log("story data from controller-->",storyData);   
+    //console.log("story data from controller-->",storyData);   
+    
     //data to go into story table 
     var dataForStoryTable = {
       title: storyData.title,
@@ -41,10 +42,7 @@ module.exports = {
     return sequelize.transaction(function (t) {
       //first add new story to story table
       return stories.create(
-        {
-          title: dataForStoryTable.title,
-          description: dataForStoryTable.description
-        }, {transaction: t})
+        dataForStoryTable, {transaction: t})
         //then add existing users a part of story to users_stories join table (including user that created story)
         .then(function (addedStory) {
           // console.log("story added to DB-->", addedStory.dataValues);
@@ -67,7 +65,8 @@ module.exports = {
     return stories.find({
       where: { id: storyId },
       include: [{
-        model: users
+        model: users,
+        attributes: ['id', 'firstName', 'lastName', 'email']
       },
       {
         model: moments
@@ -93,7 +92,7 @@ module.exports = {
         include: [
         {model: moments},
         {model: users,
-         attributes: ['id', 'first_name', 'last_name', 'email']
+         attributes: ['id', 'firstName', 'lastName', 'email']
         }
         ]
       }]
