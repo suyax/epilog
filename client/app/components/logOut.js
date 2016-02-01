@@ -24,38 +24,50 @@ class LogOut extends React.Component {
     AsyncStorage.getItem(STORAGE_KEY)
     .then( (value) => {
       this.fetchUser(value);
-      console.log('logoutFetch works')
     })
     .catch((error)=>{
       console.log(error);
     })
   }
 
-  destoryToken(token) {
-    console.log('destoryToken;',token)
+/*  async saveToken() {
+    var token = 'test'
+    console.log('saveToken;',token)
+    AsyncStorage.setItem(STORAGE_KEY, token)
+    .then(
+      console.log('save token to disk: ' + token)
+      )
+    .done();
+  }*/
+
+  destoryToken(STORAGE_KEY) {
+    console.log('destoryToken;',STORAGE_KEY)
     AsyncStorage.removeItem(STORAGE_KEY)
     .then(
-      console.log('token removed from disk')
-      ).done()
+      AsyncStorage.getItem(STORAGE_KEY))
+    .then((result)=>{
+      if (!result){
+      console.log('key has been destroyed')
+    }
+  }).done();
   }
 
-  fetchUser() {
+  fetchUser(value) {
     const { successLoggedOut } = this.props
-    console.log('LogoutFetch token'. token)
-    fetch('http://127.0.0.1:3000/api/signout', {
+    console.log('LogoutFetch token', value)
+    fetch('http://127.0.0.1:3000/api/logout', {
       method: 'POST',
       header: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstParam: this.state.token,
+        token: value,
       })
     })
       .then((response) => response.json())
       .then((responseData) => {
         console.log('get response data:', responseData);
-        this.destoryToken();
         successLoggedOut();
       }).then(() => {
         this.destoryToken()

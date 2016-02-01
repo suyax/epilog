@@ -48,7 +48,7 @@ class SignUp extends React.Component {
   fetchUser() {
     const { successSignedUp } = this.props
     //for testing purpose should be remove when database complete
-    successSignedUp();
+    //successSignedUp();
     fetch('http://127.0.0.1:3000/api/signup', {
       method: 'POST',
       header: {
@@ -64,7 +64,7 @@ class SignUp extends React.Component {
     })
     .then((response) => {response.json()})
     .then((responseData) => {
-      console.log('get response data:', responseData.token)
+      console.log('get response data:', responseData)
       this.saveToken(responseData.token);
       successSignedUp();
     })

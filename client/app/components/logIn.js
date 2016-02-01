@@ -65,7 +65,7 @@ class LogIn extends React.Component {
         successLoggedIn();
       })
       .catch((error)=> {
-        console.log(error.message)
+        console.log(error);
       })
   }
 
@@ -99,7 +99,8 @@ class LogIn extends React.Component {
             />
 
           <TouchableHighlight onPress={this._submitForm.bind(this)}>
-            <Text>Submit</Text>
+            <Text style={styles.buttonText}>Submit
+            </Text>
           </TouchableHighlight>
         </View>
 
