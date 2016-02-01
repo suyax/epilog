@@ -45,16 +45,16 @@ class LogIn extends React.Component {
   fetchUser() {
     const { successLoggedIn } = this.props
     //for testing purpose should be remove when database complete
-    successLoggedIn();
+    //successLoggedIn();
     console.log('fetch username',this.state.username,'fetch password', this.state.password)
-    fetch('http://127.0.0.1:3000/api/signin', {
+    fetch('http://127.0.0.1:3000/api/users/signin', {
       method: 'POST',
       header: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: this.state.username,
+        email: this.state.username,
         password: this.state.password,
       })
     })
@@ -65,7 +65,7 @@ class LogIn extends React.Component {
         successLoggedIn();
       })
       .catch((error)=> {
-        console.log(error);
+        console.log("response:",error);
       })
   }
 

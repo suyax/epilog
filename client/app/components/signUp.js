@@ -49,7 +49,7 @@ class SignUp extends React.Component {
     const { successSignedUp } = this.props
     //for testing purpose should be remove when database complete
     //successSignedUp();
-    fetch('http://127.0.0.1:3000/api/signup', {
+    fetch('http://127.0.0.1:3000/api/users/signup', {
       method: 'POST',
       header: {
         'Accept': 'application/json',
@@ -118,9 +118,7 @@ class SignUp extends React.Component {
       <TouchableHighlight onPress={this._submitForm.bind(this)}>
         <Text>Register</Text>
       </TouchableHighlight>
-
       </View>
-
 
       <View style={styles.button}>
         <Text style={styles.buttonText}>

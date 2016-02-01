@@ -55,7 +55,7 @@ class LogOut extends React.Component {
   fetchUser(value) {
     const { successLoggedOut } = this.props
     console.log('LogoutFetch token', value)
-    fetch('http://127.0.0.1:3000/api/logout', {
+    fetch('http://127.0.0.1:3000/api/users/logout', {
       method: 'POST',
       header: {
         'Accept': 'application/json',
