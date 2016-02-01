@@ -113,7 +113,6 @@ class EpiLogApp extends Component {
     var storyDescription = textInputs.newStoryDescription;
     var storyCharacters = textInputs.newStoryCharacters.split(', ');
 
-    console.log('Reached submitNewStory: ', textInputs);
     fetch('http://127.0.0.1:3000/api/:userId/stories', {
       method: 'POST',
       headers: {
