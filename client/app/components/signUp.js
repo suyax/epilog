@@ -29,13 +29,7 @@ class SignUp extends React.Component {
 
   _submitForm () {
     const { firstname, lastname, email, password } = this.fields
-    this.setState({
-      firstname,
-      lastname,
-      email,
-      password
-    })
-    this.SignUp();
+    this.fetchSignUp(firstname, lastname, email, password);
     //console.log('signup form', this.state)
   }
 
@@ -47,7 +41,7 @@ class SignUp extends React.Component {
       ).done();
   }
 
-  fetchSignUp() {
+  fetchSignUp(firstname, lastname, email, password) {
     const { successSignedUp } = this.props
     //for testing purpose should be remove when database complete
     //successSignedUp();
@@ -58,10 +52,10 @@ class SignUp extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstName: this.state.firstname,
-        lastName: this.state.lastname,
-        email: this.state.email,
-        password: this.state.password
+        firstName: firstname,
+        lastName: lastname,
+        email: email,
+        password: password
       })
     })
     .then((response) => {
@@ -74,7 +68,6 @@ class SignUp extends React.Component {
       successSignedUp();
     })
     .catch((error)=> {
-      failSingUp();
       console.log(error.message)
     })
   }
@@ -90,7 +83,7 @@ class SignUp extends React.Component {
         SignUp
         </Text>
       <TextInput
-        ref="firstname"
+        ref='firstname'
         placeholder={'First Name'}
         style={styles.input}
         onChangeText={(text) => this.fields.firstname = text}

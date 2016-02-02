@@ -27,7 +27,7 @@ class LogIn extends React.Component {
 
   _submitForm () {
     const { email, password } = this.fields
-    this.fetchLogIn()
+    this.fetchLogIn(email, password)
     //console.log ('login form', this.state)
   }
 
@@ -39,8 +39,8 @@ class LogIn extends React.Component {
       ).done()
   }
 
-  fetchLogIn() {
-    //const { successLoggedIn } = this.props
+  fetchLogIn(email, password) {
+    const { successLoggedIn } = this.props
     //for testing purpose should be remove when database complete
     //successLoggedIn();
     //console.log('fetch email' ,this.state.email ,'fetch password', this.state.password)
@@ -51,17 +51,18 @@ class LogIn extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "email": this.state.email,
-        "password": this.state.password,
+        "email": email,
+        "password": password,
       })
     })
       .then((response) => {
-        //console.log(response)
+        console.log(response)
         return response.json()})
       .then((responseData) => {
         //console.log ('get response data:', responseData.token)
         return this.saveToken(responseData.token)})
       .then(() => {
+        //console.log('successLoggedIn')
         successLoggedIn();
       })
       .catch((error)=> {
@@ -82,16 +83,14 @@ class LogIn extends React.Component {
           <TextInput
             ref="email"
             placeholder={'email'}
-            value={this.state.email}
             onChangeText={text => this.fields.email = text}
             onSubmitEditing={() => this.refs.password.focus()}
             style={styles.input}
             />
 
           <TextInput
-              ref="password"
+              ref='password'
               placeholder={'password'}
-              value={this.state.password}
               secureTextEntry={true}
               onChangeText={text => this.fields.password = text}
               onSubmitEditing={this._submitForm}
