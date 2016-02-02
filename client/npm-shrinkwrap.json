@@ -3450,7 +3450,7 @@
     },
     "redux-thunk": {
       "version": "1.0.3",
-      "from": "redux-thunk@>=1.0.3 <2.0.0",
+      "from": "redux-thunk@latest",
       "resolved": "https://registry.npmjs.org/redux-thunk/-/redux-thunk-1.0.3.tgz"
     },
     "regenerate": {
