@@ -32,7 +32,7 @@ module.exports =  {
       else {
         //define moment object that contains info related to moment
         var momentInfo = {
-          userid: Number(req.params.userId),
+          userid: Number(req.user.id),
           url: filePath,
           caption: momentData.caption,
           storyid: momentData.storyid,

@@ -4,7 +4,7 @@ module.exports =  {
 
   check: function(req, res){
     // console.log("req coming in from client-->",req.body);
-    var userId = req.params.userId; 
+    var userId = req.user.id; 
     var title = req.body.title;
     storyModel.check(userId, title)
       .then(function (result) {
@@ -16,11 +16,11 @@ module.exports =  {
   },
 
   add: function (req, res){
-    // console.log("req body coming in from client-->", req.body);
+    console.log("req body coming in from client-->", req.body);
+    console.log("userid coming from auth-->", req.user.id);
     
     //convert param representing storyCreator to number
-    var storyCreator = Number(req.params.userId);
-    // console.log("req params-->", req.params.userId);
+    var storyCreator = Number(req.user.id);
     
     //modify req.body.existingUsersToInclude to include the storyCreator
     req.body.existingUsersToInclude.unshift(storyCreator);
@@ -53,7 +53,7 @@ module.exports =  {
   },
   
   getAll: function (req, res) {
-    var userId = req.params.userId; 
+    var userId = req.user.id; 
     storyModel.getAll(userId)
       .then(function (results) {
         res.status(200).json(results);

@@ -59,9 +59,11 @@ module.exports = {
   },
 
   authenticateToken: function (request, response, next) {
+    // console.log("Request Header: " + request.get('token'));
     var userid = auth.authenticateToken(request.get('token'));
+    // console.log("userid -->", userid);
     if(userid){
-      request.user = {id: token.userid};
+      request.user = {id: userid};
       next();
     } else {
       response.status(401).end();
