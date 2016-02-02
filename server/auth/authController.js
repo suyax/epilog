@@ -71,7 +71,7 @@ module.exports = {
   logout: function (request, response) {
     //HACK: request.body that was sent from client side, came in as an json object
     //with params on key and value as empty
-    console.log('logout',request.get('token'))
+    //console.log('logout',request.get('token'))
     auth.logout(request.get('token'));
     response.json({message:'You are logged out'});
   },

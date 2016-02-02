@@ -56,7 +56,7 @@ class LogIn extends React.Component {
       })
     })
       .then((response) => {
-        console.log(response)
+        //console.log(response)
         return response.json()})
       .then((responseData) => {
         //console.log ('get response data:', responseData.token)
