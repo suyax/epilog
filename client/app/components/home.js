@@ -45,7 +45,7 @@ var styles = StyleSheet.create({
   content: {
     flex: 11,
     justifyContent: 'center',
-    backgroundColor: 'blue',
+    backgroundColor:'#92A8D1',
   },
   navBar: {
     flex: 1
@@ -53,7 +53,7 @@ var styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontSize: 20,
-    color: 'red'
+    color: ' #2C3539'
   },
 });
 

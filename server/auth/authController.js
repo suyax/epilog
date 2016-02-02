@@ -26,11 +26,11 @@ module.exports = {
           response.json({token: token});
         })
         .catch(function (error){
-          console.log('Error in creating a User: ' + error);
-          response.status(400).json({error: error});
+          console.log('Error in creating a User: ' , error);
+          response.status(400).end();
         })
       } else {
-        response.status(400).json({error: "BAD INPUT"});
+        response.status(400).end();
       }
   },
 
