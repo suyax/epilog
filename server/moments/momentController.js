@@ -8,8 +8,6 @@ var base64 = require('base64-stream');
 module.exports =  {
 
   add: function (req, res){
-    //Define Variables
-
     //momentData --> location within request object, where header information lives
     //NOTE: we decided to use headers to story the moment info as the actual req.body will contain an image
     var momentData = JSON.parse(req.headers['momentdata']);
@@ -25,6 +23,7 @@ module.exports =  {
     //check to see if file path exists...
     fs.stat(filePath, function (err, file){
       //if filepath already exists, end response 
+
       if(file && file.isFile()){
         res.end('image already exists');
       }

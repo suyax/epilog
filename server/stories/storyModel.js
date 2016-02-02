@@ -3,15 +3,15 @@ var sequelize = require('../db/dbModel').sequelize;
 var Promise = require('bluebird');
 var stories = require('../db/dbModel').Story;
 var moments = require('../db/dbModel').Moment;
-var users = require('../db/dbModel'). User;
+var users = require('../db/dbModel').User;
 var users_stories = require('../db/dbModel').Users_Stories;
 
 module.exports = {
 
-  check: function(userId, title){
+  check: function (userId, title, caption) {
     // console.log("check params from controller -->", userId, title);
     return stories.find({
-        attributes: ['title'],
+        attributes: ['id', 'title'],
         include: [{
           model: users,
           where: {
@@ -23,7 +23,13 @@ module.exports = {
         }
       })
       .then(function (result) {
-        return result !== null ? true : false;
+        var exists = result !== null ? true : false;
+
+        if (exists) {
+          return result;
+        } else {
+          return false;
+        }
       })
       .catch(function (error) {
         console.error('Error checking a story: ', error);

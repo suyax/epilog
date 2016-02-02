@@ -3,10 +3,12 @@ var storyModel = require('./storyModel');
 module.exports =  {
 
   check: function(req, res){
-    // console.log("req coming in from client-->",req.body);
-    var userId = req.user.id; 
+    // var userId = req.user.id;
+    var userId = 3;
     var title = req.body.title;
-    storyModel.check(userId, title)
+    var caption = req.body.caption;
+
+    storyModel.check(userId, title, caption)
       .then(function (result) {
         res.status(200).json(result);
       })

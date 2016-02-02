@@ -1,10 +1,11 @@
 import React, {
+  AsyncStorage,
   StyleSheet,
   Component,
   Text,
   View,
   Dimension,
-  AsyncStorage
+  NativeModules
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
