@@ -29,9 +29,10 @@ app.listen(port, function(){
 });  
 
 //create database + seed db;
-db.init().then(function(initializedDB){
-	dummy();
-});
+db.init()
+// .then(function(initializedDB){
+// 	dummy();
+// });
 
 //export server
 module.exports = app;
