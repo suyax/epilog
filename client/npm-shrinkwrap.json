@@ -3358,6 +3358,11 @@
       "from": "react-native@>=0.18.1 <0.19.0",
       "resolved": "https://registry.npmjs.org/react-native/-/react-native-0.18.1.tgz"
     },
+    "react-native-camera": {
+      "version": "0.3.8",
+      "from": "react-native-camera@latest",
+      "resolved": "https://registry.npmjs.org/react-native-camera/-/react-native-camera-0.3.8.tgz"
+    },
     "react-native-file-transfer": {
       "version": "0.0.3",
       "from": "react-native-file-transfer@0.0.3",
