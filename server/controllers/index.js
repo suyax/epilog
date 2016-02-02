@@ -6,5 +6,4 @@ module.exports = {
   auth: require('../auth/authController.js'),
   tags: require('../tags/tagController.js'),
   users: require('../users/userController.js'),
-  storyMoments: require('../stories-moments/storiesMomentsController.js')
 };

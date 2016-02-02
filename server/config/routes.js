@@ -55,6 +55,8 @@ module.exports = function(app) {
     //existing users (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
   app.post('/api/stories', controller.stories.add);
   
+  ////////////////////////////////////MOMENTS//////////////////////////////////////////
+  
   //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for the story as well as tags/comments for that story
   app.get('/api/stories/:storyId', controller.stories.getOne);
