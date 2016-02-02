@@ -91,7 +91,7 @@ class SignUp extends React.Component {
         />
 
       <TextInput
-        ref="lasttname"
+        ref="lastname"
         placeholder={'Last Name'}
         style={styles.input}
         onChangeText={(text) => this.fields.lastname = text}

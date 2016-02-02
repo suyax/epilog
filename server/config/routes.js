@@ -62,7 +62,7 @@ module.exports = function(app) {
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
   //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
-  app.get('/api/:userId/stories', controller.stories.getAll);
+  app.get('/api/stories', controller.stories.getAll);
 
 
   ////////////////////////////////////MOMENTS//////////////////////////////////////////

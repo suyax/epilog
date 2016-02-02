@@ -9,7 +9,6 @@ module.exports = {
     const password = body.password
     const firstName = body.firstName
     const lastName = body.lastName
-    console.log("signup", email,password,firstName,lastName)
 
     // control the schema
     if(email &&
@@ -38,9 +37,9 @@ module.exports = {
   authenticateUser: function (request, response) {
     //HACK: request.body that was sent from client side, came in as an json object
     //with params on key and value as empty
-    const body = JSON.parse(Object.keys(request.body)[0])
-    const email = body.email
-    const password = body.password
+    // const body = JSON.parse(Object.keys(request.body)[0])
+    const email = request.body.email
+    const password = request.body.password
     //console.log("server, email, password", email, password)
 
     if(email && password){
@@ -59,9 +58,7 @@ module.exports = {
   },
 
   authenticateToken: function (request, response, next) {
-    // console.log("Request Header: " + request.get('token'));
-    var userid = auth.authenticateToken(request.get('token'));
-    // console.log("userid -->", userid);
+    var userid = auth.authenticateToken(request.headers['token']);
     if(userid){
       request.user = {id: userid};
       next();

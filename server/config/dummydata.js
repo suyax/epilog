@@ -8,10 +8,10 @@ var model = require('../models');
 
 //will need to change once we have oauth
 var dummyUserData = [
-  {"firstName": "Suya", "lastName": "X", "email": "Suya@Suya.com", "token": "token", "password":"pw"},
-  {"firstName": "Alex", "lastName": "W", "email": "Alex@Alex.com", "token": "token", "password":"pw"},
-  {"firstName": "Julien", "lastName": "X", "email": "Julien@Julien.com", "token": "token", "password":"pw"},
-  {"firstName": "Akash", "lastName": "X", "email": "Akash@Akash.com", "token": "token", "password":"pw"}
+  {"firstName": "Suya", "lastName": "X", "email": "Suya@Suya.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"},
+  {"firstName": "Alex", "lastName": "W", "email": "Alex@Alex.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"},
+  {"firstName": "Julien", "lastName": "X", "email": "Julien@Julien.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"},
+  {"firstName": "Akash", "lastName": "X", "email": "Akash@Akash.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"}
 ];
 
 var dummyStoryOwnerUserId = 2; 
