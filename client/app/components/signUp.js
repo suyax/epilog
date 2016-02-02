@@ -41,6 +41,14 @@ class SignUp extends React.Component {
       ).done();
   }
 
+  failSignUp () {
+    const { firstname, lastname, email, password } = this.fields
+    AlertIOS.alert(
+     'Sorry Dear '+ firstname + '  ' + lastname ,
+     'This Email has been registered, Please try another one.'
+    )
+  }
+
   fetchSignUp(firstname, lastname, email, password) {
     const { successSignedUp } = this.props
     //for testing purpose should be remove when database complete
@@ -68,7 +76,7 @@ class SignUp extends React.Component {
       successSignedUp();
     })
     .catch((error)=> {
-      console.log(error.message)
+      this.failSignUp();
     })
   }
 
@@ -76,61 +84,72 @@ class SignUp extends React.Component {
     const { onLogIn } = this.props;
     return (
       <View style={styles.container}>
-      <View style={styles.positionBox}>
-      </View>
-      <View style={styles.positionBox}>
-        <Text style={styles.buttonText}>
-        SignUp
-        </Text>
-      <TextInput
-        ref='firstname'
-        placeholder={'First Name'}
-        style={styles.input}
-        onChangeText={(text) => this.fields.firstname = text}
-        onSubmitEditing={() => this.refs.lastname.focus()}
-        />
+        <View style={styles.positionBox}>
+        </View>
+        <View style={styles.positionBox}>
+          <Text style={styles.title}>
+          Sign Up
+          </Text>
+          <TextInput
+            ref='firstname'
+            autoCapitalize={'none'}
+            placeholder={'FIRST NAME'}
+            style={[styles.input, styles.wrapper]}
+            onChangeText={(text) => this.fields.firstname = text}
+            onSubmitEditing={() => this.refs.lastname.focus()}
+            />
 
-      <TextInput
-        ref="lastname"
-        placeholder={'Last Name'}
-        style={styles.input}
-        onChangeText={(text) => this.fields.lastname = text}
-        onSubmitEditing={() => this.refs.email.focus()}
-        />
+          <TextInput
+            ref="lastname"
+            autoCapitalize={'none'}
+            placeholder={'LAST NAME'}
+            style={[styles.input, styles.wrapper]}
+            onChangeText={(text) => this.fields.lastname = text}
+            onSubmitEditing={() => this.refs.email.focus()}
+            />
 
-      <TextInput
-        ref="email"
-        placeholder={'Email'}
-        style={styles.input}
-        onChangeText={(text) => this.fields.email = text}
-        onSubmitEditing={() => this.refs.password.focus()}
-        />
+          <TextInput
+            ref="email"
+            autoCapitalize={'none'}
+            placeholder={'EMAIL'}
+            style={[styles.input, styles.wrapper]}
+            keyboardType={'email-address'}
+            onChangeText={(text) => this.fields.email = text}
+            onSubmitEditing={() => this.refs.password.focus()}
+            />
 
-      <TextInput
-        ref="password"
-        placeholder={'password'}
-        style={styles.input}
-        onChangeText={(text) => this.fields.password = text}
-        onSubmitEditing={() => this._submitForm}
-        />
+          <TextInput
+            ref="password"
+            autoCapitalize={'none'}
+            placeholder={'PASSWORD'}
+            maxLength ={20}
+            style={[styles.input, styles.wrapper]}
+            onChangeText={(text) => this.fields.password = text}
+            onSubmitEditing={() => this._submitForm}
+            />
+        </View>
 
-      <TouchableHighlight onPress={this._submitForm.bind(this)}>
-        <Text style={styles.buttonText} >Register</Text>
-      </TouchableHighlight>
-      </View>
-
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>
-        Alreay have an account?
-        </Text>
-        <TouchableHighlight
+        <View style={styles.Container}>
+        <View style={styles.textContainer}>
+          <TouchableHighlight
           style={styles.button}
-          onPress={onLogIn}>
-          <View>
-            <Text style={styles.buttonText}>Login</Text>
+          onPress={this._submitForm.bind(this)}>
+            <Text style={styles.buttonText} >Register</Text>
+          </TouchableHighlight>
+        </View>
+          <Text style={styles.text}>
+          Alreay have an account?
+          </Text>
+          <View style={styles.textContainer}>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={onLogIn}>
+            <View>
+              <Text style={styles.buttonText}>Login</Text>
+            </View>
+          </TouchableHighlight>
           </View>
-        </TouchableHighlight>
-      </View>
+        </View>
       </View>
     );
   }
@@ -139,28 +158,50 @@ class SignUp extends React.Component {
 var styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor:'#6A85B1'
+    backgroundColor:'#92A8D1',
+  },
+  textContainer: {
+    flex: 1,
+    marginBottom: 8,
+    alignItems: 'center',
   },
   positionBox: {
     flex: 5
+  },
+  text:{
+    textAlign: 'center',
+    color: ' #2C3539'
   },
   input: {
     height: 40,
     backgroundColor:'white',
     borderColor: 'gray',
-    borderWidth: 1,
-    textAlign: 'center'
+    borderWidth: 2,
+    textAlign: 'center',
+    margin: 5,
+    color: ' #2C3539'
+
   },
   wrapper: {
     borderRadius: 5,
     marginBottom: 5,
   },
   button: {
-    backgroundColor: '#eeeeee',
-    padding: 10,
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 40,
+    width: 100,
+    backgroundColor: 'white',
+  },
+  title: {
+    fontSize: 20,
+    textAlign: 'center',
+    flex: 1,
+    marginTop: 5,
+    fontWeight: 'bold'
   },
   buttonText: {
-    flex: 1,
     textAlign: 'center',
     fontSize: 20,
   },

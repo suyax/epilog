@@ -89,7 +89,7 @@ class LogOut extends React.Component {
 var styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor:'#6A85B1'
+    backgroundColor:'#92A8D1',
   },
   positionBox: {
     flex: 5

@@ -1,3 +1,5 @@
+'use strict'
+
 import React, {
   AsyncStorage,
   Component,
@@ -39,6 +41,13 @@ class LogIn extends React.Component {
       ).done()
   }
 
+  failLoggedIn () {
+    AlertIOS.alert(
+     'Sorry Email / Password not match our record',
+     'Please try it again.'
+    );
+  }
+
   fetchLogIn(email, password) {
     const { successLoggedIn } = this.props
     //for testing purpose should be remove when database complete
@@ -66,7 +75,7 @@ class LogIn extends React.Component {
         successLoggedIn();
       })
       .catch((error)=> {
-        console.log("response:",error.message);
+        this.failLoggedIn();
       })
   }
 
@@ -82,7 +91,9 @@ class LogIn extends React.Component {
           </Text>
           <TextInput
             ref="email"
-            placeholder={'email'}
+            autoCapitalize={'none'}
+            placeholder={'EMAIL'}
+            keyboardType={'email-address'}
             onChangeText={text => this.fields.email = text}
             onSubmitEditing={() => this.refs.password.focus()}
             style={styles.input}
@@ -90,7 +101,8 @@ class LogIn extends React.Component {
 
           <TextInput
               ref='password'
-              placeholder={'password'}
+              autoCapitalize={'none'}
+              placeholder={'PASSWORD'}
               secureTextEntry={true}
               onChangeText={text => this.fields.password = text}
               onSubmitEditing={this._submitForm.bind(this)}
@@ -123,7 +135,7 @@ class LogIn extends React.Component {
 var styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor:'#6A85B1'
+    backgroundColor:'#92A8D1',
   },
   positionBox: {
     flex: 5

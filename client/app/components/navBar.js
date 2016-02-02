@@ -41,7 +41,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#81c04d',
+    backgroundColor: '#F7CAC9',
     flexDirection: 'row',
   },
   navOption: {
@@ -49,7 +49,7 @@ var styles = StyleSheet.create({
     fontWeight:'bold',
     flex: 1,
     fontSize: 20,
-    color: '#fff',
+    color: ' grey',
     margin: 40,
   },
 });

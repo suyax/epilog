@@ -48,7 +48,7 @@ module.exports = function(app) {
     //need to be able to add a comment, tag, AND potentially add a new user to a story??
   app.post('/api/stories/check', controller.stories.check);
 
-  //add new or existing user to story 
+  //add new or existing user to story
     //existing users (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
   app.post('/api/stories', controller.stories.add);
 
@@ -64,30 +64,9 @@ module.exports = function(app) {
   //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
   app.get('/api/stories', controller.stories.getAll);
 
-
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
 
   app.post('/api/:userId/moments/', controller.moments.add);
-=======
-  
-  //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
-    //needs to include all users for the story as well as tags/comments for that story
-  app.get('/api/stories/:storyId', controller.stories.getOne);
-  
-  
-  //get all stories for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
-    //needs to include all users for each of those stories
-    //eventually needs to include all moments tags and comments
-  //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
-  app.get('/api/stories', controller.stories.getAll);
-  
-
-  ////////////////////////////////////MOMENTS//////////////////////////////////////////
-  
-  //(COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
-  app.post('/api/moments/', controller.moments.add);
->>>>>>> incorporated authentication token check into primary routes
-
 
   //might not need this going forward...
   app.get('/api/moments/:storyId', controller.moments.getAll);
