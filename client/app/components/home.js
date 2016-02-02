@@ -2,7 +2,8 @@ import React, {
   Component,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight
 } from 'react-native';
 
 import NavBar from './navBar';
@@ -10,6 +11,7 @@ import NavBar from './navBar';
 
 class Home extends Component {
   render() {
+    const {onLogOut} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -17,6 +19,13 @@ class Home extends Component {
             Home Page !
           </Text>
         </View>
+        <TouchableHighlight
+          style={styles.navBar}
+          onPress={onLogOut}>
+          <View>
+            <Text style={styles.title}>Log Out</Text>
+          </View>
+        </TouchableHighlight>
         <View style={styles.navBar}>
           <NavBar />
         </View>

@@ -2,18 +2,28 @@ var auth = require('./auth');
 
 module.exports = {
   createUser: function (request, response, next) {
+    //HACK: request.body that was sent from client side, came in as an json object
+    //with params on key and value as empty
+    const body = JSON.parse(Object.keys(request.body)[0])
+    const email = body.email
+    const password = body.password
+    const firstName = body.firstName
+    const lastName = body.lastName
+    console.log("signup", email,password,firstName,lastName)
+
     // control the schema
-    if(request.body.email &&
-      request.body.password &&
-      request.body.firstName &&
-      request.body.lastName){
+    if(email &&
+      password &&
+      firstName &&
+      lastName){
         auth.createUser({
-          email: request.body.email,
-          password: request.body.password,
-          firstName: request.body.firstName,
-          lastName: request.body.lastName,
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
         })
         .then(function (token) {
+          //console.log('create user token', token)
           response.json({token: token});
         })
         .catch(function (error){
@@ -26,8 +36,15 @@ module.exports = {
   },
 
   authenticateUser: function (request, response) {
-    if(request.body.email && request.body.password){
-      auth.authenticateUser(request.body.email, request.body.password)
+    //HACK: request.body that was sent from client side, came in as an json object
+    //with params on key and value as empty
+    const body = JSON.parse(Object.keys(request.body)[0])
+    const email = body.email
+    const password = body.password
+    //console.log("server, email, password", email, password)
+
+    if(email && password){
+      auth.authenticateUser(email, password)
       .then(function (token) {
         if(token.error){
           response.status(401).end();
@@ -42,7 +59,6 @@ module.exports = {
   },
 
   authenticateToken: function (request, response, next) {
-    console.log("Request Header: " + request.header);
     var userid = auth.authenticateToken(request.get('token'));
     if(userid){
       request.user = {id: token.userid};
@@ -53,7 +69,10 @@ module.exports = {
   },
 
   logout: function (request, response) {
-    auth.logout(request.body.token);
-    response.end();
+    //HACK: request.body that was sent from client side, came in as an json object
+    //with params on key and value as empty
+    //console.log('logout',request.get('token'))
+    auth.logout(request.get('token'));
+    response.json({message:'You are logged out'});
   },
 }
