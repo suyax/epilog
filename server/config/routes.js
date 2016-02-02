@@ -71,7 +71,7 @@ module.exports = function(app) {
   app.post('/api/moments/', controller.moments.add);
 
   //might not need this going forward...
-  app.get('/api/moments/:storyId', controller.moments.getAll);  
+  app.get('/api/moments/:storyId', controller.moments.getAll);
 
   // app.get('/api/moments/:tagId', );
   // app.get('/api/tags', );
