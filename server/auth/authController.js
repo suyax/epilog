@@ -37,8 +37,6 @@ module.exports = {
   authenticateUser: function (request, response) {
     //HACK: request.body that was sent from client side, came in as an json object
     //with params on key and value as empty
-    console.log("THE BODY!");
-    console.log(request.body);
     // const body = JSON.parse(Object.keys(request.body)[0])
     const email = request.body.email
     const password = request.body.password
