@@ -46,7 +46,7 @@ class LogIn extends React.Component {
     //console.log('fetch email' ,this.state.email ,'fetch password', this.state.password)
     fetch('http://127.0.0.1:3000/api/users/signin', {
       method: 'POST',
-      header: {
+      headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
@@ -93,7 +93,7 @@ class LogIn extends React.Component {
               placeholder={'password'}
               secureTextEntry={true}
               onChangeText={text => this.fields.password = text}
-              onSubmitEditing={this._submitForm}
+              onSubmitEditing={this._submitForm.bind(this)}
               style={styles.input}
             />
 
