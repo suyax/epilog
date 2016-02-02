@@ -5,9 +5,9 @@ import thunk from 'redux-thunk';
 import EpiLogApp from './epilogApp';
 
 import reducers from '../reducers/index';
-//const createStoreWithMiddleware = applyMiddleware(thunk);
-//const store = createStoreWithMiddleware(reducers);
-const store = createStore(reducers);
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const store = createStoreWithMiddleware(reducers);
+// const store = createStore(reducers, applyMiddleware);
 
 export default class App extends Component {
   render() {
