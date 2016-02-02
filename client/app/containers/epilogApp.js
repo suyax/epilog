@@ -67,10 +67,10 @@ class EpiLogApp extends Component {
                 return res;
               }
             });
-
+            
             return 'HOME';
           }
-          
+
           return 'NEW_STORY';
         })
         .catch((error) => {
@@ -223,7 +223,6 @@ class EpiLogApp extends Component {
               if (textInputs.caption && textInputs.storyTitle) {
                 this.submitMoment(textInputs, asset)
                   .then((result) => {
-
                     if (result === 'HOME') {
                       viewControlActions.setView('HOME', {});
                     } else {
