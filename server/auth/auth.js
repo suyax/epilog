@@ -8,7 +8,7 @@ var uuid = require('node-uuid');
 
 
 // token store, should be a redis server but whateves.
-var tokens = {};
+var tokens = {'f690c9a0-ff2c-4746-b2ba-9fe8939401c6': { userid: 5, timestamp: 1454383200486 }};
 
 // makes a token, stores it, and returns it
 var makeToken = function (userid) {
@@ -17,6 +17,7 @@ var makeToken = function (userid) {
     userid: userid,
     timestamp: Date.now(),
   };
+  // console.log("existing tokens-->", tokens);
   return token;
 };
 
@@ -50,7 +51,8 @@ var authenticateUser = function (email, password){
 var authenticateToken = function (token) {
   // expire tokens in 7 days
   var expire = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds... I hope
-  if(tokens.hasOwnProperty(token) &&
+  // console.log("existing tokens-->", tokens)
+  if(tokens.hasOwnProperty(token) && 
     (Date.now() - tokens[token].timestamp < expire)){
     return tokens[token].userid;
   } else {
@@ -64,13 +66,14 @@ var authenticateToken = function (token) {
     //  newUser:
     //    email: the useraname
     //    password: the password
-    //    first_name: the first name
-    //    last_name: the last name
+    //    firstName: the first name
+    //    lastName: the last name
     // output:
     // in data field:
     //    message: if failure, reason for failure
     // side effects:
     //    hashes the password
+    //test token: 24b4e8d6-2fff-4ee5-81d5-54ebd7bc91fb
 var createUser = function (newUser){
   return Users.create(newUser)
   .then(function(user) {
