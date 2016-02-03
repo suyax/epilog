@@ -9,7 +9,6 @@ import React, {
 
 import NavBar from './navBar';
 
-
 class Home extends Component {
   render() {
     const {onLogOut, onCamera} = this.props;
@@ -69,15 +68,16 @@ var styles = StyleSheet.create({
     height: 50,
   },
   button: {
-      backgroundColor: 'white',
-      padding: 10,
-      borderWidth: 1,
-      borderColor: "#FFFFFF",
-      margin: 5
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 40,
+    width: 100,
+    backgroundColor: 'white',
   },
   buttonText: {
-      color: "#2C3539",
-  }
+    textAlign: 'center',
+    fontSize: 20,
+  },
 });
 
 module.exports = Home;

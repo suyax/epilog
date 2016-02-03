@@ -148,7 +148,8 @@ class SignUp extends React.Component {
           <TouchableHighlight
           style={styles.button}
           onPress={this._submitForm.bind(this)}>
-            <Text style={styles.buttonText} >Register</Text>
+            <Text style={styles.buttonText} >Register
+            </Text>
           </TouchableHighlight>
         </View>
           <Text style={styles.text}>
@@ -174,17 +175,8 @@ var styles = StyleSheet.create({
     flex:1,
     backgroundColor:'#92A8D1',
   },
-  textContainer: {
-    flex: 1,
-    marginBottom: 8,
-    alignItems: 'center',
-  },
   positionBox: {
     flex: 5
-  },
-  text:{
-    textAlign: 'center',
-    color: ' #2C3539'
   },
   input: {
     height: 40,
@@ -194,19 +186,26 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     margin: 5,
     color: ' #2C3539'
-
   },
   wrapper: {
     borderRadius: 5,
     marginBottom: 5,
   },
   button: {
-    flex: 1,
     borderWidth: 1,
     borderColor: 'gray',
     height: 40,
     width: 100,
     backgroundColor: 'white',
+  },
+  textContainer: {
+    flex: 1,
+    marginBottom: 8,
+    alignItems: 'center',
+  },
+  text:{
+    textAlign: 'center',
+    color: ' #2C3539'
   },
   title: {
     fontSize: 20,
