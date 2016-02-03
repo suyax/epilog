@@ -77,7 +77,10 @@ module.exports = {
         attributes: ['id', 'firstName', 'lastName', 'email']
       },
       {
-        model: moments
+        model: moments,
+        include: [{
+          model: tags
+        }]
       }]
     })
     .then(function (result) {
@@ -122,17 +125,15 @@ module.exports = {
       include: [{
         model:stories,
         include: [
-        {model: moments},
-        {model: users,
-         attributes: ['id', 'firstName', 'lastName', 'email']
-        }
+          {model: moments, include: [{model: tags}]},
+          {model: users, attributes: ['id', 'firstName', 'lastName', 'email']}
         ]
       }]
-      }).then(function(result){
-        console.log(result.stories);
-        return result.stories;
-      }).catch(function(err){
-        console.error("error trying to get all story objects-->", err);
-      });
+    }).then(function(result){
+      console.log(result.stories);
+      return result.stories;
+    }).catch(function(err){
+      console.error("error trying to get all story objects-->", err);
+    });
   }
 };
