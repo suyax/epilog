@@ -1,10 +1,11 @@
 var sequelize = require('../db/dbModel').sequelize;
 var Promise = require('bluebird');
-var moments = require('../db/dbModel').Moment;
-var stories = require('../db/dbModel').Story;
 var users = require('../db/dbModel'). User;
 var users_stories = require('../db/dbModel').Users_Stories;
+var stories = require('../db/dbModel').Story;
 var moments_stories = require('../db/dbModel').Moments_Stories; 
+var moments = require('../db/dbModel').Moment;
+var tags = require('../db/dbModel').Tag;
 
 module.exports = {
 
@@ -51,6 +52,22 @@ module.exports = {
           console.error("Error at adding a moment: ", err)
         });
     });
+  },
+
+  getOne: function (momentId) {
+    return moments.find({
+      where: { id: momentId },
+      include: [{
+        model: tags
+      }]
+    })
+    .then(function(momentObj){
+      // console.log("moment obj returned from getOne query-->", momentObj);
+      return momentObj; 
+    })
+    .catch(function(error){
+      console.error('Error at getting moment: ', error);
+    })
   },
 
   getAll: function (storyid) {

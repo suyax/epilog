@@ -73,6 +73,17 @@ module.exports =  {
     req.pipe(busboy);
   },
 
+  getOne: function(req, res) {
+    var momentId = req.params.momentId;
+    momentModel.getOne(momentId)
+      .then(function (results) {
+        res.status(200).json(results);
+      })
+      .catch(function (error) {
+        res.status(404).json();
+      });
+  },
+
   getAll: function (req, res) {
     var storyId = req.params.storyId;
     momentModel.getAll(storyId)

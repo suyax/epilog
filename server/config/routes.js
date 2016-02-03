@@ -20,6 +20,7 @@ module.exports = function(app) {
     //verify if identifer exists in db
       //if so ask for remaining user info and create a session
       //if not, direct to sign up page
+
   //sign in
     //verify whether or not user exists
       //if so, create a session
@@ -32,9 +33,6 @@ module.exports = function(app) {
     //route user to sign in page
   app.get('/api/users/logout', controller.auth.logout);
 
-  //ROUTES THAT SHOULDN'T AFFECT USERS...but may want to think about this more...
-  //get a moment
-    //need to be able to view a comment, tag
 
   // every route after this line will be authenticated with a token
  
@@ -45,7 +43,6 @@ module.exports = function(app) {
   app.post('/api/stories/check', controller.stories.check);
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
-
 
   //check if story is already associated to user (COMPLETED V1/CHECKED)
   //create a new moment (COMPLETED V1/CHECKED --> excluding functionality to add moment to multiple stories)
@@ -74,10 +71,11 @@ module.exports = function(app) {
   //(COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
   app.post('/api/moments/', controller.moments.add);
   
-  //get one moment
-
-  //might not need this going forward...
+  //get all moments (probably don't need this going forward...)
   app.get('/api/moments/:storyId', controller.moments.getAll);
+  
+  //get one moment
+  app.get('/api/:momentId', controller.moments.getOne);
 
 
   ////////////////////////////////////TAGS//////////////////////////////////////////////
