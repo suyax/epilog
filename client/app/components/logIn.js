@@ -78,11 +78,7 @@ class LogIn extends React.Component {
         successLoggedIn();
       })
       .catch((error)=> {
-<<<<<<< bd6fe785c8b185a224e1814243d77050907ad917
         this.failLoggedIn();
-=======
-        // console.log("response:",error.message);
->>>>>>> Work on the moment adding feature
       })
   }
 
