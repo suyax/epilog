@@ -5,6 +5,8 @@ var stories = require('../db/dbModel').Story;
 var moments = require('../db/dbModel').Moment;
 var users = require('../db/dbModel').User;
 var users_stories = require('../db/dbModel').Users_Stories;
+var moments = require('../db/dbModel').Moment;
+var tags = require('../db/dbModel').Tag;
 
 module.exports = {
 
@@ -84,6 +86,30 @@ module.exports = {
     .catch(function (error) {
       console.error('Error at getting a story: ', error);
     });
+  },
+
+  filterByTag: function(searchCriteria) {
+    return stories.find({
+      where: {
+        id: searchCriteria.storyId
+      },
+      include: [{
+        model: moments,
+        include: [{
+          model: tags,
+          where: {
+            name: searchCriteria.tag
+          }
+        }]
+      }]
+    })
+    .then(function(moments){
+      console.log("moments by tag name -->", moments);
+      return moments;
+    })
+    .catch(function(error){
+      console.error("error trying to filter story by tag name: ", error);
+    })
   },
 
   getAll: function (userId) {

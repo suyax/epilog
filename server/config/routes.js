@@ -67,14 +67,7 @@ module.exports = function(app) {
     //eventually needs to include all moments tags and comments
   //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
   app.get('/api/stories', controller.stories.getAll);
-  
-<<<<<<< HEAD
-  ////////////////////////////////////MOMENTS//////////////////////////////////////////
-  
-  //(COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
-  
-  
-=======
+
 
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
   
@@ -82,7 +75,6 @@ module.exports = function(app) {
   app.post('/api/moments/', controller.moments.add);
 
 
->>>>>>> v1 of add tags query complete
   //might not need this going forward...
   app.get('/api/moments/:storyId', controller.moments.getAll);
 

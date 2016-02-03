@@ -112,7 +112,7 @@ var init = function () {
 
   //define relationship between tags and moments (M <-> M)
   Tag.belongsToMany(Moment, { through: Tags_Moments});
-  Moment.belongsToMany(Tag, { through: {model: Tags_Moments});
+  Moment.belongsToMany(Tag, { through: Tags_Moments});
 
   //build out all tables
   return sequelize.sync();
