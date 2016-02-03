@@ -44,6 +44,17 @@ module.exports =  {
       .catch(function (error){
         res.status(404).json();
       });
+  },
+
+  getAllByStory: function(req, res){
+    var storyId = req.params.storyId;
+    tagModel.getAllByStory(storyId)
+      .then(function(results){
+        res.status(201).json(results);
+      })
+      .catch(function(error){
+        res.status(404).json();
+      });
   }
 
 };

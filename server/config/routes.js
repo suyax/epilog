@@ -70,10 +70,11 @@ module.exports = function(app) {
 
 
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
-  
+
   //(COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
   app.post('/api/moments/', controller.moments.add);
-
+  
+  //get one moment
 
   //might not need this going forward...
   app.get('/api/moments/:storyId', controller.moments.getAll);
@@ -81,12 +82,11 @@ module.exports = function(app) {
 
   ////////////////////////////////////TAGS//////////////////////////////////////////////
   
-  app.post('/api/:momentId/tags', controller. tags.add);
+  app.post('/api/:momentId/tags', controller.tags.add);
 
-  // app.get('/api/moments/:tagId', );
-  // app.get('/api/tags', );
-
-  ///////////////////////////////////COIMMENTS///////////////////////////////////////////
+  app.get('/api/:storyId/tags', controller.tags.getAllByStory);
+ 
+  ///////////////////////////////////COMMENTS///////////////////////////////////////////
   // app.get('/api/comments', );
   // app.post('/api/comments/:momentId', );
 
