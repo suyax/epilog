@@ -38,7 +38,9 @@ class EpiLogApp extends Component {
     switch (viewControlState.currentView) {
       case "CAMERAVIEW":
         return (
-          <CameraView/>
+          <CameraView
+          onTakePicture={ () => {viewControlActions.setView('CAPTURE')}}
+          />
           );
       case "HOME":
         return (

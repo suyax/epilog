@@ -9,6 +9,8 @@ import React, {
   AlertIOS
 } from 'react-native';
 
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
+
 var STORAGE_KEY = "token"
 
 class SignUp extends React.Component {
@@ -96,7 +98,10 @@ class SignUp extends React.Component {
             placeholder={'FIRST NAME'}
             style={[styles.input, styles.wrapper]}
             onChangeText={(text) => this.fields.firstname = text}
-            onSubmitEditing={() => this.refs.lastname.focus()}
+            onSubmitEditing={() => {
+              dismissKeyboard()
+              this.refs.lastname.focus()
+            }}
             />
 
           <TextInput
@@ -105,7 +110,10 @@ class SignUp extends React.Component {
             placeholder={'LAST NAME'}
             style={[styles.input, styles.wrapper]}
             onChangeText={(text) => this.fields.lastname = text}
-            onSubmitEditing={() => this.refs.email.focus()}
+            onSubmitEditing={() => {
+              this.refs.email.focus()
+              dismissKeyboard()
+            }}
             />
 
           <TextInput
@@ -115,7 +123,10 @@ class SignUp extends React.Component {
             style={[styles.input, styles.wrapper]}
             keyboardType={'email-address'}
             onChangeText={(text) => this.fields.email = text}
-            onSubmitEditing={() => this.refs.password.focus()}
+            onSubmitEditing={() => {
+              this.refs.password.focus()
+              dismissKeyboard()
+            }}
             />
 
           <TextInput
@@ -125,7 +136,10 @@ class SignUp extends React.Component {
             maxLength ={20}
             style={[styles.input, styles.wrapper]}
             onChangeText={(text) => this.fields.password = text}
-            onSubmitEditing={() => this._submitForm}
+            onSubmitEditing={() => {
+              this._submitForm
+              dismissKeyboard()
+            }}
             />
         </View>
 
