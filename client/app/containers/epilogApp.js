@@ -24,7 +24,6 @@ import LogOut from '../components/logOut';
 //router for the app
 class EpiLogApp extends Component {
 
-  // This could also be a thunk fetch
   submitMoment(textInputs, asset) {
     var storyTitle = textInputs.storyTitle;
     var momentCaption = textInputs.caption;
@@ -64,12 +63,13 @@ class EpiLogApp extends Component {
                 console.log(err);
               } else {
                 console.log(res);
+                return res;
               }
             });
 
-            redirect = 'HOME';
+            return 'HOME';
           }
-
+          
           return 'NEW_STORY';
         })
         .catch((error) => {
