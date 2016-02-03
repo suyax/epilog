@@ -8,7 +8,7 @@ var uuid = require('node-uuid');
 
 
 // token store, should be a redis server but whateves.
-var tokens = {'f690c9a0-ff2c-4746-b2ba-9fe8939401c6': { userid: 5, timestamp: 1454383200486 }};
+var tokens = {'f690c9a0-ff2c-4746-b2ba-9fe8939401c6': { userid: 1, timestamp: 1454383200486 }};
 
 // makes a token, stores it, and returns it
 var makeToken = function (userid) {

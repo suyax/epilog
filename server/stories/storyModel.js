@@ -5,6 +5,8 @@ var stories = require('../db/dbModel').Story;
 var moments = require('../db/dbModel').Moment;
 var users = require('../db/dbModel').User;
 var users_stories = require('../db/dbModel').Users_Stories;
+var moments = require('../db/dbModel').Moment;
+var tags = require('../db/dbModel').Tag;
 
 module.exports = {
 
@@ -75,7 +77,10 @@ module.exports = {
         attributes: ['id', 'firstName', 'lastName', 'email']
       },
       {
-        model: moments
+        model: moments,
+        include: [{
+          model: tags
+        }]
       }]
     })
     .then(function (result) {
@@ -86,27 +91,45 @@ module.exports = {
     });
   },
 
-  getAll: function (userId) {
-    // console.log('Calling getAll in storyModel: ',stories);
-    var returnData = [];
-    var self = this; 
-
-    return users.findOne({
-      where: {id: userId},
+  filterByTag: function(searchCriteria) {
+    return stories.find({
+      where: {
+        id: searchCriteria.storyId
+      },
       include: [{
-        model:stories,
-        include: [
-        {model: moments},
-        {model: users,
-         attributes: ['id', 'firstName', 'lastName', 'email']
-        }
-        ]
+        model: moments,
+        include: [{
+          model: tags,
+          where: {
+            name: searchCriteria.tag
+          }
+        }]
       }]
-      }).then(function(result){
-        console.log(result.stories);
-        return result.stories;
-      }).catch(function(err){
-        console.error("error trying to get all story objects-->", err);
-      });
+    })
+    .then(function(moments){
+      // console.log("moments by tag name -->", moments);
+      return moments;
+    })
+    .catch(function(error){
+      console.error("error trying to filter story by tag name: ", error);
+    })
+  },
+
+  getAll: function (userId) {
+    return users.findOne({
+        where: {id: userId},
+        include: [{
+          model:stories,
+          include: [
+            {model: moments, include: [{model: tags}]},
+            {model: users, attributes: ['id', 'firstName', 'lastName', 'email']}
+          ]
+        }]
+    }).then(function(result){
+      console.log("result of getAll story query-->", result);
+      return result.stories;
+    }).catch(function(err){
+      console.error("error trying to get all story objects-->", err);
+    });
   }
 };

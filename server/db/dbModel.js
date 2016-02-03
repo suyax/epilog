@@ -86,7 +86,6 @@ var Users_Stories = sequelize.define('users_stories', {
 
 var Tags_Moments = sequelize.define('tags_moments', {
 
-
 });
 
 //initialize db function 

@@ -52,9 +52,24 @@ module.exports =  {
         res.status(404).json();
       });
   },
+
+  filterByTag: function (req, res) {
+    var searchCriteria = {
+      tag: req.body.tag,
+      storyId: req.params.storyId
+    }
+    storyModel.filterByTag(searchCriteria)
+      .then(function (result) {
+        res.status(200).json(result);
+      })
+      .catch(function (error) {
+        res.status(404).json();
+      });
+  },
   
   getAll: function (req, res) {
     var userId = req.user.id;
+    // console.log("userId -->", userId);
     storyModel.getAll(userId)
       .then(function (results) {
         res.status(200).json(results);
