@@ -102,7 +102,6 @@ class EditMoment extends Component{
               if (textFields.caption && textFields.storyTitle) {
                 this.submitMoment(textFields, asset)
                   .then((result) => {
-                    console.log(result);
                     onSubmit(result);
                   });
               }
