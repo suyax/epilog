@@ -43,11 +43,15 @@ var dummyMomentData = [
 ];
 
 module.exports = function () {
+  return db.init()
+  .then(function (){
   //start by creating users 
-  return users.bulkCreate(dummyUserData)
+  console.log('database is initialized');
+    return users.bulkCreate(dummyUserData)
+  })
     //then seed stories + users_stories table
     .then(function(){
-      for(var i = 1; i <=dummyStoryData.length; i++){
+      for(var i = 1; i <= dummyStoryData.length; i++){
         //for each story object, modify the added characters to include the story owner
         var allCharacters = [dummyStoryOwnerUserId].concat(dummyStoryData[i-1]["existingUsersToInclude"]);
         //create a story object 
@@ -75,6 +79,6 @@ module.exports = function () {
     })
     //account for errors
     .catch(function(err){
-      console.error("Error at seeding: ", err);
+      console.log("Error at seeding: ", err);
     })
 };

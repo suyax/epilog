@@ -1,5 +1,4 @@
 //define requirements
-var dummy = require('./config/dummydata.js');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -30,9 +29,9 @@ app.listen(port, function(){
 
 //create database + seed db;
 db.init()
-.then(function(initializedDB){
-	dummy();
-});
+// .then(function(initializedDB){
+// 	dummy();
+// });
 
 //export server
 module.exports = app;

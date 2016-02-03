@@ -1,4 +1,3 @@
-var Sequelize = require('Sequelize');
 var Promise = require('bluebird');
 var bcrypt = require('bcrypt-nodejs');
 var User = require('../db/dbModel').User;
