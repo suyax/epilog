@@ -11,6 +11,9 @@ import React, {
   AlertIOS,
 } from 'react-native';
 
+import NavBar from './navBar';
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
+
 var STORAGE_KEY = 'token';
 
 class LogIn extends React.Component {
@@ -84,6 +87,7 @@ class LogIn extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.positionBox}>
+          <NavBar />
         </View>
         <View style={styles.positionBox}>
           <Text style={styles.buttonText}>
@@ -95,7 +99,10 @@ class LogIn extends React.Component {
             placeholder={'EMAIL'}
             keyboardType={'email-address'}
             onChangeText={text => this.fields.email = text}
-            onSubmitEditing={() => this.refs.password.focus()}
+            onSubmitEditing={() => {
+              dismissKeyboard()
+              this.refs.password.focus()
+              }}
             style={styles.input}
             />
 
@@ -105,7 +112,7 @@ class LogIn extends React.Component {
               placeholder={'PASSWORD'}
               secureTextEntry={true}
               onChangeText={text => this.fields.password = text}
-              onSubmitEditing={this._submitForm.bind(this)}
+              onSubmitEditing={() => dismissKeyboard()}
               style={styles.input}
             />
 

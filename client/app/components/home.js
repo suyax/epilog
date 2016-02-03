@@ -3,6 +3,7 @@ import React, {
   StyleSheet,
   Text,
   View,
+  Image,
   TouchableHighlight
 } from 'react-native';
 
@@ -11,7 +12,7 @@ import NavBar from './navBar';
 
 class Home extends Component {
   render() {
-    const {onLogOut} = this.props;
+    const {onLogOut, onCamera} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -21,9 +22,16 @@ class Home extends Component {
         </View>
         <TouchableHighlight
           style={styles.navBar}
+          onPress={onCamera}>
+            <Image
+              style={styles.icon}
+              source={require('../image/CameraIcon.png')}/>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.navBar}
           onPress={onLogOut}>
-          <View>
-            <Text style={styles.title}>Log Out</Text>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Log Out</Text>
           </View>
         </TouchableHighlight>
         <View style={styles.navBar}>
@@ -41,20 +49,35 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'stretch',
     flexDirection: 'column',
+    backgroundColor:'#92A8D1',
   },
   content: {
     flex: 11,
     justifyContent: 'center',
-    backgroundColor:'#92A8D1',
   },
   navBar: {
-    flex: 1
+    flex: 1,
+    alignItems: 'center',
   },
   title: {
     textAlign: 'center',
     fontSize: 20,
     color: ' #2C3539'
   },
+  icon: {
+    width: 50,
+    height: 50,
+  },
+  button: {
+      backgroundColor: 'white',
+      padding: 10,
+      borderWidth: 1,
+      borderColor: "#FFFFFF",
+      margin: 5
+  },
+  buttonText: {
+      color: "#2C3539",
+  }
 });
 
 module.exports = Home;

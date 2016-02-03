@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 import Home from '../components/home';
+import CameraView from '../components/camera';
 import Capture from '../components/capture';
 import Library from '../components/library';
 import Story from '../components/story';
@@ -35,12 +36,16 @@ class EpiLogApp extends Component {
     } = this.props;
 
     switch (viewControlState.currentView) {
-/*      case "LOGINFAIL":
+      case "CAMERAVIEW":
         return (
-          <LogInFail/>)*/
+          <CameraView
+          onTakePicture={ () => {viewControlActions.setView('CAPTURE')}}
+          />
+          );
       case "HOME":
         return (
           <Home
+          onCamera={ () => {viewControlActions.setView('CAMERAVIEW') }}
           onLogOut={ () => {viewControlActions.setView('LOGOUT') }}
           />);
       case "LOGIN":
