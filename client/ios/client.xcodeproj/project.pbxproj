@@ -21,9 +21,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		A93E4FF21C61517500ACC99C /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A93E4FF11C61507300ACC99C /* libRCTCamera.a */; };
 		A94D4AB01C61559B00FDA98A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A94D4AAF1C61558000FDA98A /* libReact.a */; };
 		A94D4AB71C6155E400FDA98A /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A94D4AB61C6155D400FDA98A /* libRCTCameraRoll.a */; };
+		C57F329D1C62898500F8F0AB /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A93E4FF11C61507300ACC99C /* libRCTCamera.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,9 +158,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C57F329D1C62898500F8F0AB /* libRCTCamera.a in Frameworks */,
 				A94D4AB71C6155E400FDA98A /* libRCTCameraRoll.a in Frameworks */,
 				A94D4AB01C61559B00FDA98A /* libReact.a in Frameworks */,
-				A93E4FF21C61517500ACC99C /* libRCTCamera.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,

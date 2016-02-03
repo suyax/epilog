@@ -1,10 +1,11 @@
 import React, {
+  AsyncStorage,
   StyleSheet,
   Component,
   Text,
   View,
   Dimension,
-  AsyncStorage
+  NativeModules
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -22,6 +23,34 @@ import LogOut from '../components/logOut';
 //import LogInFail from '../components/logInFail';
 //router for the app
 class EpiLogApp extends Component {
+
+  // This could also be a thunk fetch
+  submitNewStory(textInputs) {
+    var storyTitle = textInputs.newStoryTitle;
+    var storyDescription = textInputs.newStoryDescription;
+    var storyCharacters = textInputs.newStoryCharacters.split(', ');
+
+    fetch('http://127.0.0.1:3000/api/:userId/stories', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        storyTitle: storyTitle,
+        storyDescription: storyDescription,
+        storyCharacters: storyCharacters
+      })
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+      // Send the user to the Story view
+    })
+    .catch((error) => {
+      console.error('Error adding new story: ', error);
+    });
+  }
+
 
   render() {
     // Be explicit about what is available as props
@@ -83,8 +112,17 @@ class EpiLogApp extends Component {
         return (
           <NewStory
           asset={viewControlState.passedProps.asset}
-          onBack={()=>{viewControlActions.setView('EDIT_MOMENT')}}
-          />);
+          storyTitle={viewControlState.passedProps.storyTitle}
+          onBack={()=>{viewControlActions.setView('CAPTURE')}}
+          onSubmit={(textInputs)=>{
+            if (textInputs.newStoryTitle && 
+                textInputs.newStoryDescription &&
+                textInputs.newStoryCharacters) {
+              this.submitNewStory(textInputs);
+            }
+          }}
+          />
+        );
       case "CAPTURE":
         return (
           <Capture
@@ -94,8 +132,15 @@ class EpiLogApp extends Component {
         return(<EditMoment
           asset={viewControlState.passedProps.asset}
           onCancel={()=>{viewControlActions.setView('CAPTURE')}}
-          onTouchImage={ (asset) => { viewControlActions.setView('NEW_STORY', { asset: asset }); }}
-          />);
+          onSubmit={(redirect)=>{
+              if (redirect === 'HOME') {
+                viewControlActions.setView('HOME', {});
+              } else {
+                viewControlActions.setView('NEW_STORY', {'asset': asset});
+              }
+            }
+          }
+        />);
       default:
         return <LogIn />;
     }

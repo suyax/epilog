@@ -10,13 +10,72 @@ var {
   Text,
   TextInput,
   TouchableHighlight,
-  NativeModules
+  NativeModules,
+  AsyncStorage
 } = React;
 
 class EditMoment extends Component{
 
+  submitMoment(textInputs, asset) {
+    var storyTitle = textInputs.storyTitle;
+    var momentCaption = textInputs.caption;
+    var submitMomentURL = 'http://127.0.0.1:3000/api/stories/check';
+
+    return AsyncStorage.getItem('token')
+      .then((result) => {
+        return fetch(submitMomentURL, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Token': result
+          },
+          body: JSON.stringify({
+            caption: momentCaption,
+            title: storyTitle
+          })
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+          if (responseData) {
+            var storyid = responseData.id;
+            var title = storyTitle.split(' ').join('+');
+            var caption = momentCaption.split(' ').join('+');
+            var userid = responseData.users[0].id;
+            var upload = {
+              uri: asset.node.image.uri,
+              uploadUrl: 'http://127.0.0.1:3000/api/moments',
+              fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
+              mimeType: 'image'
+            };
+
+            NativeModules.FileTransfer.upload(upload, (err, res) => {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(res);
+                return res;
+              }
+            });
+
+            return 'HOME';
+          }
+          
+          return 'NEW_STORY';
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      })
+      .then((result) => {
+        return result
+      });
+  }
+
+
   render() {
-    const {asset, onCancel, onSumbit} = this.props;
+    const {asset, onCancel, onSubmit} = this.props;
+    var textFields = {};
     var image = asset.node.image;
     return (
       <View style={styles.container}>
@@ -26,9 +85,10 @@ class EditMoment extends Component{
 
         <View style={styles.content}>
           <View style={ styles.textContainer }>
-            <TextInput style={ styles.textInput }/>
-            <TextInput style={ styles.textInput }/>
-            <TextInput style={ styles.textInput }/>
+            <TextInput style={styles.textInput} placeholder='Caption your moment'
+              onChangeText={(text)=>textFields.caption = text}/>
+            <TextInput style={styles.textInput} placeholder='Story title'
+              onChangeText={(text)=>textFields.storyTitle = text}/>
           </View>
         </View>
 
@@ -39,10 +99,12 @@ class EditMoment extends Component{
           </TouchableHighlight>
 
           <TouchableHighlight key={asset} onPress={() => {
-              NativeModules.ReadImageData.readImage(image.uri, (image) => {
-                console.log(image);
-                // Pass in momentData information
-              })
+              if (textFields.caption && textFields.storyTitle) {
+                this.submitMoment(textFields, asset)
+                  .then((result) => {
+                    onSubmit(result);
+                  });
+              }
             }
           }>
             <View><Text style={styles.button}>Submit</Text></View>
@@ -51,12 +113,6 @@ class EditMoment extends Component{
       </View>
     );
   }
-
-  // NativeModules.ReadImageData.readImage(image url (image) => {
-  //   console.log(image);
-  // });
-
-
 };
 
 var styles = StyleSheet.create({
@@ -93,6 +149,7 @@ var styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     flex: 1,
+    textAlign: 'center'
   },
   imageWide: {
     width: 320,

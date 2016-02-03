@@ -37,8 +37,12 @@ module.exports = function(app) {
     //need to be able to view a comment, tag
 
   // every route after this line will be authenticated with a token
+ 
+  app.post('/api/moments/', controller.moments.add);
+  // every route after this line will be authenticated with a token 
   app.use(controller.auth.authenticateToken);
 
+  app.post('/api/stories/check', controller.stories.check);
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
 
@@ -46,28 +50,29 @@ module.exports = function(app) {
   //check if story is already associated to user (COMPLETED V1/CHECKED)
   //create a new moment (COMPLETED V1/CHECKED --> excluding functionality to add moment to multiple stories)
     //need to be able to add a comment, tag, AND potentially add a new user to a story??
-  app.post('/api/stories/check', controller.stories.check);
+  // app.post('/api/stories/check', controller.stories.check);
 
   //add new or existing user to story
     //existing users (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
   app.post('/api/stories', controller.stories.add);
-
-
-  //get one story for a given user (COMPLETED V1/CHECKED)
+  
+  ////////////////////////////////////MOMENTS//////////////////////////////////////////
+  
+  //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for the story as well as tags/comments for that story
   app.get('/api/stories/:storyId', controller.stories.getOne);
-
-
-  //get all stories for a given user (COMPLETED V1/CHECKED)
+  
+  //get all stories for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
   //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
   app.get('/api/stories', controller.stories.getAll);
-
+  
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
-
-  app.post('/api/:userId/moments/', controller.moments.add);
-
+  
+  //(COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
+  
+  
   //might not need this going forward...
   app.get('/api/moments/:storyId', controller.moments.getAll);
 

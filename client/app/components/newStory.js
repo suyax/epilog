@@ -18,8 +18,11 @@ class NewStory extends Component {
 
   render() {
     let { width, height } = Dimensions.get('window');
-    const { asset, onBack } = this.props;
+    const { asset, onBack, onSubmit } = this.props;
     const newStory = this.props.asset;
+    var textInputs = {
+      newStoryTitle: this.props.storyTitle
+    };
 
     return (
       <View style={ styles.container }>
@@ -32,19 +35,28 @@ class NewStory extends Component {
         </View>
 
         <View style={ styles.textContainer }>
-          <TextInput style={ styles.textInput }/>
-          <TextInput style={ styles.textInput }/>
-          <TextInput style={ styles.textInput }/>
+          <TextInput style={styles.textInput} value={textInputs.newStoryTitle}
+            onChangeText={(text)=>textInputs.newStoryTitle = text} />
+          <TextInput style={styles.textInput} placeholder='Description'
+            onChangeText={(text)=>textInputs.newStoryDescription = text} />
+          <TextInput style={styles.textInput} placeholder='Add friends to your story'
+            onChangeText={(text)=>textInputs.newStoryCharacters = text} />
         </View>
 
         <View style={ styles.buttonContainer }>
-          <Text style={ styles.button }>
-            Cancel
-          </Text>
+          <TouchableHighlight onPress={onBack}>
+            <Text style={ styles.button }>
+              Cancel
+            </Text>
+          </TouchableHighlight>
 
-          <Text style={ styles.button }>
-            Submit
-          </Text>
+          <TouchableHighlight onPress={() => {
+            onSubmit(textInputs);
+          }}>
+            <Text style={ styles.button }>
+              Submit
+            </Text>
+          </TouchableHighlight>
         </View>
 
         <View style={ styles.navBar }>
@@ -87,10 +99,11 @@ var styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     flex: 4,
+    textAlign: 'center'
   },
   thumbnail: {
-    width: 250,
-    height: 250,
+    width: 320,
+    height: 240,
     alignSelf: 'center'
   },
   buttonContainer: {
