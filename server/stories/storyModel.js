@@ -107,7 +107,7 @@ module.exports = {
       }]
     })
     .then(function(moments){
-      console.log("moments by tag name -->", moments);
+      // console.log("moments by tag name -->", moments);
       return moments;
     })
     .catch(function(error){
@@ -116,21 +116,17 @@ module.exports = {
   },
 
   getAll: function (userId) {
-    // console.log('Calling getAll in storyModel: ',stories);
-    var returnData = [];
-    var self = this; 
-
     return users.findOne({
-      where: {id: userId},
-      include: [{
-        model:stories,
-        include: [
-          {model: moments, include: [{model: tags}]},
-          {model: users, attributes: ['id', 'firstName', 'lastName', 'email']}
-        ]
-      }]
+        where: {id: userId},
+        include: [{
+          model:stories,
+          include: [
+            {model: moments, include: [{model: tags}]},
+            {model: users, attributes: ['id', 'firstName', 'lastName', 'email']}
+          ]
+        }]
     }).then(function(result){
-      console.log(result.stories);
+      console.log("result of getAll story query-->", result);
       return result.stories;
     }).catch(function(err){
       console.error("error trying to get all story objects-->", err);

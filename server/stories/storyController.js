@@ -69,6 +69,7 @@ module.exports =  {
   
   getAll: function (req, res) {
     var userId = req.user.id;
+    // console.log("userId -->", userId);
     storyModel.getAll(userId)
       .then(function (results) {
         res.status(200).json(results);
