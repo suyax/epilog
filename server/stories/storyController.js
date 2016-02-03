@@ -3,8 +3,7 @@ var storyModel = require('./storyModel');
 module.exports =  {
 
   check: function(req, res){
-    // var userId = req.user.id;
-    var userId = 3;
+    var userId = req.user.id;
     var title = req.body.title;
     var caption = req.body.caption;
 

@@ -38,10 +38,11 @@ module.exports = function(app) {
 
   // every route after this line will be authenticated with a token
  
-  app.post('/api/stories/check', controller.stories.check);
+  app.post('/api/moments/', controller.moments.add);
   // every route after this line will be authenticated with a token 
   app.use(controller.auth.authenticateToken);
 
+  app.post('/api/stories/check', controller.stories.check);
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
 
@@ -70,8 +71,8 @@ module.exports = function(app) {
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
   
   //(COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
-  app.post('/api/moments/', controller.moments.add);
-
+  
+  
   //might not need this going forward...
   app.get('/api/moments/:storyId', controller.moments.getAll);
 

@@ -3,61 +3,74 @@ var path = require('path');
 var images = '/../images';
 var Promise = require('bluebird');
 var momentModel = require('./momentModel');
-var base64 = require('base64-stream');
+var Busboy = require('busboy');
 
 module.exports =  {
 
-  add: function (req, res){
-    //momentData --> location within request object, where header information lives
-    //NOTE: we decided to use headers to story the moment info as the actual req.body will contain an image
-    var momentData = JSON.parse(req.headers['momentdata']);
-    // console.log("req params -->", req.headers['momentdata']);
-    
-    //uniqueMomentIdentifier --> creates unique identifier for each moment based on data provided (NOTE: this is temporary);
-    var uniqueMomentIdentifier = momentData.caption.split(" ").join("")+momentData.storyid;
-    // console.log("uniqueMomentIdentifier -->", uniqueMomentIdentifier);
+  //// Controller method for adding a moment and saving the image
+  //
+  add: function (req, res) {
+    // Moment information container for insertion
+    var momentData = {};
 
-    //filePath --> temp location in file tree where we will dump images
-    var filePath = path.join(__dirname, images + "/" + uniqueMomentIdentifier + ".png");
+    // Create a Busboy instance using the request headers
+    var busboy = new Busboy({headers: req.headers});
 
-    //check to see if file path exists...
-    fs.stat(filePath, function (err, file){
-      //if filepath already exists, end response 
+    // Set busboy to listen for a file upload event
+    busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 
-      if(file && file.isFile()){
-        res.end('image already exists');
-      }
-      //otherwise...
-      else {
-        //define moment object that contains info related to moment
-        var momentInfo = {
-          userid: Number(req.user.id),
-          url: filePath,
-          caption: momentData.caption,
-          storyid: momentData.storyid,
-          newCharacters: momentData.newCharacters
+      // Create the URL for the photo, parse it for pertinent information
+      var filepath = path.join(__dirname, images + '/' + filename);
+      var parsedFileName = filename.split('_');
+
+      // Fill the moment information container
+      momentData['caption'] = parsedFileName[1].split('+').join(' ');
+      momentData['storyid'] = Number(parsedFileName[2]);
+      momentData['url'] = filepath;
+      momentData['userid'] = Number(parsedFileName[3]);
+
+      // Preserve binding to file inside fs.stat
+      var fileData = file;
+        
+      // Check if the image file already exists
+      fs.stat(filepath, function (err, file) {
+
+        // If the image exists, respond with an error
+        if (file && file.isFile()) {
+          res.status(500).end('Image already exists.');
+        } else {
+
+          // Open a file stream
+          var writeStream = fs.createWriteStream(
+            filepath,
+            {flags: 'ax'}
+          );
+
+          // Listen for the data from the file upload
+          // Write the data to the file stream
+          fileData.on('data', function(data) {
+            writeStream.write(data);
+          });
+
+          // Insert the new moment into the database
+          fileData.on('end', function() {
+            momentModel.add(momentData)
+              .then(function (results){
+                writeStream.end();
+                res.status(201).json(results);
+              })
+              .catch(function (error){
+                writeStream.end();
+                res.status(404).json();
+              });
+          });
         }
-        //open up fileStream on filePath 
-        var writeStream = fs.createWriteStream(
-          filePath,
-          {flags: 'ax'}
-        );
-
-        req.pipe(writeStream);
-
-        req.on('end', function (){
-          momentModel.add(momentInfo)
-            .then(function (results){
-              writeStream.end();
-              res.status(201).json(results);
-            })
-            .catch(function (error){
-              writeStream.end();
-              res.status(404).json();
-            });
-        });
-      }
+      });
     });
+
+    // Pipe the request to the existing busboy instance to trigger
+    // the file event
+    req.pipe(busboy);
   },
 
   getAll: function (req, res) {

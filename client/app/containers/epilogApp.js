@@ -64,11 +64,10 @@ class EpiLogApp extends Component {
                 console.log(err);
               } else {
                 console.log(res);
-                return res;
               }
             });
-            
-            return 'HOME';
+
+            redirect = 'HOME';
           }
 
           return 'NEW_STORY';
