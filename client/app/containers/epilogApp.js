@@ -148,15 +148,12 @@ class EpiLogApp extends Component {
     } = this.props;
 
     switch (viewControlState.currentView) {
-<<<<<<< 0e9a04fa33768f29246e4e104207829e31a65672
       case "CAMERAVIEW":
         return (
           <CameraView
           onTakePicture={ () => {viewControlActions.setView('CAPTURE')}}
           />
           );
-=======
->>>>>>> Work on adding new story functionality
       case "HOME":
         return (
           <Home
