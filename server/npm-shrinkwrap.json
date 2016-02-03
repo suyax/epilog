@@ -563,6 +563,11 @@
         }
       }
     },
+    "grunt-cli": {
+      "version": "0.1.13",
+      "from": "grunt-cli@latest",
+      "resolved": "https://registry.npmjs.org/grunt-cli/-/grunt-cli-0.1.13.tgz"
+    },
     "grunt-contrib-concat": {
       "version": "0.3.0",
       "from": "grunt-contrib-concat@>=0.3.0 <0.4.0",
@@ -1194,6 +1199,11 @@
       "version": "2.67.0",
       "from": "request@>=2.36.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/request/-/request-2.67.0.tgz"
+    },
+    "resolve": {
+      "version": "0.3.1",
+      "from": "resolve@>=0.3.1 <0.4.0",
+      "resolved": "https://registry.npmjs.org/resolve/-/resolve-0.3.1.tgz"
     },
     "retry-as-promised": {
       "version": "2.0.0",
