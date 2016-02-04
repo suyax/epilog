@@ -89,7 +89,6 @@ class EpiLogApp extends Component {
           storyTitle={viewControlState.passedProps.storyTitle}
           onBack={()=>{viewControlActions.setView('CAPTURE')}}
           onSubmit={(redirect)=>{
-            console.log('Reached');
             viewControlActions.setView('LIBRARY');
           }}
           />
