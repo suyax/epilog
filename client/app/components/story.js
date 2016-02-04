@@ -57,7 +57,7 @@ class Story extends Component {
           <View>
             <Text style={styles.headline}>{moment.caption}</Text>
           </View>
-            <Text style={styles.text}>2015.2.1
+            <Text style={styles.text}>{moment.createdAt.slice(0,10)}
             </Text>
         </View>
           <Image
