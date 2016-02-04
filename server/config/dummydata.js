@@ -5,12 +5,13 @@ var moments = require('../db/dbModel').Moment;
 var users = require('../db/dbModel').User;
 var users_stories = require('../db/dbModel').Users_Stories;
 var model = require('../models');
+var Promise = require('bluebird');
 
 //will need to change once we have oauth
 var dummyUserData = [
   {"firstName": "Suya", "lastName": "X", "email": "Suya@Suya.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"},
   {"firstName": "Alex", "lastName": "W", "email": "Alex@Alex.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"},
-  {"firstName": "Julien", "lastName": "X", "email": "Julien@Julien.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"},
+  {"firstName": "Julien", "lastName": "X", "email": "J", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"},
   {"firstName": "Akash", "lastName": "X", "email": "Akash@Akash.com", "token": "token", "password":"$2a$10$r28KBvvOL4UQaYMHGXReauMcg8u6tdXO4Xtb4F/EPobR8F3R8oVaa"}
 ];
 
@@ -21,7 +22,7 @@ var dummyStoryData = [
   {"title": "me and my gf", "description": "my mom introduced us. sure, whatever", "existingUsersToInclude": [3]},
   {"title": "my family", "description": "the wu-tang clan", "existingUsersToInclude": [1,3,4]},
   {"title": "me and marley", "description": "my pet otter", "existingUsersToInclude": [1,3]},
-  {"title": "me and suya", "description": "bruises everywhere", "existingUsersToInclude": [1]}
+  {"title": "me and suya", "description": "BFFs", "existingUsersToInclude": [1]}
 ];
 
 var dummyMomentData = [
@@ -37,44 +38,50 @@ var dummyMomentData = [
   {"url": path.join(__dirname + '/../images/mongoose.jpeg'), "caption": "what is these animals", "userid": 1,  "storyid": 4},
   {"url": path.join(__dirname + '/../images/mongoose2.jpeg'), "caption": "mongo", "userid": 2,  "storyid": 2},
   {"url": path.join(__dirname + '/../images/beaver.jpeg'), "caption": "#throwbackthursday", "userid": 1, "storyid": 3},
-  {"url": path.join(__dirname + '/../images/afraid.jpeg'), "caption": "of suya", "userid": 3, "storyid": 2},
-  {"url": path.join(__dirname + '/../images/dinosaur.jpeg'), "caption": "suya half the time", "userid": 4, "storyid": 3},
-  {"url": path.join(__dirname + '/../images/boulder.jpeg'), "caption": "suya the other half of the time", "userid": 3,"storyid": 3}
+  // {"url": path.join(__dirname + '/../images/afraid.jpeg'), "caption": "of suya", "userid": 3, "storyid": 2},
+  // {"url": path.join(__dirname + '/../images/dinosaur.jpeg'), "caption": "suya half the time", "userid": 4, "storyid": 3},
+  // {"url": path.join(__dirname + '/../images/boulder.jpeg'), "caption": "suya the other half of the time", "userid": 3,"storyid": 3}
 ];
 
 module.exports = function () {
+  return db.init()
+  .then(function (){
   //start by creating users 
-  return users.bulkCreate(dummyUserData)
+  console.log('database is initialized');
+    return users.bulkCreate(dummyUserData)
+  })
     //then seed stories + users_stories table
     .then(function(){
-      for(var i = 1; i <=dummyStoryData.length; i++){
+      // use Promise.each to wait for async add
+      return Promise.each(dummyStoryData, function(dumbStory){
         //for each story object, modify the added characters to include the story owner
-        var allCharacters = [dummyStoryOwnerUserId].concat(dummyStoryData[i-1]["existingUsersToInclude"]);
+        var allCharacters = [dummyStoryOwnerUserId].concat(dumbStory["existingUsersToInclude"]);
         //create a story object 
         var storyData = {
-          title: dummyStoryData[i-1]["title"],
-          description: dummyStoryData[i-1]["description"], 
+          title: dumbStory["title"],
+          description: dumbStory["description"], 
           existingUsersToInclude: allCharacters
         };
         //pass story object into the storyModel.js add method
-        model.stories.add(storyData);
-      }
+        return model.stories.add(storyData);
+      });
     })
     //once users and stories are accounted for, seed moments
     .then(function(){
-      for(var i = 1; i <=dummyMomentData.length; i++){
+      // use Promise.each to wait for async add
+      return Promise.each(dummyMomentData, function(dumbMoment){
         var momentInfo = {
-          userid: dummyMomentData[i-1]["userid"],
-          url: dummyMomentData[i-1]["url"],
-          caption: dummyMomentData[i-1]["caption"],
-          storyid: dummyMomentData[i-1]["storyid"],
+          userid: dumbMoment["userid"],
+          url: dumbMoment["url"],
+          caption: dumbMoment["caption"],
+          storyid: dumbMoment["storyid"],
           newCharacters: []
         };
-        model.moments.add(momentInfo);
-      }
+        return model.moments.add(momentInfo);
+      });
     })
     //account for errors
     .catch(function(err){
-      console.error("Error at seeding: ", err);
+      console.log("Error at seeding: ", err);
     })
 };

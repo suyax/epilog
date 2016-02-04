@@ -1,7 +1,13 @@
 //requirements
-var Sequelize = require('Sequelize');
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/epilog';
-var sequelize = new Sequelize(connectionString);
+var Sequelize = require('sequelize');
+// var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/epilog';
+var sequelize = new Sequelize('epilog', 
+  process.env.POSTGRES_ENV_POSTGRES_USER || null, 
+  process.env.POSTGRES_ENV_POSTGRES_PASSWORD || null,
+  { 
+    dialect: 'postgres',
+    host: process.env.DATABASE_URL || 'localhost',
+  });
 
 
 //individual tables in database

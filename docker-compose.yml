@@ -1,0 +1,15 @@
+postgres:
+  image: postgres
+  environment:
+    POSTGRES_DB: 'epilog'
+    POSTGRES_USER: 'deploy'
+    POSTGRES_PASSWORD: 'password'
+    
+server:
+  build: ./server
+  ports:
+   - 3000:3000
+  links:
+   - postgres
+  environment:
+    DATABASE_URL: 'postgres'
