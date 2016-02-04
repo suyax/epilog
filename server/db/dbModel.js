@@ -1,10 +1,10 @@
 //requirements
 var Sequelize = require('sequelize');
 // var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/epilog';
-var sequelize = new Sequelize('epilog', 
-  process.env.POSTGRES_ENV_POSTGRES_USER || null, 
+var sequelize = new Sequelize('epilog',
+  process.env.POSTGRES_ENV_POSTGRES_USER || null,
   process.env.POSTGRES_ENV_POSTGRES_PASSWORD || null,
-  { 
+  {
     dialect: 'postgres',
     host: process.env.DATABASE_URL || 'localhost',
   });
@@ -22,7 +22,7 @@ var User = sequelize.define('users', {
 
 
 var Story = sequelize.define('stories', {
-  id: { 
+  id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
@@ -40,9 +40,9 @@ var Story = sequelize.define('stories', {
 
 var Moment = sequelize.define('moments', {
   id: {
-    type: Sequelize.INTEGER, 
+    type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true    
+    autoIncrement: true
   },
   url: {
     type: Sequelize.STRING,
@@ -52,7 +52,7 @@ var Moment = sequelize.define('moments', {
     type: Sequelize.STRING,
     notNull: true
   }
-}, { timestamps: false });
+}, { timestamps: true });
 
 
 var Tag = sequelize.define('tags', {
@@ -94,7 +94,7 @@ var Tags_Moments = sequelize.define('tags_moments', {
 
 });
 
-//initialize db function 
+//initialize db function
 var init = function () {
   //define relationship between moments and stories (M <-> M)
   Moment.belongsToMany(Story, { through: Moments_Stories});

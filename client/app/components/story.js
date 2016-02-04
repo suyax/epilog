@@ -24,10 +24,11 @@ class Story extends Component {
       <View style={styles.container}>
         <View style={styles.scrollViewContainer}>
           <ScrollView
-              style={[styles.scrollView, styles.horizontalScrollView]}
+              style={styles.scrollView}
+              showsVerticalScrollIndicator={true}
               automaticallyAdjustContentInsets={false}
-              horizontal={true}
-              snapToInterval={width - 20}
+              horizontal={false}
+              snapToInterval={height/2}
               snapToAlignment={'start'}>
               {story.moments.map(this.createRow)}
           </ScrollView>
@@ -50,19 +51,31 @@ class Story extends Component {
       <View key={moment.id} style={styles.container}>
         <View style={styles.storyContainer}>
           <Image
-            source={{uri: moment.url}}
-            style={styles.thumbnail}>
-            <View>
-            <Text style={styles.title}>{moment.caption}</Text>
-            </View>
+            style={styles.backdrop}
+            source={{uri: moment.url}}>
           </Image>
+          <View>
+            <Text style={styles.headline}>{moment.caption}</Text>
+          </View>
+            <Text style={styles.text}>{moment.createdAt.slice(0,10)}
+            </Text>
         </View>
+          <Image
+          style={{flex:1, alignSelf:'center', width:2, height: 100}}
+          source={require('../image/greyLine.png')}
+          >
+          </Image>
       </View>
       )
   }
 }
 
 var styles = StyleSheet.create({
+  storyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
   },
@@ -71,10 +84,6 @@ var styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: '#6A85B1',
-    height: 500,
-  },
-  horizontalScrollView: {
-    height: Dimensions.get('window').height-50,
   },
   content: {
     flex: 11,
@@ -83,15 +92,18 @@ var styles = StyleSheet.create({
   },
   thumbnail: {
     flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height-50,
+    width: Math.floor(Dimensions.get('window').width/3),
+    height:Math.floor(Dimensions.get('window').height/4),
+    alignSelf: 'center',
   },
-  title: {
-    textAlign: 'center',
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold'
-  },
+  headline: {
+     fontSize: 20,
+     padding: 10,
+     textAlign: 'center',
+     borderRadius: 5,
+     backgroundColor: 'rgba(0,0,0,0.2)',
+     color: 'white',
+   },
   buttonText: {
     textAlign: 'center',
     fontSize: 20,
@@ -100,7 +112,19 @@ var styles = StyleSheet.create({
   row: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#81c04d'
+    backgroundColor: 'black'
+  },
+  backdrop: {
+    paddingTop: 100,
+    height: 180,
+    width: 180,
+    borderRadius: 90,
+    borderColor: 'rgba(255,255,255,0.3)',
+    borderWidth: 8,
+  },
+  text:{
+    textAlign: 'center',
+    color: ' white',
   },
 });
 
