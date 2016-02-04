@@ -39,8 +39,6 @@ module.exports = {
   },
 
   add: function (storyData){
-    //console.log("story data from controller-->",storyData);   
-    
     //data to go into story table 
     var dataForStoryTable = {
       title: storyData.title,
@@ -62,8 +60,7 @@ module.exports = {
               ,{transaction: t});
         });
     }).then(function (result) {
-      console.log("successfully added a story and new users");
-      return result.dataValues;
+      return result[0].dataValues ;
     }).catch(function (err) {
       console.error("Error at adding a story: ", err)
     });
@@ -126,7 +123,6 @@ module.exports = {
           ]
         }]
     }).then(function(result){
-      console.log("result of getAll story query-->", result);
       return result.stories;
     }).catch(function(err){
       console.error("error trying to get all story objects-->", err);

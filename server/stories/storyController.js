@@ -17,12 +17,9 @@ module.exports =  {
   },
 
   add: function (req, res){
-    // console.log("req body coming in from client-->", req.body);
-    // console.log("userid coming from auth-->", req.user.id);
-    
     //convert param representing storyCreator to number
     var storyCreator = Number(req.user.id);
-    
+
     //modify req.body.existingUsersToInclude to include the storyCreator
     req.body.existingUsersToInclude.unshift(storyCreator);
     var storyData = {
@@ -35,6 +32,7 @@ module.exports =  {
 
   	storyModel.add(storyData)
   	  .then(function (results){
+        console.log('Returning from story controller: ', results);
   	    res.status(201).json(results);
   	  })
   	  .catch(function (error){
@@ -69,7 +67,6 @@ module.exports =  {
   
   getAll: function (req, res) {
     var userId = req.user.id;
-    // console.log("userId -->", userId);
     storyModel.getAll(userId)
       .then(function (results) {
         res.status(200).json(results);
