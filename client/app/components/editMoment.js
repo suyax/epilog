@@ -12,9 +12,55 @@ var {
   AsyncStorage
 } = React;
 
-class EditMoment extends Component{
+import AutoCompleteHelper from './autoComplete.js';
 
-  submitMoment(textInputs, asset) {
+var EditMoment = React.createClass({
+
+  getInitialState: function() {
+      return {
+        arrayOfStoryTitles: []
+      };
+  },
+
+  componentDidMount: function() {
+    var storyTitlesUrl = 'http://127.0.0.1:3000/api/stories';
+    
+    //first, grab all the story titles for a given user...
+
+    return AsyncStorage.getItem('token')
+      .then((result) => {
+        return fetch(storyTitlesUrl, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'token': result
+            }
+          })
+          .then((response) => {
+            console.log("Response -->", response);
+            return response.json();
+          })
+          .then((responseData) => {
+            this.setState({arrayOfStoryTitles: responseData});
+            console.log("arrayOfStoryTitles-->", responseData);
+            console.log("state -->", this.state);
+          })
+          .catch((error) => {
+            console.log("error from db query-->", error);
+          });
+      })
+      .then((result) =>{
+        return result;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  },
+
+
+
+  submitMoment: function(textInputs, asset) {
     var storyTitle = textInputs.storyTitle;
     var momentCaption = textInputs.caption;
     var submitMomentURL = 'http://127.0.0.1:3000/api/stories/check';
@@ -75,10 +121,10 @@ class EditMoment extends Component{
       .then((result) => {
         return result
       });
-  }
+  },
 
 
-  render() {
+  render: function() {
     const {asset, onCancel, onSubmit} = this.props;
     var textFields = {};
     var image = asset.node.image;
@@ -90,10 +136,14 @@ class EditMoment extends Component{
 
         <View style={styles.content}>
           <View style={ styles.textContainer }>
-            <TextInput style={styles.textInput} placeholder='Caption your moment'
-              onChangeText={(text)=>textFields.caption = text}/>
             <TextInput style={styles.textInput} placeholder='Story title'
               onChangeText={(text)=>textFields.storyTitle = text}/>
+            <AutoCompleteHelper />
+            <TextInput style={styles.textInput} placeholder='Caption your moment'
+              onChangeText={(text)=>textFields.caption = text}/>
+            <TextInput style={styles.textInput} placeholder='Add Tags'
+              onChangeText={(text)=>textFields.caption = text}/>
+            <AutoCompleteHelper/>
           </View>
         </View>
 
@@ -118,7 +168,7 @@ class EditMoment extends Component{
       </View>
     );
   }
-};
+});
 
 var styles = StyleSheet.create({
   container: {
