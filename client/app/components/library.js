@@ -69,6 +69,10 @@ class Library extends Component {
               style={styles.thumbnail}
             />
               <Text style={styles.title}>{story.title}</Text>
+              <View>
+                <Text style={styles.text}>{story.updatedAt.slice(0,10)}
+                </Text>
+              </View>
           </View>
         </TouchableHighlight>
     );
@@ -79,12 +83,16 @@ class Library extends Component {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
+    flexDirection: 'column',
+    backgroundColor:'#92A8D1',
   },
   storyContainer: {
     justifyContent: 'center',
     padding: 5,
     margin: 5,
-    backgroundColor:'#92A8D1',
     alignItems: 'center',
     width: 180,
     height: 135,
@@ -106,15 +114,16 @@ var styles = StyleSheet.create({
     height: 80
   },
   list: {
-    flex: 11
+    flex: 11,
   },
   listView: {
     justifyContent: 'center',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   navBar: {
     flex: 1,
+    alignItems: 'center',
   }
 });
 

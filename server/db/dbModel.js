@@ -21,9 +21,19 @@ var User = sequelize.define('users', {
 }, {timestamps: false });
 
 var Story = sequelize.define('stories', {
-  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  title: { type: Sequelize.STRING, notNull: true },
-  description: { type: Sequelize.STRING, notNull: true }
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+    title: {
+      type: Sequelize.STRING,
+      notNull: true
+  },
+    description: {
+      type: Sequelize.STRING,
+      notNull: true
+    }
 }, { timestamps: true });
 
 var Moment = sequelize.define('moments', {
