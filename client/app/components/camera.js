@@ -1,3 +1,4 @@
+
 "use strict";
 
 var React = require("react-native");
@@ -5,6 +6,7 @@ var Camera = require("react-native-camera");
 
 var {
     AppRegistry,
+    CameraRoll,
     StyleSheet,
     Text,
     View,
@@ -19,6 +21,8 @@ var CameraView = React.createClass({
             cameraType: Camera.constants.Type.back
         }
     },
+
+    getRecentPhoto: function(){CameraRoll.getPhotos({first: 1}, this._appendAssets, logError)},
 
     render: function() {
         return (

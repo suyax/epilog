@@ -72,12 +72,16 @@ class LogOut extends React.Component {
         <View style={styles.positionBox}>
         </View>
         <View style={styles.positionBox}>
-          <Text style={styles.buttonText}>
+          <Text style={styles.text}>
           Are you sure you want to log out?
           </Text>
-          <View style={styles.button}>
-          <TouchableHighlight onPress={this.LogOutRequest.bind(this)}>
+          <View style={styles.textContainer}>
+          <TouchableHighlight
+          style={styles.button}
+          onPress={this.LogOutRequest.bind(this)}>
+          <View>
             <Text style={styles.buttonText}>LogOut</Text>
+          </View>
           </TouchableHighlight>
           </View>
         </View>
@@ -98,19 +102,39 @@ var styles = StyleSheet.create({
     height: 40,
     backgroundColor:'white',
     borderColor: 'gray',
-    borderWidth: 1,
-    textAlign: 'center'
+    borderWidth: 2,
+    textAlign: 'center',
+    margin: 5,
+    color: ' #2C3539'
   },
   wrapper: {
     borderRadius: 5,
     marginBottom: 5,
   },
   button: {
-    backgroundColor: '#eeeeee',
-    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 40,
+    width: 100,
+    backgroundColor: 'white',
+  },
+  textContainer: {
+    flex: 1,
+    marginBottom: 8,
+    alignItems: 'center',
+  },
+  text:{
+    textAlign: 'center',
+    color: ' #2C3539'
+  },
+  title: {
+    fontSize: 20,
+    textAlign: 'center',
+    flex: 1,
+    marginTop: 5,
+    fontWeight: 'bold'
   },
   buttonText: {
-    flex: 1,
     textAlign: 'center',
     fontSize: 20,
   },

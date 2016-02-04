@@ -87,12 +87,11 @@ class LogIn extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.positionBox}>
-          <NavBar />
         </View>
-        <View style={styles.positionBox}>
-          <Text style={styles.buttonText}>
-          Login
-          </Text>
+          <View style={styles.positionBox}>
+            <Text style={styles.title}>
+            Login
+            </Text>
           <TextInput
             ref="email"
             autoCapitalize={'none'}
@@ -103,7 +102,7 @@ class LogIn extends React.Component {
               dismissKeyboard()
               this.refs.password.focus()
               }}
-            style={styles.input}
+            style={[styles.input, styles.wrapper]}
             />
 
           <TextInput
@@ -113,19 +112,22 @@ class LogIn extends React.Component {
               secureTextEntry={true}
               onChangeText={text => this.fields.password = text}
               onSubmitEditing={() => dismissKeyboard()}
-              style={styles.input}
+              style={[styles.input, styles.wrapper]}
             />
-
-          <TouchableHighlight onPress={this._submitForm.bind(this)}>
+      </View>
+      <View style={styles.Container}>
+      <View style={styles.textContainer}>
+          <TouchableHighlight
+          style={styles.button}
+          onPress={this._submitForm.bind(this)}>
             <Text style={styles.buttonText}>Submit
             </Text>
           </TouchableHighlight>
         </View>
-
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>
+        <Text style={styles.text}>
         Don't have an account?
         </Text>
+        <View style={styles.textContainer}>
         <TouchableHighlight
           style={styles.button}
           onPress={onSignUp}>
@@ -133,9 +135,10 @@ class LogIn extends React.Component {
             <Text style={styles.buttonText}>Sign Up</Text>
           </View>
         </TouchableHighlight>
+        </View>
       </View>
       </View>
-    );
+    )
   }
 }
 
@@ -151,19 +154,39 @@ var styles = StyleSheet.create({
     height: 40,
     backgroundColor:'white',
     borderColor: 'gray',
-    borderWidth: 1,
-    textAlign: 'center'
+    borderWidth: 2,
+    textAlign: 'center',
+    margin: 5,
+    color: ' #2C3539'
   },
   wrapper: {
     borderRadius: 5,
     marginBottom: 5,
   },
   button: {
-    backgroundColor: '#eeeeee',
-    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 40,
+    width: 100,
+    backgroundColor: 'white',
+  },
+  textContainer: {
+    flex: 1,
+    marginBottom: 8,
+    alignItems: 'center',
+  },
+  text:{
+    textAlign: 'center',
+    color: ' #2C3539'
+  },
+  title: {
+    fontSize: 20,
+    textAlign: 'center',
+    flex: 1,
+    marginTop: 5,
+    fontWeight: 'bold'
   },
   buttonText: {
-    flex: 1,
     textAlign: 'center',
     fontSize: 20,
   },
