@@ -20,8 +20,10 @@ import NavBar from './navBar';
 class NewStory extends Component {
 
   submitNewStory(textInputs, asset) {
+    console.log('Asset in newStory: ', asset);
     var title = textInputs.newStoryTitle;
     var description = textInputs.newStoryDescription;
+    var caption = asset.node.caption;
     var existingUsersToInclude = textInputs.newStoryCharacters.split(', ');
 
     return AsyncStorage.getItem('token')
@@ -42,12 +44,16 @@ class NewStory extends Component {
         .then((response) => response.json())
         .then((responseData) => {
 
+          console.log(responseData);
+
           AsyncStorage.getItem('token')
             .then((result) => {
               return {
                 uri: asset.node.image.uri,
                 uploadUrl: 'http://127.0.0.1:3000/api/moments',
-                fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
+                fileName: title + '_' + caption + '_' + 
+                  String(responseData.storyId) + '_' + 
+                  String(responseData.userId) + '_.png',
                 mimeType: 'image',
                 headers: {
                   token: String(result)

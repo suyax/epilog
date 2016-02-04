@@ -158,6 +158,9 @@ var EditMoment = React.createClass({
 
             return 'HOME';
           }
+
+          asset.node.caption = momentCaption;
+
           return 'NEW_STORY';
         })
         .catch((error) => {
