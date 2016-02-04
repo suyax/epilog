@@ -9,11 +9,12 @@ module.exports = function (grunt) {
     done = this.async();
     return seedDb()
     .then(function(){
+      console.log("success in seeding database");
       done();
     })
     .catch(function(error){
       grunt.log.writeln("error in calling seedDb (Guntfile.js line 14): ", error);
-      return false;
-    })
+      done(false);
+    });
   });
 }
