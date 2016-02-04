@@ -1,4 +1,6 @@
-import React, {
+var React = require('react-native');
+var {
+  AsyncStorage,
   Component,
   TouchableOpacity,
   StyleSheet,
@@ -9,12 +11,66 @@ import React, {
   ScrollView,
   PixelRatio,
   Dimensions,
-  TouchableHighlight
-} from 'react-native';
+  TouchableHighlight,
+  NativeModules
+} = React;
 
 import NavBar from './navBar';
 
 class NewStory extends Component {
+
+  submitNewStory(textInputs, asset) {
+    var title = textInputs.newStoryTitle;
+    var description = textInputs.newStoryDescription;
+    var existingUsersToInclude = textInputs.newStoryCharacters.split(', ');
+
+    return AsyncStorage.getItem('token')
+      .then((result) => {
+        fetch('http://127.0.0.1:3000/api/stories', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'token': result
+          },
+          body: JSON.stringify({
+            title: title,
+            description: description,
+            existingUsersToInclude: existingUsersToInclude
+          })
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+
+          AsyncStorage.getItem('token')
+            .then((result) => {
+              return {
+                uri: asset.node.image.uri,
+                uploadUrl: 'http://127.0.0.1:3000/api/moments',
+                fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
+                mimeType: 'image',
+                headers: {
+                  token: String(result)
+                }
+              };
+            })
+            .then((result) => {
+              NativeModules.FileTransfer.upload(result, (err, res) => {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log(res);
+                  return res;
+                }
+              });
+            })
+        })
+        .catch((error) => {
+          // console.error(error);
+        });
+      });
+  }
+
 
   render() {
     let { width, height } = Dimensions.get('window');
@@ -50,8 +106,14 @@ class NewStory extends Component {
             </Text>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => {
-            onSubmit(textInputs);
+          <TouchableHighlight key={asset} onPress={() => {
+            if (textInputs.newStoryTitle && textInputs.newStoryDescription) {
+              this.submitNewStory(textInputs, asset)
+                .then((result) => {
+                  console.log(result);
+                  onSubmit(result);
+                });
+            }
           }}>
             <Text style={ styles.button }>
               Submit
@@ -124,4 +186,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = NewStory
+module.exports = NewStory;

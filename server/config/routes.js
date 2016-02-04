@@ -35,6 +35,8 @@ module.exports = function(app) {
   
   // every route after this line will be authenticated with a token 
   app.use(controller.auth.authenticateToken);
+  app.post('/api/stories/check', controller.stories.check);
+  app.post('/api/moments', controller.moments.add);
 
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
@@ -42,7 +44,6 @@ module.exports = function(app) {
   //check if story is already associated to user (COMPLETED V1/CHECKED)
   //create a new moment (COMPLETED V1/CHECKED --> excluding functionality to add moment to multiple stories)
     //need to be able to add a comment, tag, AND potentially add a new user to a story??
-  app.post('/api/stories/check', controller.stories.check);
 
   //add new or existing user to story
     //existing users (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
@@ -65,7 +66,7 @@ module.exports = function(app) {
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
 
   //(COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
-  app.post('/api/moments/', controller.moments.add);
+
   
   //get all moments (probably don't need this going forward...)
   app.get('/api/moments/:storyId', controller.moments.getAll);

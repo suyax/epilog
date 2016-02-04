@@ -24,34 +24,6 @@ import LogOut from '../components/logOut';
 //router for the app
 class EpiLogApp extends Component {
 
-  // This could also be a thunk fetch
-  submitNewStory(textInputs) {
-    var storyTitle = textInputs.newStoryTitle;
-    var storyDescription = textInputs.newStoryDescription;
-    var storyCharacters = textInputs.newStoryCharacters.split(', ');
-
-    fetch('http://127.0.0.1:3000/api/:userId/stories', {
-      method: 'POST',
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        storyTitle: storyTitle,
-        storyDescription: storyDescription,
-        storyCharacters: storyCharacters
-      })
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-      // Send the user to the Story view
-    })
-    .catch((error) => {
-      console.error('Error adding new story: ', error);
-    });
-  }
-
-
   render() {
     // Be explicit about what is available as props
     const {
@@ -114,12 +86,9 @@ class EpiLogApp extends Component {
           asset={viewControlState.passedProps.asset}
           storyTitle={viewControlState.passedProps.storyTitle}
           onBack={()=>{viewControlActions.setView('CAPTURE')}}
-          onSubmit={(textInputs)=>{
-            if (textInputs.newStoryTitle && 
-                textInputs.newStoryDescription &&
-                textInputs.newStoryCharacters) {
-              this.submitNewStory(textInputs);
-            }
+          onSubmit={(redirect)=>{
+            console.log('Reached');
+            viewControlActions.setView('LIBRARY');
           }}
           />
         );
@@ -132,12 +101,12 @@ class EpiLogApp extends Component {
         return(<EditMoment
           asset={viewControlState.passedProps.asset}
           onCancel={()=>{viewControlActions.setView('CAPTURE')}}
-          onSubmit={(redirect)=>{
+          onSubmit={(redirect, asset)=>{
               if (redirect === 'HOME') {
                 viewControlActions.setView('HOME', {});
-              } else {
-                viewControlActions.setView('NEW_STORY', {'asset': asset});
-              }
+              } 
+              
+              viewControlActions.setView('NEW_STORY', { asset: asset });
             }
           }
         />);

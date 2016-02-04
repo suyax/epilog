@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react-native');
 var {
   Component,
@@ -28,7 +26,7 @@ class EditMoment extends Component{
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Token': result
+            'token': result
           },
           body: JSON.stringify({
             caption: momentCaption,
@@ -42,25 +40,32 @@ class EditMoment extends Component{
             var title = storyTitle.split(' ').join('+');
             var caption = momentCaption.split(' ').join('+');
             var userid = responseData.users[0].id;
-            var upload = {
-              uri: asset.node.image.uri,
-              uploadUrl: 'http://127.0.0.1:3000/api/moments',
-              fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
-              mimeType: 'image'
-            };
 
-            NativeModules.FileTransfer.upload(upload, (err, res) => {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(res);
-                return res;
-              }
-            });
+            AsyncStorage.getItem('token')
+              .then((result) => {
+                return {
+                  uri: asset.node.image.uri,
+                  uploadUrl: 'http://127.0.0.1:3000/api/moments',
+                  fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
+                  mimeType: 'image',
+                  headers: {
+                    token: String(result)
+                  }
+                };
+              })
+              .then((result) => {
+                NativeModules.FileTransfer.upload(result, (err, res) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log(res);
+                    return res;
+                  }
+                });
+              })
 
             return 'HOME';
           }
-          
           return 'NEW_STORY';
         })
         .catch((error) => {
@@ -102,7 +107,7 @@ class EditMoment extends Component{
               if (textFields.caption && textFields.storyTitle) {
                 this.submitMoment(textFields, asset)
                   .then((result) => {
-                    onSubmit(result);
+                    onSubmit(result, asset);
                   });
               }
             }
