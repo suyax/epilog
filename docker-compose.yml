@@ -4,13 +4,11 @@ postgres:
     POSTGRES_DB: 'epilog'
     POSTGRES_USER: 'deploy'
     POSTGRES_PASSWORD: 'password'
-  ports:
-    - 5432:5432
-
+    
 server:
   build: ./server
   ports:
-   - 80:3000
+   - 3000:3000
   links:
    - postgres
   environment:
