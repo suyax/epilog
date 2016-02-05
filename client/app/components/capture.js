@@ -70,14 +70,14 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'stretch',
     flexDirection: 'column',
+    backgroundColor:'#92A8D1',
   },
   content: {
     flex: 11,
-    justifyContent: 'center',
-    backgroundColor:'#92A8D1',
   },
   navBar: {
-    flex: 1
+    flex: 1,
+    alignItems: 'center',
   },
   title: {
     textAlign: 'center',

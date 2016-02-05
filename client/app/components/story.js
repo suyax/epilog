@@ -18,7 +18,7 @@ class Story extends Component {
 
   render() {
     let { width, height } = Dimensions.get('window');
-    const {asset, onBack} = this.props;
+    const { asset, onBack } = this.props;
     const story = this.props.asset;
     return (
       <View style={styles.container}>
@@ -61,7 +61,7 @@ class Story extends Component {
             </Text>
         </View>
           <Image
-          style={{flex:1, alignSelf:'center', width:2, height: 100}}
+          style={styles.timeLine}
           source={require('../image/greyLine.png')}
           >
           </Image>
@@ -71,6 +71,12 @@ class Story extends Component {
 }
 
 var styles = StyleSheet.create({
+  timeLine: {
+    flex:1,
+    alignSelf:'center',
+    width:2,
+    height: 100
+  },
   storyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -83,12 +89,7 @@ var styles = StyleSheet.create({
     flex: 11,
   },
   scrollView: {
-    backgroundColor: '#6A85B1',
-  },
-  content: {
-    flex: 11,
-    justifyContent: 'center',
-    backgroundColor: 'green',
+   backgroundColor:'#92A8D1',
   },
   thumbnail: {
     flex: 1,

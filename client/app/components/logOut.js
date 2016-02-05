@@ -17,21 +17,14 @@ class LogOut extends React.Component {
     super(props);
   }
 
-  LogOutRequest() {
-    //const { successLoggedOut } = this.props
-    //for testing purpose should be remove when database complete
-    //successLoggedOut();
-    AsyncStorage.getItem(STORAGE_KEY)
-    .then((value) => {
-      this.fetchLogOut(value);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+  goHome() {
+    const { successGotHome } = this.props
+    successGotHome();
   }
 
-  destoryToken(STORAGE_KEY) {
+  destoryToken() {
     //console.log('destoryToken;',STORAGE_KEY)
+    const { successLoggedOut }=this.props
     AsyncStorage.removeItem(STORAGE_KEY)
     .then(
       AsyncStorage.getItem(STORAGE_KEY))
@@ -39,31 +32,9 @@ class LogOut extends React.Component {
       if (!result){
       //console.log('key has been destroyed')
       }
-    }).done();
-  }
-
-  fetchLogOut(value) {
-    const { successLoggedOut } = this.props
-    //console.log('LogoutFetch token', value)
-    fetch('http://127.0.0.1:3000/api/users/logout', {
-      method: 'GET',
-      header: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'token': value
-      }
     })
-    .then((response) => {
-      //console.log (response)
-      return response.json()})
-    .then((responseData) => {
-      //console.log ('get response data:', responseData)
-      this.destoryToken(STORAGE_KEY)
-      successLoggedOut()
-    })
-    .catch((error) => {
-      console.log(error.message);
-    })
+    .then(()=>{ successLoggedOut()})
+    .done();
   }
 
   render() {
@@ -78,9 +49,16 @@ class LogOut extends React.Component {
           <View style={styles.textContainer}>
           <TouchableHighlight
           style={styles.button}
-          onPress={this.LogOutRequest.bind(this)}>
+          onPress={this.destoryToken.bind(this)}>
           <View>
             <Text style={styles.buttonText}>LogOut</Text>
+          </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+          style={styles.button}
+          onPress={this.goHome.bind(this)}>
+          <View>
+            <Text style={styles.buttonText}>Stay</Text>
           </View>
           </TouchableHighlight>
           </View>
@@ -120,8 +98,10 @@ var styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    marginBottom: 8,
+    margin: 8,
+    justifyContent: 'space-around',
     alignItems: 'center',
+    flexDirection: 'row'
   },
   text:{
     textAlign: 'center',

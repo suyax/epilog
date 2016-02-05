@@ -15,10 +15,11 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.content}>
+        <View style={styles.positionBox}>
           <Text style={styles.title}>
             Home Page !
           </Text>
-        </View>
+          </View>
         <TouchableHighlight
           style={styles.navBar}
           onPress={onCamera}>
@@ -33,6 +34,7 @@ class Home extends Component {
             <Text style={styles.buttonText}>Log Out</Text>
           </View>
         </TouchableHighlight>
+        </View>
         <View style={styles.navBar}>
           <NavBar />
         </View>
@@ -77,6 +79,9 @@ var styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     fontSize: 20,
+  },
+  positionBox: {
+    flex: 5
   },
 });
 

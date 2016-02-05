@@ -66,6 +66,8 @@ class EpiLogApp extends Component {
         return (
           <LogOut
           successLoggedOut={ () => { viewControlActions.setView('LOGIN') }}
+          successGotHome={ () => {
+            viewControlActions.setView('HOME') }}
           />);
       case "LIBRARY":
         return (
@@ -104,8 +106,8 @@ class EpiLogApp extends Component {
           onSubmit={(redirect, asset)=>{
               if (redirect === 'HOME') {
                 viewControlActions.setView('HOME', {});
-              } 
-              
+              }
+
               viewControlActions.setView('NEW_STORY', { asset: asset });
             }
           }
