@@ -44,12 +44,10 @@ var dummyMomentData = [
 ];
 
 module.exports = function () {
-  return db.init()
-  .then(function (){
+  // return db.init()
+  // .then(function (){
   //start by creating users 
-  console.log('database is initialized');
     return users.bulkCreate(dummyUserData)
-  })
     //then seed stories + users_stories table
     .then(function(){
       // use Promise.each to wait for async add

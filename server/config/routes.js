@@ -14,31 +14,26 @@ module.exports = function(app) {
 
   //sign up
     //add user info to database (including password and name etc.)
-  app.post('/api/users/signup', controller.auth.createUser);
+  app.post('/api/users', controller.auth.createUser);
 
   //invited page
     //verify if identifer exists in db
       //if so ask for remaining user info and create a session
       //if not, direct to sign up page
 
-  //sign in
-    //verify whether or not user exists
-      //if so, create a session
-      //if not, direct user to sign in page
-  app.post('/api/users/signin', controller.auth.authenticateUser);
+  // get a token for the given user
+    // this is a post request because we don't put username and
+    // password in a url query
+  app.post('/api/users/token', controller.auth.authenticateUser);
 
-
-  //log out
-    //destroy session
-    //route user to sign in page
-  app.get('/api/users/logout', controller.auth.logout);
+  // //log out
+  //   //destroy session
+  //   //route user to sign in page
+  // app.get('/api/users/singout', controller.auth.logout);
 
   // every route after this line will be authenticated with a token
   app.use(controller.auth.authenticateToken);
-  app.post('/api/stories/check', controller.stories.check);
-  app.post('/api/moments', controller.moments.add);
-
-
+  
   ////////////////////////////////////STORIES//////////////////////////////////////////
 
   //check if story is already associated to user (COMPLETED V1/CHECKED)
@@ -53,34 +48,53 @@ module.exports = function(app) {
   //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for the story as well as tags/comments for that story
   app.get('/api/stories/:storyId', controller.stories.getOne);
+  // don't use check, use getOne above
+  // app.post('/api/stories/check', controller.stories.check);
 
-  app.post('/api/:storyId', controller.stories.filterByTag);
-
+  // This should be a GET stories below with a query in the URL
+  // app.post('/api/tags/:storyId', controller.stories.filterByTag);
+  
   //get all stories for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
   //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
+  //TODO: this need to handle filter parameters in URL query string
   app.get('/api/stories', controller.stories.getAll);
 
 
   ////////////////////////////////////MOMENTS//////////////////////////////////////////
 
-  //get all moments (probably don't need this going forward...)
-  app.get('/api/moments/:storyId', controller.moments.getAll);
+  app.post('/api/moments', controller.moments.add);
 
+  //get all moments (probably don't need this going forward...)
+  // inputs: storyid as input parameter
+  app.get('/api/moments', controller.moments.getAll);
+  
   //get one moment
-  app.get('/api/:momentId', controller.moments.getOne);
+  app.get('/api/moments/:momentId', controller.moments.getOne);
 
 
   ////////////////////////////////////TAGS//////////////////////////////////////////////
+  
+  // TODO: momentId should be a paramater in the post, since this is a post
+  app.post('/api/tags/:momentId', controller.tags.add);
 
-  app.post('/api/:momentId/tags', controller.tags.add);
-
-  app.get('/api/:storyId/tags', controller.tags.getAllByStory);
-
+  // TODO storyid should be a url query parameter
+  app.get('/api/tags/:storyId', controller.tags.getAllByStory);
+ 
   ///////////////////////////////////COMMENTS///////////////////////////////////////////
-  // app.get('/api/comments', );
-  // app.post('/api/comments/:momentId', );
+  
+  app.get('/api/comments/:commentId', controller.comments.getOne);
+
+  // get all of the comments by moment or by user
+  // input: momentId or userId in url query
+  // ouput: json array of comment objects
+  app.get('/api/comments', controller.comments.getAll);
+
+  // add a comment,
+  // input: text and momentid on body, userid from auth token
+  // output: json comment object
+  app.post('/api/comments/', controller.comments.addOne);
 
 
 

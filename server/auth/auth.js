@@ -4,21 +4,18 @@
 var Users = require('../users/userModel');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
-var uuid = require('node-uuid');
+var jwt = require('jwt-simple');
 
-
-// token store, should be a redis server but whateves.
-var tokens = {'f690c9a0-ff2c-4746-b2ba-9fe8939401c6': { userid: 1, timestamp: 1454383200486 }};
+const SECRET = "puttehlimeinthecoconut";
+const EXPIRE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds... I hope
 
 // makes a token, stores it, and returns it
 var makeToken = function (userid) {
-  token = uuid.v4();
-  tokens[token] = {
+  var payload = {
     userid: userid,
-    timestamp: Date.now(),
+    expires: Date.now() + EXPIRE,
   };
-  // console.log("existing tokens-->", tokens);
-  return token;
+  return jwt.encode(payload, SECRET);
 };
 
 // takes in username and password
@@ -49,16 +46,17 @@ var authenticateUser = function (email, password){
 // returns the user associated with the token
 // if the token is valid
 var authenticateToken = function (token) {
-  // expire tokens in 7 days
-  var expire = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds... I hope
-  // console.log("existing tokens-->", tokens)
-  if(tokens.hasOwnProperty(token) && 
-    (Date.now() - tokens[token].timestamp < expire)){
-    return tokens[token].userid;
+  var decoded = undefined;
+  try{
+    decoded = jwt.decode(token, SECRET);
+  } catch (error) {
+    console.log('bad token: ', error);
+  }
+
+  if(decoded && decoded.expires > Date.now()){
+    return decoded.userid;
   } else {
-    // delete the token because it expired
-    delete tokens[token];
-    return undefined
+    return undefined;
   }
 }
 
