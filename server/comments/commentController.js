@@ -24,8 +24,11 @@ var addOne = function (req, res) {
 // input: momentId or userId in url query
 // ouput: json array of comment objects
 var getAll = function (req, res) {
-  if(req.query.momentId){
-    Comment.getAllByMoment(parseInt(req.query.momentId))
+  console.log('getting comments: ');
+  console.log('momentid: ', req.query.momentid);
+  console.log('userid: ', req.query.userid);
+  if(req.query.momentid){
+    Comment.getAllByMoment(parseInt(req.query.momentid))
     .then(function (comments) {
       res.json(comments.map(function(comment){
         /// get the data value out
@@ -36,8 +39,8 @@ var getAll = function (req, res) {
       console.log('failed to retrieve comments by moment: ', error);
       res.status(400).end();
     });
-  } else if (req.query.userId) {
-    Comment.getAllByUser(parseInt(req.query.userId))
+  } else if (req.query.userid) {
+    Comment.getAllByUser(parseInt(req.query.userid))
     .then(function (comments) {
       res.json(comments.map(function(comment){
         return comment.get();

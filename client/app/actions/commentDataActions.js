@@ -1,9 +1,11 @@
 import {AsyncStorage} from 'react-native';
 import {SERVER_URL} from '../urls';
 
-export const REQUEST_STORIES = 'REQUEST_STORIES';
-export const RECIEVE_STORIES = 'RECIEVE_STORIES';
-const ALL_STORIES_URL = SERVER_URL + '/api/stories'
+export const REQUEST_COMMENTS = "REQUEST_COMMENTS";
+export const RECIEVE_COMMENTS = "RECIEVE_COMMENTS";
+export const FAILURE_COMMENTS = "FAILURE_COMMENTS";
+
+const ALL_STORIES_URL = SERVER_URL + '/api/comments'
 
 export function requestStories () {
   return {
