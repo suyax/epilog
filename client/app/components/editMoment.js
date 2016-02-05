@@ -72,7 +72,7 @@ var EditMoment = React.createClass({
     this.setState({currentStory: event.nativeEvent.text});
     if(this.state.currentStory.toLowerCase() in this.state.storyIdLookUp){
       var storyId = this.state.storyIdLookUp[this.state.currentStory];
-      var storyTagsUrl = 'http://127.0.0.1:3000/api/' + storyId + '/tags';
+      var storyTagsUrl = 'http://127.0.0.1:3000/api/tags/' + storyId;
 
       return AsyncStorage.getItem('token')
         .then((result) => {
