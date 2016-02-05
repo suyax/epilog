@@ -27,11 +27,5 @@ app.listen(port, function(){
  console.log('Server listening on port ' + port);
 });  
 
-//create database + seed db;
-db.init()
-// .then(function(initializedDB){
-// 	dummy();
-// });
-
 //export server
 module.exports = app;
