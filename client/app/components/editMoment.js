@@ -88,7 +88,7 @@ var EditMoment = React.createClass({
               return response.json()
             })
             .then((responseData) => {
-              //console.log(responseData);
+              console.log(responseData);
               var tags = responseData;
               this.setState({arrayOfStoryTags: tags});
             })
