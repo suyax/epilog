@@ -11,6 +11,8 @@ var {
     AlertIOS
 } = React;
 
+
+//autocomplete helper which can be passed to other components. so far passed to the edit moment and story components
 var AutoCompleteHelper = React.createClass({
     
    getInitialState: function() {
@@ -19,8 +21,10 @@ var AutoCompleteHelper = React.createClass({
         };
     },
 
+    //grabs autocomplete suggestions from external components (passed in as an array via props.data ) and filters the array based on
+    //whats being typed in the autocomplete field
     onTyping: function (text) {
-        console.log("type of props.data -->", Array.isArray(this.props.data));
+        // console.log("type of props.data -->", Array.isArray(this.props.data));
         var filteredArray = this.props.data.filter(function (element) {
             return element.toLowerCase().startsWith(text.toLowerCase())
         });
@@ -38,11 +42,7 @@ var AutoCompleteHelper = React.createClass({
                 <AutoComplete
                     //probably don't need all of this; scrub through later!!
                     onTyping={this.onTyping}
-                    // onSelect={(e) => AlertIOS.alert('You choosed', e)}
-                    // onBlur={this.props.onBlur}
                     onChange={this.props.onChange}
-                    // onFocus={() => AlertIOS.alert('Focus')}
-                    // onSubmitEditing={(e) => AlertIOS.alert('onSubmitEditing')}
                     onEndEditing={this.props.onBlur}
 
                     suggestions={this.state.data}

@@ -18,17 +18,21 @@ var EditMoment = React.createClass({
 
   getInitialState: function() {
       return {
+        //holds all of the story titles associated with a particular user
         arrayOfStoryTitles: [],
+        //name of story entered into story field
         currentStory: "",
+        //look up hash that checks currentStory against stories associated with user in db
         storyIdLookUp: {},
+        //all tags associated with a particular story
         arrayOfStoryTags: []
       };
   },
 
+  //upon initialization, grabs all stories associated with a particular user, assuming the user has a valid token
   componentDidMount: function() {
     var storyTitlesUrl = 'http://127.0.0.1:3000/api/stories';
     
-    //first, grab all the story titles for a given user...
     return AsyncStorage.getItem('token')
       .then((result) => {
         return fetch(storyTitlesUrl, {
@@ -63,7 +67,7 @@ var EditMoment = React.createClass({
       })
   },
 
-
+  //grabs all tags for a given story in the db; if story is NEW...returns an empty array
   getStoryTags: function(event){
     this.setState({currentStory: event.nativeEvent.text});
     if(this.state.currentStory.toLowerCase() in this.state.storyIdLookUp){
@@ -164,27 +168,27 @@ var EditMoment = React.createClass({
         return result
       });
   },
-
+  
+  //renders autocomplete fields in addition to caption field + image
   render: function() {
     const {asset, onCancel, onSubmit} = this.props;
     var textFields = {};
     var image = asset.node.image;
     return (
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={image} style={styles.imageWide}/>
-        </View>
         <AutoCompleteHelper 
           placeholder="Story Title" 
           data ={this.state.arrayOfStoryTitles} 
           onBlur={this.getStoryTags}
         />
+        <View style={styles.imageContainer}>
+          <Image source={image} style={styles.imageWide}/>
+        </View>
         <View style={ styles.textContainer }>
           <TextInput style={styles.textInput} placeholder='Create a Caption'
             onChangeText={(text)=>textFields.caption = text}/>
         </View>
         <AutoCompleteHelper placeholder="Add Tags" data={this.state.arrayOfStoryTags}/>
-        
         <View style={styles.buttonContainer}>
           <TouchableHighlight onPress={onCancel}>
             <View><Text style={styles.button}>Cancel</Text></View>
@@ -232,7 +236,7 @@ var styles = StyleSheet.create({
   },
   textInput: {
     alignSelf: 'center',
-    height: 10,
+    height: 5,
     borderRadius: 2,
     padding: 1,
     width: 350,   
