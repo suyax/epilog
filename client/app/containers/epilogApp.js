@@ -10,16 +10,20 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import Home from '../components/home';
-import CameraView from '../components/camera';
-import Capture from '../components/capture';
-import Library from '../components/library';
-import Story from '../components/story';
-import NewStory from '../components/newStory';
-import EditMoment from '../components/editMoment';
-import LogIn from '../components/logIn';
-import SignUp from '../components/signUp';
-import LogOut from '../components/logOut';
+import {
+Home,
+CameraView,
+Capture,
+Library,
+Story,
+NewStory,
+EditMoment,
+LogIn,
+SignUp,
+LogOut,
+Moment,
+} from '../components';
+
 //import LogInFail from '../components/logInFail';
 //router for the app
 class EpiLogApp extends Component {
@@ -110,6 +114,9 @@ class EpiLogApp extends Component {
               }
             }
           }
+        />);
+      case "MOMENT_VIEW":
+        return (<Moment
         />);
       default:
         return <LogIn />;
