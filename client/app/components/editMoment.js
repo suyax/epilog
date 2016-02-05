@@ -12,9 +12,101 @@ var {
   AsyncStorage
 } = React;
 
-class EditMoment extends Component{
+import AutoCompleteHelper from './autoComplete.js';
 
-  submitMoment(textInputs, asset) {
+var EditMoment = React.createClass({
+
+  getInitialState: function() {
+      return {
+        //holds all of the story titles associated with a particular user
+        arrayOfStoryTitles: [],
+        //name of story entered into story field
+        currentStory: "",
+        //look up hash that checks currentStory against stories associated with user in db
+        storyIdLookUp: {},
+        //all tags associated with a particular story
+        arrayOfStoryTags: []
+      };
+  },
+
+  //upon initialization, grabs all stories associated with a particular user, assuming the user has a valid token
+  componentDidMount: function() {
+    var storyTitlesUrl = 'http://127.0.0.1:3000/api/stories';
+    
+    return AsyncStorage.getItem('token')
+      .then((result) => {
+        return fetch(storyTitlesUrl, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'token': result
+            }
+          })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseData) => {
+            for(var i = 0; i < responseData.length; i++){
+              this.state.storyIdLookUp[responseData[i]['title'].toLowerCase()] = responseData[i]['id'];
+            }
+            var titles = responseData.map(function(storyObj){ return storyObj.title });
+            this.setState({arrayOfStoryTitles: titles});
+            // console.log("arrayOfStoryTitles-->", this.state.arrayOfStoryTitles);
+            // console.log("storyIdLookUp table -->", this.state.storyIdLookUp);
+          })
+          .catch((error) => {
+            console.log("error from db query:", error);
+          });
+      })
+      .then((result) =>{
+        return result;
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  },
+
+  //grabs all tags for a given story in the db; if story is NEW...returns an empty array
+  getStoryTags: function(event){
+    this.setState({currentStory: event.nativeEvent.text});
+    if(this.state.currentStory.toLowerCase() in this.state.storyIdLookUp){
+      var storyId = this.state.storyIdLookUp[this.state.currentStory];
+      var storyTagsUrl = 'http://127.0.0.1:3000/api/tags/' + storyId;
+
+      return AsyncStorage.getItem('token')
+        .then((result) => {
+          return fetch(storyTagsUrl, {
+              method: 'GET',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'token': result
+              }
+            })
+            .then((response) => {
+              return response.json()
+            })
+            .then((responseData) => {
+              // console.log(responseData);
+              var tags = responseData;
+              this.setState({arrayOfStoryTags: tags});
+            })
+            .catch((error) => {
+              console.log("error from db query:", error);
+            });
+        })
+        .then((result) =>{
+          return result;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    
+    }
+  },
+
+  submitMoment: function(textInputs, asset) {
     var storyTitle = textInputs.storyTitle;
     var momentCaption = textInputs.caption;
     var submitMomentURL = 'http://127.0.0.1:3000/api/stories/check';
@@ -75,36 +167,35 @@ class EditMoment extends Component{
       .then((result) => {
         return result
       });
-  }
-
-
-  render() {
+  },
+  
+  //renders autocomplete fields in addition to caption field + image
+  render: function() {
     const {asset, onCancel, onSubmit} = this.props;
     var textFields = {};
     var image = asset.node.image;
     return (
       <View style={styles.container}>
+        <AutoCompleteHelper 
+          placeholder="Story Title" 
+          data ={this.state.arrayOfStoryTitles} 
+          onBlur={this.getStoryTags}
+        />
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
-
-        <View style={styles.content}>
-          <View style={ styles.textContainer }>
-            <TextInput style={styles.textInput} placeholder='Caption your moment'
-              onChangeText={(text)=>textFields.caption = text}/>
-            <TextInput style={styles.textInput} placeholder='Story title'
-              onChangeText={(text)=>textFields.storyTitle = text}/>
-          </View>
+        <View style={ styles.textContainer }>
+          <TextInput style={styles.textInput} placeholder='Create a Caption'
+            onChangeText={(text)=>textFields.caption = text}/>
         </View>
-
+        <AutoCompleteHelper placeholder="Add Tags" data={this.state.arrayOfStoryTags}/>
         <View style={styles.buttonContainer}>
-
           <TouchableHighlight onPress={onCancel}>
             <View><Text style={styles.button}>Cancel</Text></View>
           </TouchableHighlight>
 
           <TouchableHighlight key={asset} onPress={() => {
-              if (textFields.caption && textFields.storyTitle) {
+              if (textFields.caption && textFields.storyTitle && textFields.tags) {
                 this.submitMoment(textFields, asset)
                   .then((result) => {
                     onSubmit(result, asset);
@@ -118,7 +209,7 @@ class EditMoment extends Component{
       </View>
     );
   }
-};
+});
 
 var styles = StyleSheet.create({
   container: {
@@ -145,21 +236,17 @@ var styles = StyleSheet.create({
   },
   textInput: {
     alignSelf: 'center',
-    height: 10,
+    height: 5,
     borderRadius: 2,
     padding: 1,
-    width: 350,
-    marginTop: 10,
+    width: 350,   
     backgroundColor: '#FFFFFF',
-    borderColor: 'black',
-    borderWidth: 1,
     flex: 1,
     textAlign: 'center'
   },
   imageWide: {
     width: 320,
     height: 240,
-    margin: 20,
     alignSelf: 'center'
   },
   content: {
