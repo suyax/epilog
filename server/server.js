@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var db = require('./db/dbModel');
 
-
+db.init();
 //create instance of express server
 var app = express();
 
