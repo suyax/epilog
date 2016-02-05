@@ -44,8 +44,8 @@ var dummyMomentData = [
 ];
 
 module.exports = function () {
-  // return db.init()
-  // .then(function (){
+  return db.init()
+  .then(function (){
   //start by creating users 
     return users.bulkCreate(dummyUserData)
     //then seed stories + users_stories table
@@ -82,4 +82,5 @@ module.exports = function () {
     .catch(function(err){
       console.log("Error at seeding: ", err);
     })
+  });
 };
