@@ -29,6 +29,15 @@ module.exports =  {
       momentData['url'] = filepath;
       momentData['userid'] = Number(parsedFileName[3]);
 
+      if (parsedFileName.length === 6) {
+        var newCharacters = parsedFileName[4].split(',');
+        newCharacters.forEach(function (character) {
+          character = Number(character);
+        });
+
+        momentData['newCharacters'] = newCharacters;
+      }
+
       // Preserve binding to file inside fs.stat
       var fileData = file;
         
@@ -56,6 +65,7 @@ module.exports =  {
           fileData.on('end', function() {
             momentModel.add(momentData)
               .then(function (results){
+                console.log('Adding moment: ', results);
                 writeStream.end();
                 res.status(201).json(results);
               })

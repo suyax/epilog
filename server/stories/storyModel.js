@@ -116,13 +116,17 @@ module.exports = {
     return users.findOne({
         where: {id: userId},
         include: [{
-          model:stories,
+          model: stories,
           include: [
-            {model: moments, include: [{model: tags}]},
+            {model: moments/*, include: [{model: tags}]*/},
             {model: users, attributes: ['id', 'firstName', 'lastName', 'email']}
           ]
         }]
     }).then(function(result){
+      console.log('Moments from getAll: ', 
+        result.stories.map(function (story) {
+          return story.dataValues.moments;
+        }));
       return result.stories;
     }).catch(function(err){
       console.error("error trying to get all story objects-->", err);

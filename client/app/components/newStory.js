@@ -28,6 +28,7 @@ class NewStory extends Component {
 
     return AsyncStorage.getItem('token')
       .then((result) => {
+        console.log(result);
         fetch('http://127.0.0.1:3000/api/stories', {
           method: 'POST',
           headers: {
@@ -48,12 +49,14 @@ class NewStory extends Component {
 
           AsyncStorage.getItem('token')
             .then((result) => {
+              var characters = String(existingUsersToInclude) + '_' || '';
+
               return {
                 uri: asset.node.image.uri,
                 uploadUrl: 'http://127.0.0.1:3000/api/moments',
                 fileName: title + '_' + caption + '_' + 
                   String(responseData.storyId) + '_' + 
-                  String(responseData.userId) + '_.png',
+                  String(responseData.userId) + '_' + characters + '.png',
                 mimeType: 'image',
                 headers: {
                   token: String(result)
