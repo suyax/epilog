@@ -61,7 +61,7 @@ class Story extends Component {
             </Text>
         </View>
           <Image
-          style={{flex:1, alignSelf:'center', width:2, height: 100}}
+          style={styles.timeLine}
           source={require('../image/greyLine.png')}
           >
           </Image>
@@ -71,6 +71,12 @@ class Story extends Component {
 }
 
 var styles = StyleSheet.create({
+  timeLine: {
+    flex:1,
+    alignSelf:'center',
+    width:2,
+    height: 100
+  },
   storyContainer: {
     flex: 1,
     justifyContent: 'center',

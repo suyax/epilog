@@ -17,6 +17,11 @@ class LogOut extends React.Component {
     super(props);
   }
 
+  goHome() {
+    const { successGotHome } = this.props
+    successGotHome();
+  }
+
   LogOutRequest() {
     //const { successLoggedOut } = this.props
     //for testing purpose should be remove when database complete
@@ -83,6 +88,13 @@ class LogOut extends React.Component {
             <Text style={styles.buttonText}>LogOut</Text>
           </View>
           </TouchableHighlight>
+          <TouchableHighlight
+          style={styles.button}
+          onPress={this.goHome.bind(this)}>
+          <View>
+            <Text style={styles.buttonText}>Stay</Text>
+          </View>
+          </TouchableHighlight>
           </View>
         </View>
       </View>
@@ -120,8 +132,10 @@ var styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    marginBottom: 8,
+    margin: 8,
+    justifyContent: 'space-around',
     alignItems: 'center',
+    flexDirection: 'row'
   },
   text:{
     textAlign: 'center',
