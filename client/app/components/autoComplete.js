@@ -13,17 +13,16 @@ var {
 
 var AutoCompleteHelper = React.createClass({
     
-  
-    getInitialState: function() {
-        return {data: []};
+   getInitialState: function() {
+        return {
+          data: []
+        };
     },
 
     onTyping: function (text) {
-
-        var filteredArray = arrayToFilter.filter(function (element) {
+        console.log("type of props.data -->", Array.isArray(this.props.data));
+        var filteredArray = this.props.data.filter(function (element) {
             return element.toLowerCase().startsWith(text.toLowerCase())
-        }).map(function (element) {
-            return element;
         });
 
         this.setState({
@@ -40,20 +39,21 @@ var AutoCompleteHelper = React.createClass({
                     //probably don't need all of this; scrub through later!!
                     onTyping={this.onTyping}
                     // onSelect={(e) => AlertIOS.alert('You choosed', e)}
-                    onBlur={() => AlertIOS.alert('Blur')}
-                    onFocus={() => AlertIOS.alert('Focus')}
-                    onSubmitEditing={(e) => AlertIOS.alert('onSubmitEditing')}
-                    onEndEditing={(e) => AlertIOS.alert('onEndEditing')}
+                    // onBlur={this.props.onBlur}
+                    onChange={this.props.onChange}
+                    // onFocus={() => AlertIOS.alert('Focus')}
+                    // onSubmitEditing={(e) => AlertIOS.alert('onSubmitEditing')}
+                    onEndEditing={this.props.onBlur}
 
                     suggestions={this.state.data}
-
+                    placeholder= {this.props.placeholder}
                     style={styles.autocomplete}
                     clearButtonMode='always'
                     returnKeyType='go'
                     textAlign='center'
                     clearTextOnFocus={true}
 
-                    maximumNumberOfAutoCompleteRows={10}
+                    maximumNumberOfAutoCompleteRows={5}
                     applyBoldEffectToAutoCompleteSuggestions={true}
                     reverseAutoCompleteSuggestionsBoldEffect={true}
                     showTextFieldDropShadowWhenAutoCompleteTableIsOpen={false}
@@ -64,12 +64,12 @@ var AutoCompleteHelper = React.createClass({
                     autoCompleteTableCornerRadius={10}
                     autoCompleteTableBorderWidth={1}
 
-                    autoCompleteRowHeight={35}
+                    autoCompleteRowHeight={30}
 
                     autoCompleteFontSize={15}
                     autoCompleteRegularFontName='Helvetica Neue'
                     autoCompleteBoldFontName='Helvetica Bold'
-                    autoCompleteTableCellTextColor={'red'}
+                    autoCompleteTableCellTextColor={'black'}
                 />
             </View>
         );
@@ -79,20 +79,18 @@ var AutoCompleteHelper = React.createClass({
 var styles = StyleSheet.create({
     autocomplete: {
         alignSelf: 'stretch',
-        height: 50,
+        height: 30,
         backgroundColor: '#FFF',
-        borderColor: 'lightblue',
-        borderWidth: 1
     },
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#808080',
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
-        marginBottom: 10,
-        marginTop: 50,
+        // marginBottom: 
+        // marginTop: 
 
     }
 });

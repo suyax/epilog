@@ -18,7 +18,10 @@ var EditMoment = React.createClass({
 
   getInitialState: function() {
       return {
-        arrayOfStoryTitles: []
+        arrayOfStoryTitles: [],
+        currentStory: "",
+        storyIdLookUp: {},
+        arrayOfStoryTags: []
       };
   },
 
@@ -26,7 +29,6 @@ var EditMoment = React.createClass({
     var storyTitlesUrl = 'http://127.0.0.1:3000/api/stories';
     
     //first, grab all the story titles for a given user...
-
     return AsyncStorage.getItem('token')
       .then((result) => {
         return fetch(storyTitlesUrl, {
@@ -38,16 +40,19 @@ var EditMoment = React.createClass({
             }
           })
           .then((response) => {
-            console.log("Response -->", response);
             return response.json();
           })
           .then((responseData) => {
-            this.setState({arrayOfStoryTitles: responseData});
-            console.log("arrayOfStoryTitles-->", responseData);
-            console.log("state -->", this.state);
+            for(var i = 0; i < responseData.length; i++){
+              this.state.storyIdLookUp[responseData[i]['title'].toLowerCase()] = responseData[i]['id'];
+            }
+            var titles = responseData.map(function(storyObj){ return storyObj.title });
+            this.setState({arrayOfStoryTitles: titles});
+            // console.log("arrayOfStoryTitles-->", this.state.arrayOfStoryTitles);
+            // console.log("storyIdLookUp table -->", this.state.storyIdLookUp);
           })
           .catch((error) => {
-            console.log("error from db query-->", error);
+            console.log("error from db query:", error);
           });
       })
       .then((result) =>{
@@ -59,6 +64,43 @@ var EditMoment = React.createClass({
   },
 
 
+  getStoryTags: function(event){
+    this.setState({currentStory: event.nativeEvent.text});
+    if(this.state.currentStory.toLowerCase() in this.state.storyIdLookUp){
+      var storyId = this.state.storyIdLookUp[this.state.currentStory];
+      var storyTagsUrl = 'http://127.0.0.1:3000/api/' + storyId + '/tags';
+
+      return AsyncStorage.getItem('token')
+        .then((result) => {
+          return fetch(storyTagsUrl, {
+              method: 'GET',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'token': result
+              }
+            })
+            .then((response) => {
+              return response.json()
+            })
+            .then((responseData) => {
+              //console.log(responseData);
+              var tags = responseData;
+              this.setState({arrayOfStoryTags: tags});
+            })
+            .catch((error) => {
+              console.log("error from db query:", error);
+            });
+        })
+        .then((result) =>{
+          return result;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    
+    }
+  },
 
   submitMoment: function(textInputs, asset) {
     var storyTitle = textInputs.storyTitle;
@@ -123,7 +165,6 @@ var EditMoment = React.createClass({
       });
   },
 
-
   render: function() {
     const {asset, onCancel, onSubmit} = this.props;
     var textFields = {};
@@ -133,28 +174,24 @@ var EditMoment = React.createClass({
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
-
-        <View style={styles.content}>
-          <View style={ styles.textContainer }>
-            <TextInput style={styles.textInput} placeholder='Story title'
-              onChangeText={(text)=>textFields.storyTitle = text}/>
-            <AutoCompleteHelper />
-            <TextInput style={styles.textInput} placeholder='Caption your moment'
-              onChangeText={(text)=>textFields.caption = text}/>
-            <TextInput style={styles.textInput} placeholder='Add Tags'
-              onChangeText={(text)=>textFields.caption = text}/>
-            <AutoCompleteHelper/>
-          </View>
+        <AutoCompleteHelper 
+          placeholder="Story Title" 
+          data ={this.state.arrayOfStoryTitles} 
+          onBlur={this.getStoryTags}
+        />
+        <View style={ styles.textContainer }>
+          <TextInput style={styles.textInput} placeholder='Create a Caption'
+            onChangeText={(text)=>textFields.caption = text}/>
         </View>
-
+        <AutoCompleteHelper placeholder="Add Tags" data={this.state.arrayOfStoryTags}/>
+        
         <View style={styles.buttonContainer}>
-
           <TouchableHighlight onPress={onCancel}>
             <View><Text style={styles.button}>Cancel</Text></View>
           </TouchableHighlight>
 
           <TouchableHighlight key={asset} onPress={() => {
-              if (textFields.caption && textFields.storyTitle) {
+              if (textFields.caption && textFields.storyTitle && textFields.tags) {
                 this.submitMoment(textFields, asset)
                   .then((result) => {
                     onSubmit(result, asset);
@@ -198,18 +235,14 @@ var styles = StyleSheet.create({
     height: 10,
     borderRadius: 2,
     padding: 1,
-    width: 350,
-    marginTop: 10,
+    width: 350,   
     backgroundColor: '#FFFFFF',
-    borderColor: 'black',
-    borderWidth: 1,
     flex: 1,
     textAlign: 'center'
   },
   imageWide: {
     width: 320,
     height: 240,
-    margin: 20,
     alignSelf: 'center'
   },
   content: {
