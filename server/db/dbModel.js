@@ -24,13 +24,13 @@ var Story = sequelize.define('stories', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: Sequelize.STRING, notNull: true },
   description: { type: Sequelize.STRING, notNull: true }
-}, { timestamps: false });
+}, { timestamps: true });
 
 var Moment = sequelize.define('moments', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: Sequelize.STRING, notNull: true },
   caption: { type: Sequelize.STRING, notNull: true }
-}, { timestamps: false });
+}, { timestamps: true });
 
 var Tag = sequelize.define('tags', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -40,7 +40,7 @@ var Tag = sequelize.define('tags', {
 var Comment = sequelize.define('comments', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   text: { type: Sequelize.STRING, notNull: true }
-}, {timestamps: false })
+}, {timestamps: true })
 
 //join tables
 var Moments_Stories = sequelize.define('moments_stories', {});
