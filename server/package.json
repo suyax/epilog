@@ -29,6 +29,7 @@
     "grunt-mocha-test": "^0.10.0",
     "grunt-nodemon": "^0.2.1",
     "grunt-shell": "^0.6.4",
+    "jwt-simple": "^0.4.1",
     "moment": "2.10.6",
     "node-uuid": "^1.4.7",
     "oauth": "0.9.14",
