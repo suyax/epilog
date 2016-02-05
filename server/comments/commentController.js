@@ -1,25 +1,31 @@
 var Comment = require('./commentModel');
 
+// add a comment,
+// input: text and momentid on body, userid from auth token
+// output: json comment object
 var addOne = function (req, res) {
   if(req.body.text === undefined || 
     req.body.momentId === undefined ||
     req.user.id === undefined){
     res.status(400).end();
   } else {
-    Comment.addOne(req.body.text, req.user.id, req.body.momentId)
+    Comment.addOne(req.body.text, parseInt(req.user.id), parseInt(req.body.momentId))
     .then(function (comment) {
-      ress.json(comment.get());
+      res.json(comment.get());
     })
     .catch(function(error){
-      console.log('failed to add a comment: ', error)
+      console.log('failed to add a comment (commentController line 18): ', error)
       res.status(400).end();
     });
   }
 };
 
+// get all of the comments by moment or by user
+// input: momentId or userId in url query
+// ouput: json array of comment objects
 var getAll = function (req, res) {
   if(req.query.momentId){
-    Comment.getAllByMoment(req.query.momentId)
+    Comment.getAllByMoment(parseInt(req.query.momentId))
     .then(function (comments) {
       res.json(comments.map(function(comment){
         /// get the data value out
@@ -31,7 +37,7 @@ var getAll = function (req, res) {
       res.status(400).end();
     });
   } else if (req.query.userId) {
-    Comment.getAllByUser(req.query.userId)
+    Comment.getAllByUser(parseInt(req.query.userId))
     .then(function (comments) {
       res.json(comments.map(function(comment){
         return comment.get();
@@ -45,11 +51,15 @@ var getAll = function (req, res) {
     res.status(400).end();
   }
 };
+
+// get one comment given a comment
+// input: momentId on the request body
+// output: json comment object
 var getOne = function (req, res, next) {
-  if(req.body.commentId === undefined){
+  if(req.params.commentId === undefined){
     res.status(400).end();
   } else {
-    Comment.getOne(req.body.commentId)
+    Comment.getOne(req.params.commentId)
     .then(function (comment) {
       res.json(comment.get());
     })
@@ -58,3 +68,9 @@ var getOne = function (req, res, next) {
     });
   }
 };
+
+module.exports = {
+  addOne: addOne,
+  getAll: getAll,
+  getOne: getOne
+}
