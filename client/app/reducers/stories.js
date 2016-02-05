@@ -1,3 +1,5 @@
+import {REQUEST_STORIES, RECIEVE_STORIES} from '../actions/storiesActions';
+
 const initialStates = {
   loaded: false,
   data: undefined,
@@ -8,12 +10,12 @@ const initialStates = {
 
 export default function stories(state = initialStates, action = {}) {
   switch (action.type) {
-    case "FETCH_STORIES":
+    case REQUEST_STORIES:
       return Object.assign({}, state, {
         loaded: false
       });
 
-    case "RECIEVE_STORIES":
+    case RECIEVE_STORIES:
       if(action.error === true){
         return Object.assign({}, state, {
           loaded: false,
