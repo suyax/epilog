@@ -7,8 +7,8 @@ var sequelize = new Sequelize('epilog',
   {
     dialect: 'postgres',
     host: process.env.DATABASE_URL || 'localhost',
+    logging: false,
   });
-
 
 //individual tables in database
 var User = sequelize.define('users', {
@@ -20,110 +20,63 @@ var User = sequelize.define('users', {
   password: { type: Sequelize.STRING, notNull: true }
 }, {timestamps: false });
 
-
 var Story = sequelize.define('stories', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  title: {
-    type: Sequelize.STRING,
-    notNull: true
-  },
-  description: {
-    type: Sequelize.STRING,
-    notNull: true
-  }
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  title: { type: Sequelize.STRING, notNull: true },
+  description: { type: Sequelize.STRING, notNull: true }
 }, { timestamps: false });
 
-
 var Moment = sequelize.define('moments', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  url: {
-    type: Sequelize.STRING,
-    notNull: true
-  },
-  caption: {
-    type: Sequelize.STRING,
-    notNull: true
-  }
-}, { timestamps: true });
-
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  url: { type: Sequelize.STRING, notNull: true },
+  caption: { type: Sequelize.STRING, notNull: true }
+}, { timestamps: false });
 
 var Tag = sequelize.define('tags', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  name: {
-    type: Sequelize.STRING,
-    notNull: true
-  }
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: Sequelize.STRING, notNull: true }
 }, {timestamps: false })
 
-
 var Comment = sequelize.define('comments', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  text: {
-    type: Sequelize.STRING,
-    notNull: true
-  }
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  text: { type: Sequelize.STRING, notNull: true }
 }, {timestamps: false })
 
 //join tables
-var Moments_Stories = sequelize.define('moments_stories', {
-
-});
+var Moments_Stories = sequelize.define('moments_stories', {});
 
 
-var Users_Stories = sequelize.define('users_stories', {
+var Users_Stories = sequelize.define('users_stories', {});
 
-});
+var Tags_Moments = sequelize.define('tags_moments', {});
 
-var Tags_Moments = sequelize.define('tags_moments', {
+//define relationship between moments and stories (M <-> M)
+Moment.belongsToMany(Story, { through: Moments_Stories});
+Story.belongsToMany(Moment, { through: Moments_Stories});
 
-});
+//define relationship between users and moments (1 -> M)
+Moment.belongsTo(User, {foreignKey: 'userid'});
+User.hasMany(Moment, {foreignKey: 'userid'});
 
-//initialize db function
-var init = function () {
-  //define relationship between moments and stories (M <-> M)
-  Moment.belongsToMany(Story, { through: Moments_Stories});
-  Story.belongsToMany(Moment, { through: Moments_Stories});
+//define relationship between stories and users (M <-> M)
+User.belongsToMany(Story, { through: Users_Stories});
+Story.belongsToMany(User, { through: Users_Stories});
 
-  //define relationship between users and moments (1 -> M)
-  Moment.belongsTo(User, {foreignKey: 'userid'});
-  User.hasMany(Moment, {foreignKey: 'userid'});
+//define relationship between moments and comments (1 -> M)
+Comment.belongsTo(Moment);
+Moment.hasMany(Comment);
 
-  //define relationship between stories and users (M <-> M)
-  User.belongsToMany(Story, { through: Users_Stories});
-  Story.belongsToMany(User, { through: Users_Stories});
+//define relationship between users and comments (1 -> M)
+Comment.belongsTo(User);
+User.hasMany(Comment);
 
-  //define relationship between moments and comments (1 -> M)
-  Comment.belongsTo(Moment, {foreignKey: 'momentid'});
-  Moment.hasMany(Comment, {foreignKey: 'momentid'});
+//define relationship between tags and moments (M <-> M)
+Tag.belongsToMany(Moment, { through: Tags_Moments});
+Moment.belongsToMany(Tag, { through: Tags_Moments});
 
-  //define relationship between users and comments (1 -> M)
-  Comment.belongsTo(User, {foreignKey: 'userid'});
-  User.hasMany(Comment, {foreignKey: 'userid'});
-
-  //define relationship between tags and moments (M <-> M)
-  Tag.belongsToMany(Moment, { through: Tags_Moments});
-  Moment.belongsToMany(Tag, { through: Tags_Moments});
-
-  //build out all tables
-  return sequelize.sync();
-};
-
+//build out all tables
+// calling this is also required for the nice association methods to work
+sequelize.sync();
 
 module.exports = {
   sequelize: sequelize,
@@ -135,5 +88,4 @@ module.exports = {
   Moments_Stories: Moments_Stories,
   Users_Stories: Users_Stories,
   Tags_Moments: Tags_Moments,
-  init: init,
 };
