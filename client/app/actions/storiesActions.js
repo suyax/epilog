@@ -1,12 +1,12 @@
 import {AsyncStorage} from 'react-native';
 
-export const FETCH_STORIES = 'FETCH_STORIES';
+export const REQUEST_STORIES = 'REQUEST_STORIES';
 export const RECIEVE_STORIES = 'RECIEVE_STORIES';
 const ALL_STORIES_URL = 'http://127.0.0.1:3000/api/stories'
 
-export function fetchStories () {
+export function requestStories () {
   return {
-    type: FETCH_STORIES,
+    type: REQUEST_STORIES,
   }
 }
 
@@ -30,7 +30,7 @@ export function failureStories (error) {
 
 export function fetchStories () {
   return function (dispatch) {
-    dispatch(fetchStories); // let the user know we are loading the stories
+    dispatch(requestStories()); // let the user know we are loading the stories
     return ( // return the promise for convenience
       AsyncStorage.getItem('token') // get the authentication token
       .then((value) => {
