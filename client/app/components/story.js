@@ -72,9 +72,8 @@ var Story = React.createClass({
   render: function() {
 
     let { width, height } = Dimensions.get('window');
-    const { asset, onBack } = this.props;
-
-
+    const { asset, onBack ,onPress} = this.props;
+    const story = this.props.asset;
     return (
       <View style={styles.container}>
         <View style={styles.scrollViewContainer}>
@@ -111,10 +110,12 @@ var Story = React.createClass({
     return (
       <View key={moment.id} style={styles.container}>
         <View style={styles.storyContainer}>
-          <Image
-            style={styles.backdrop}
-            source={{uri: moment.url}}>
-          </Image>
+          <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
+            <Image
+              style={styles.backdrop}
+              source={{uri: moment.url}}>
+            </Image>
+          </TouchableHighlight>
           <View>
             <Text style={styles.headline}>{moment.caption}</Text>
           </View>
