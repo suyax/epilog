@@ -48,7 +48,7 @@ module.exports = function(app) {
 
   //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for the story as well as tags/comments for that story
-  app.get('/api/stories/:storyTitle', controller.stories.getOne);
+  app.get('/api/stories/:storyId', controller.stories.getOne);
   // don't use check, use getOne above
   // app.post('/api/stories/check', controller.stories.check);
 

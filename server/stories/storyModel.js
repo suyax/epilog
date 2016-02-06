@@ -131,5 +131,24 @@ module.exports = {
     }).catch(function(err){
       console.error("error trying to get all story objects-->", err);
     });
+  },
+
+  getAllByTitle: function(storyTitle, userId) {
+    console.log('Reached getAllByTitle: ', storyTitle, userId);
+    return users.findOne({
+      where: {id: userId},
+      include: [{
+        model: stories
+      }]
+    })
+      .then(function (result) {
+        console.log('Results from storyModel: ', result);
+        return result.dataValues.stories.filter(function (story) {
+          return story.dataValues.title === storyTitle;
+        });
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 };

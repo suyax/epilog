@@ -24,7 +24,7 @@ module.exports =  {
       var parsedFileName = filename.split('_');
 
       // Fill the moment information container
-      momentData['caption'] = parsedFileName[1].split('+').join(' ');
+      momentData['caption'] = parsedFileName[1].split('%20').join(' ');
       momentData['storyid'] = Number(parsedFileName[2]);
       momentData['url'] = filepath;
       momentData['userid'] = Number(parsedFileName[3]);
