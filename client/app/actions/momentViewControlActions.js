@@ -1,7 +1,10 @@
-export const TOGGLE_COMMENTS = 'TOGGLE_COMMENTS';
+export const SET_COMMENTS_VISIBILITY = 'SET_COMMENTS_VISIBILITY';
 
-export function fetchStories () {
+export function setCommentsVisibility(value) {
   return {
-    type: TOGGLE_COMMENTS,
+    type: SET_COMMENTS_VISIBILITY,
+    paylod:{
+      value,
+    }
   }
 }

@@ -1,14 +1,14 @@
-import {TOGGLE_COMMENTS} from '../action/momentViewControlActions';
+import {SET_COMMENTS_VISIBILITY} from '../actions/momentViewControlActions';
 
 const initialStates = {
-  showComments : false
+  commentVisiblity : false
 };
 
-export default function viewControl(state = initialStates, action = {}) {
+export default function momentViewControl(state = initialStates, action = {}) {
   switch (action.type) {
-    case "TOGGLE_COMMENTS":
+    case "SET_COMMENTS_VISIBILITY":
       return Object.assign({}, state, {
-        showComments: !state.showComments;
+        commentVisibilty: action.payload.value,
       });    
     default:
       return state;
