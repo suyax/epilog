@@ -28,8 +28,6 @@ var Story = React.createClass({
     var tagObjsByMoment = moments.map(function(momentObj){return momentObj['tags'];});
     var arrayOfTagObjectsForStory = tagObjsByMoment.reduce(function(aggregator,arrOfTags){return aggregator.concat(arrOfTags);}, []);
     var arrayOfTagNames = arrayOfTagObjectsForStory.map(function(tagObj){return tagObj['name'];});
-    ; set these variables 
-
     //set the variables defined above to the view's state
     return {
       //holds all of the story titles associated with a particular user
