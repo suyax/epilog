@@ -7,17 +7,20 @@ export const FAILURE_COMMENTS = "FAILURE_COMMENTS";
 
 const ALL_COMMENTS_URL = SERVER_URL + '/api/comments'
 
-export function requestComments () {
+export function requestComments (momentId) {
   return {
     type: REQUEST_COMMENTS,
+    payload: {
+      momentId: momentId,
+    }
   }
 }
 
-export function recieveComments (stories) {
+export function recieveComments (comments) {
   return {
     type: RECIEVE_COMMENTS,
     payload: {
-      stories: stories,
+      comments: comments,
       recievedAt: Date.now(),
     },
   };
@@ -33,11 +36,11 @@ export function failureComments (error) {
 
 export function fetchComments (momentId) {
   return function (dispatch) {
-    dispatch(requestComments()); // let the user know we are loading the stories
+    dispatch(requestComments(momentId)); // let the user know we are loading the stories
     return ( // return the promise for convenience
       AsyncStorage.getItem('token') // get the authentication token
       .then((value) => {
-        return (fetch( ALL_STORIES_URL+'?momentid='+momentId, { // WARNING: STRING CONCAT IS DANGEROUS!
+        return (fetch( ALL_COMMENTS_URL+'?momentid='+momentId, { // WARNING: STRING CONCAT IS DANGEROUS!
           method: 'GET',
           headers: {
             'Accept': 'application/json',

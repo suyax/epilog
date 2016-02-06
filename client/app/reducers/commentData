@@ -1,0 +1,38 @@
+import {REQUEST_COMMENTS, RECIEVE_COMMENTS} from '../actions/commentDataActions';
+
+const initialStates = {
+  momentId: undefined,
+  loaded: false,
+  data: undefined,
+  lastUpdated: undefined,
+  error: false,
+  errorMessage: undefined,
+};
+
+export default function stories(state = initialStates, action = {}) {
+  switch (action.type) {
+    case REQUEST_COMMENTS:
+      return Object.assign({}, state, {
+        momentId:action.payload.momentId,
+        loaded: false,
+      });
+
+    case RECIEVE_COMMENTS:
+      if(action.error === true){
+        return Object.assign({}, state, {
+          loaded: false,
+          error: true,
+          errorMessage: action.payload,
+        });
+      } else {
+        return Object.assign({}, state, {
+          loaded: true,
+          data: action.payload.comments,
+          lastUpdated: action.payload.recievedAt,
+        });
+      }
+
+    default:
+      return state;
+  }
+}
