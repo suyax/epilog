@@ -11,7 +11,7 @@ var tags = require('../db/dbModel').Tag;
 module.exports = {
 
   add: function (storyData){
-    //data to go into story table 
+    //data to go into story table
     var dataForStoryTable = {
       title: storyData.title,
       description: storyData.description
@@ -37,7 +37,7 @@ module.exports = {
       console.error("Error at adding a story: ", err)
     });
   },
-  
+
   getOne: function (storyId){
     return stories.find({
       where: { id: storyId },
@@ -95,7 +95,7 @@ module.exports = {
           ]
         }]
     }).then(function(result){
-      console.log('Moments from getAll: ', 
+      console.log('Moments from getAll: ',
         result.stories.map(function (story) {
           return story.dataValues.moments;
         }));

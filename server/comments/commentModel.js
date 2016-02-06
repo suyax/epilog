@@ -1,4 +1,4 @@
-var dbModels = require('../db/dbModel')
+var dbModels = require('../db/dbModel');
 var User = dbModels.User;
 var Moment = dbModels.Moment;
 var Comment = dbModels.Comment;
@@ -14,7 +14,7 @@ var addOne = function (text, userID, momentID) {
 // input: momentID
 // output: (promise) array of comments
 var getAllByMoment = function (momentID) {
-  return Comment.findAll({where:{momentId: momentID}});
+  return Comment.findAll({where:{momentId: momentID},order:['createdAt', 'DESC']});
 };
 
 // get all the comments writen by given user
