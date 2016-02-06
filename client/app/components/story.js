@@ -13,16 +13,59 @@ import React, {
 } from 'react-native';
 
 import NavBar from './navBar';
+import AutoCompleteHelper from './autoComplete.js';
 
-class Story extends Component {
+var Story = React.createClass({
 
-  render() {
+  getInitialState: function() {
+    const story = this.props.asset; 
+    var moments = story.moments;
+    var tagObjsByMoment = moments.map(function(momentObj){return momentObj['tags'];});
+    var arrayOfTagObjectsForStory = tagObjsByMoment.reduce(function(aggregator,arrOfTags){return aggregator.concat(arrOfTags);}, []);
+    var arrayOfTagNames = arrayOfTagObjectsForStory.map(function(tagObj){return tagObj['name'];});
+    
+    return {
+      //holds all of the story titles associated with a particular user
+      story: story,
+      moments: moments,
+      tagObjsByMoment: tagObjsByMoment,
+      arrayOfTagNames: arrayOfTagNames,
+      filteredMoments: moments
+    };
+  },
+
+  filterMoments: function(event){
+    var tagToFilterBy = event.nativeEvent.text;
+    if(tagToFilterBy === ""){
+      this.setState({filteredMoments: this.state.moments});
+      return; 
+    } else {
+      var copyOfMoments = this.state.moments.slice(0);
+      var filtered = copyOfMoments.filter(function(moment){
+        var momentTagNames = moment['tags'].map(function(tagObj){
+          return tagObj.name;
+        });
+        return momentTagNames.indexOf(tagToFilterBy) > -1;
+      })
+      this.setState({filteredMoments : filtered});
+    }
+  },
+
+  render: function() {
+
     let { width, height } = Dimensions.get('window');
     const { asset, onBack } = this.props;
-    const story = this.props.asset;
+
+
     return (
       <View style={styles.container}>
         <View style={styles.scrollViewContainer}>
+          <AutoCompleteHelper 
+            placeholder="Filter by Tag"
+            data = {this.state.arrayOfTagNames}
+            onFocus = {this.unfilterMoments}
+            onBlur = {this.filterMoments}
+          />
           <ScrollView
               style={styles.scrollView}
               showsVerticalScrollIndicator={true}
@@ -30,12 +73,12 @@ class Story extends Component {
               horizontal={false}
               snapToInterval={height/2}
               snapToAlignment={'start'}>
-              {story.moments.map(this.createRow)}
+              {this.state.filteredMoments.map(this.createRow)}
           </ScrollView>
         </View>
         <View style={styles.row}>
           <TouchableHighlight
-            key={story}
+            key={this.state.story}
             onPress={onBack}
             onShowUnderlay={this.onHighlight}
             onHideUnderlay={this.onUnhighlight}>
@@ -44,9 +87,9 @@ class Story extends Component {
         </View>
       </View>
     );
-  }
+  },
 
-  createRow(moment) {
+  createRow: function(moment) {
     return (
       <View key={moment.id} style={styles.container}>
         <View style={styles.storyContainer}>
@@ -68,7 +111,7 @@ class Story extends Component {
       </View>
       )
   }
-}
+});
 
 var styles = StyleSheet.create({
   timeLine: {

@@ -15,7 +15,9 @@ var makeToken = function (userid) {
     userid: userid,
     expires: Date.now() + EXPIRE,
   };
-  return jwt.encode(payload, SECRET);
+  var token = jwt.encode(payload, SECRET);
+  // console.log(token);
+  return token;
 };
 
 // takes in username and password
