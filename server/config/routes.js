@@ -33,7 +33,8 @@ module.exports = function(app) {
 
   // every route after this line will be authenticated with a token
   app.use(controller.auth.authenticateToken);
-  
+
+
   ////////////////////////////////////STORIES//////////////////////////////////////////
 
   //check if story is already associated to user (COMPLETED V1/CHECKED)
@@ -47,7 +48,7 @@ module.exports = function(app) {
 
   //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for the story as well as tags/comments for that story
-  app.get('/api/stories/:storyId', controller.stories.getOne);
+  app.get('/api/stories/:storyTitle', controller.stories.getOne);
   // don't use check, use getOne above
   // app.post('/api/stories/check', controller.stories.check);
 
@@ -96,7 +97,5 @@ module.exports = function(app) {
   // output: json comment object
   app.post('/api/comments/', controller.comments.addOne);
 
-
-
-
+  //////////////////////////
 };

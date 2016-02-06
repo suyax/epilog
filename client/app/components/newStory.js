@@ -27,55 +27,89 @@ class NewStory extends Component {
     var existingUsersToInclude = textInputs.newStoryCharacters.split(', ');
 
     return AsyncStorage.getItem('token')
+
       .then((result) => {
-        console.log(result);
-        fetch('http://127.0.0.1:3000/api/stories', {
-          method: 'POST',
+        fetch('http://127.0.0.1:3000/api/users', {
+          method: 'GET',
           headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'token': result
-          },
-          body: JSON.stringify({
-            title: title,
-            description: description,
-            existingUsersToInclude: existingUsersToInclude
-          })
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'token': result,
+            'emails': JSON.stringify(existingUsersToInclude)
+          }
         })
         .then((response) => response.json())
         .then((responseData) => {
-
-          console.log(responseData);
-
-          AsyncStorage.getItem('token')
-            .then((result) => {
-              var characters = String(existingUsersToInclude) + '_' || '';
-
-              return {
-                uri: asset.node.image.uri,
-                uploadUrl: 'http://127.0.0.1:3000/api/moments',
-                fileName: title + '_' + caption + '_' + 
-                  String(responseData.storyId) + '_' + 
-                  String(responseData.userId) + '_' + characters + '.png',
-                mimeType: 'image',
-                headers: {
-                  token: String(result)
-                }
-              };
-            })
-            .then((result) => {
-              NativeModules.FileTransfer.upload(result, (err, res) => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log(res);
-                  return res;
-                }
-              });
-            })
+          return {
+            'token': result,
+            'userids': responseData
+          }
         })
-        .catch((error) => {
-          // console.error(error);
+        .then((result) => {
+          fetch('http://127.0.0.1:3000/api/stories', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'token': result.token
+            },
+            body: JSON.stringify({
+              title: title,
+              description: description,
+              existingUsersToInclude: result.userids
+            })
+          })
+          .then((response) => response.json())
+          .then((responseData) => {
+
+            AsyncStorage.getItem('token')
+              .then((result) => {
+                fetch('http://127.0.0.1:3000/api/users', {
+                  method: 'GET',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'token': result,
+                    'emails': JSON.stringify(existingUsersToInclude)
+                  }
+                })
+                .then((response) => response.json())
+                .then((responseData) => {
+                  return {
+                    'token': result,
+                    'userids': responseData
+                  }
+                })
+                .then((result) => {
+                  var characters = String(result.userids) + '_' || '';
+
+                  return {
+                    uri: asset.node.image.uri,
+                    uploadUrl: 'http://127.0.0.1:3000/api/moments',
+                    fileName: title + '_' + caption + '_' + 
+                      String(responseData.storyId) + '_' + 
+                      String(responseData.userId) + '_' + characters + '.png',
+                    mimeType: 'image',
+                    headers: {
+                      token: result.token
+                    }
+                  };
+                })
+                .then((result) => {
+                  NativeModules.FileTransfer.upload(result, (err, res) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log(res);
+                      return res;
+                    }
+                  });
+                })
+              })
+          })
+          .catch((error) => {
+            // console.error(error);
+          });
         });
       });
   }

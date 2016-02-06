@@ -1,4 +1,5 @@
 var userModel = require('./userModel');
+var Promise = require('bluebird');
 
 module.exports =  {
   
@@ -20,6 +21,21 @@ module.exports =  {
         res.status(404).json();
       });
   },
+
+  find: function(req, res) {
+    var emails = JSON.parse(req.headers.emails);
+
+    Promise.map(emails, function (email) {
+      return userModel.getByEmail(email)
+        .then(function (result) {
+          return result.dataValues.id;
+        });
+    })
+      .then(function (mapped) {
+        res.status(201).json(mapped);
+      });
+  },
+
   remove: function (req, res){
   },
   addFriend: function (req, res){
