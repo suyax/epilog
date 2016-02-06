@@ -13,9 +13,6 @@ import React, {
 import NavBar from './navBar';
 
 class Library extends Component {
-  componentDidMount() {
-    this.props.onLoad();
-  }
 
   render() {
     const { stories } = this.props

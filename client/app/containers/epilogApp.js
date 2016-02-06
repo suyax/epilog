@@ -27,6 +27,14 @@ Moment,
 //import LogInFail from '../components/logInFail';
 //router for the app
 class EpiLogApp extends Component {
+  componentDidMount(){
+    const {storiesState, storiesActions} = this.props
+    if (!storiesState.loaded || 
+      // or the last time we updated was 5 minutes ago
+      (Date.now() - storiesState.lastUpdated) > (5 * 60 * 1000)){
+        storiesActions.fetchStories();
+    }
+  }
 
   render() {
     // Be explicit about what is available as props
@@ -37,7 +45,8 @@ class EpiLogApp extends Component {
       storiesActions,
       authState,
       authActions,
-
+      momentViewActions,
+      momentViewState,
     } = this.props;
 
     switch (viewControlState.currentView) {
@@ -77,7 +86,6 @@ class EpiLogApp extends Component {
         return (
           <Library
           stories={storiesState}
-          onLoad={storiesActions.fetchStories}
           onTouchImage={ (asset) =>{ viewControlActions.setView('STORY', { asset: asset }) }}
           />);
       case "STORY":
@@ -85,6 +93,7 @@ class EpiLogApp extends Component {
           <Story
           asset={viewControlState.passedProps.asset}
           onBack={ () => { viewControlActions.setView('LIBRARY') }}
+          onPress={(moment) => viewControlActions.setView('MOMENT_VIEW', {moment: moment})}
           />);
       case "NEW_STORY":
         return (
@@ -116,7 +125,10 @@ class EpiLogApp extends Component {
           }
         />);
       case "MOMENT_VIEW":
-        return (<Moment
+        return(<Moment
+          commentsVisibility={momentViewState.commentsVisibility}
+          setCommentsVisibility={momentViewActions.setCommentsVisibility}
+          assetURL={viewControlState.passedProps.moment.url}
         />);
       default:
         return <LogIn />;
@@ -128,13 +140,14 @@ export default connect(state => ({
     viewControlState: state.viewControl,
     storiesState: state.stories,
     authState: state.authControl,
-    Urls:state.Urls, // where the various url's are
+    momentViewState: state.momentViewControl,
   }),
   (dispatch) => ({
     viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
     storiesActions: bindActionCreators(actions.storiesActions, dispatch),
     authActions: bindActionCreators(actions.authActions, dispatch),
     thunkFetch: bindActionCreators(actions.thunkFetch, dispatch),
+    momentViewActions: bindActionCreators(actions.momentViewControlActions, dispatch),
   })
 )(EpiLogApp);
 

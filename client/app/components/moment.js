@@ -12,18 +12,19 @@ const {
 } = React;
 
 class Button extends Component{
-  getInitialState() {
-    return {
+  constructor (props) {
+    super(props);
+    this.state = {
       active: false,
     };
   }
 
   _onHighlight() {
-    this.setState({active: true});
+    this.state.active = true;
   }
 
   _onUnhighlight() {
-    this.setState({active: false});
+    this.state.active = false;
   }
 
   render() {
@@ -32,10 +33,8 @@ class Button extends Component{
     };
     return (
       <TouchableHighlight
-        onHideUnderlay={this._onUnhighlight}
         onPress={this.props.onPress}
-        onShowUnderlay={this._onHighlight}
-        style={[styles.button, this.props.style]}
+        style={[styles.button]}
         underlayColor="#a9d9d4">
           <Text style={[styles.buttonText, colorStyle]}>{this.props.children}</Text>
       </TouchableHighlight>
@@ -43,34 +42,36 @@ class Button extends Component{
   }
 }
 
-class MomentView extends Component{
+class Moment extends Component{
 
   render (){
     var modalBackgroundStyle = {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     };
     var innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
-
-    <View>
-      <Modal
-        animated={true}
-        transparent={true}
-        visible={this.state.modalVisible}>
-        <View style={[styles.container, modalBackgroundStyle]}>
-          <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-            <Text>This modal was presented {this.state.animated ? 'with' : 'without'} animation.</Text>
-            <Button
-              onPress={this._setModalVisible.bind(this, false)}
-              style={styles.modalButton}>
-              Close
-            </Button>
+    console.log(this.props);
+    return (
+      <View>
+        <Modal
+          animated={true}
+          transparent={true}
+          visible={this.props.commentsVisibility}>
+          <View style={[styles.container, modalBackgroundStyle]}>
+            <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+              <Text>This modal was presented with animation.</Text>
+              <Button
+                onPress={()=>this.props.setCommentsVisibility(false)}
+                style={styles.modalButton}>
+                Close
+              </Button>
+            </View>
           </View>
-        </View>
-      </Modal>
-      <Button onPress={this._setModalVisible.bind(this, true)}>
-        Present
-      </Button>
-    </View>
+        </Modal>
+        <Button onPress={()=>this.props.setCommentsVisibility(true)}>
+          Present
+        </Button>
+      </View>
+    )
   }
 }
 
@@ -111,3 +112,5 @@ var styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
+module.exports = Moment;
