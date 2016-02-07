@@ -35,7 +35,6 @@ var EditMoment = React.createClass({
     
     return AsyncStorage.getItem('token')
       .then((result) => {
-        console.log('Token: ', result);
         return fetch(storyTitlesUrl, {
             method: 'GET',
             headers: {
@@ -126,7 +125,6 @@ var EditMoment = React.createClass({
         })
         .then((response) => response.json())
         .then((responseData) => {
-          console.log('Response Data in editMoment: ', responseData);
           if (responseData) {
             var storyid = responseData.id;
             var title = storyTitle.split(' ').join('%20');

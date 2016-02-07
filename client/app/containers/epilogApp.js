@@ -103,8 +103,6 @@ class EpiLogApp extends Component {
           asset={viewControlState.passedProps.asset}
           onCancel={()=>{viewControlActions.setView('CAPTURE')}}
           onSubmit={(redirect, asset)=>{
-              console.log('Edit moment redirect: ', redirect);
-              console.log('Edit moment asset: ', asset);
               if (redirect === 'HOME') {
                 viewControlActions.setView('HOME');
               } else {
