@@ -2,20 +2,6 @@ var storyModel = require('./storyModel');
 
 module.exports =  {
 
-  check: function(req, res){
-    var userId = req.user.id;
-    var title = req.body.title;
-    var caption = req.body.caption;
-
-    storyModel.check(userId, title, caption)
-      .then(function (result) {
-        res.status(200).json(result);
-      })
-      .catch(function (error) {
-        res.status(404).json();
-      });
-  },
-
   add: function (req, res){
     //convert param representing storyCreator to number
     var storyCreator = Number(req.user.id);
@@ -77,7 +63,7 @@ module.exports =  {
         })
         .catch(function (error) {
           console.log('Failed to retrieve story by title: ', error);
-          res.status(404).end();
+          res.status(404).send(false);
         });
     } else {
       console.log('Story Controller Reached');

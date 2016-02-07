@@ -152,9 +152,8 @@ class NewStory extends Component {
           <TouchableHighlight key={asset} onPress={() => {
             if (textInputs.newStoryTitle && textInputs.newStoryDescription) {
               this.submitNewStory(textInputs, asset)
-                .then((result) => {
-                  console.log(result);
-                  onSubmit(result);
+                .then(() => {
+                  onSubmit();
                 });
             }
           }}>

@@ -10,34 +10,6 @@ var tags = require('../db/dbModel').Tag;
 
 module.exports = {
 
-  check: function (userId, title, caption) {
-    // console.log("check params from controller -->", userId, title);
-    return stories.find({
-        attributes: ['id', 'title'],
-        include: [{
-          model: users,
-          where: {
-            id: userId
-          }
-        }],
-        where: {
-          title: title
-        }
-      })
-      .then(function (result) {
-        var exists = result !== null ? true : false;
-
-        if (exists) {
-          return result;
-        } else {
-          return false;
-        }
-      })
-      .catch(function (error) {
-        console.error('Error checking a story: ', error);
-      });
-  },
-
   add: function (storyData){
     //data to go into story table 
     var dataForStoryTable = {

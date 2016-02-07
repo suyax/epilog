@@ -113,8 +113,6 @@ var EditMoment = React.createClass({
     var momentCaption = textInputs.caption;
     var checkStoryURL = 'http://127.0.0.1:3000/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
 
-    console.log('Story Title in submitMoment: ', storyTitle);
-
     return AsyncStorage.getItem('token')
       .then((result) => {
         return fetch(checkStoryURL, {
@@ -128,6 +126,7 @@ var EditMoment = React.createClass({
         })
         .then((response) => response.json())
         .then((responseData) => {
+          console.log('Response Data in editMoment: ', responseData);
           if (responseData) {
             var storyid = responseData.id;
             var title = storyTitle.split(' ').join('%20');
@@ -158,14 +157,15 @@ var EditMoment = React.createClass({
               })
 
             return 'HOME';
+          } else {
+            asset.node.caption = momentCaption;
+            console.log('Asset passed to NEW_STORY: ', asset);
+
+            return 'NEW_STORY';
           }
-
-          asset.node.caption = momentCaption;
-
-          return 'NEW_STORY';
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
       })
       .then((result) => {
