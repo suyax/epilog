@@ -33,7 +33,8 @@ module.exports = function(app) {
 
   // every route after this line will be authenticated with a token
   app.use(controller.auth.authenticateToken);
-  
+
+  app.get('/api/users', controller.users.find);
   ////////////////////////////////////STORIES//////////////////////////////////////////
 
   //check if story is already associated to user (COMPLETED V1/CHECKED)
@@ -96,7 +97,5 @@ module.exports = function(app) {
   // output: json comment object
   app.post('/api/comments/', controller.comments.addOne);
 
-
-
-
+  //////////////////////////
 };

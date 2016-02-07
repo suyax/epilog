@@ -2,20 +2,6 @@ var storyModel = require('./storyModel');
 
 module.exports =  {
 
-  check: function(req, res){
-    var userId = req.user.id;
-    var title = req.body.title;
-    var caption = req.body.caption;
-
-    storyModel.check(userId, title, caption)
-      .then(function (result) {
-        res.status(200).json(result);
-      })
-      .catch(function (error) {
-        res.status(404).json();
-      });
-  },
-
   add: function (req, res){
     //convert param representing storyCreator to number
     var storyCreator = Number(req.user.id);
@@ -67,12 +53,37 @@ module.exports =  {
   
   getAll: function (req, res) {
     var userId = req.user.id;
-    storyModel.getAll(userId)
-      .then(function (results) {
-        res.status(200).json(results);
-      })
-      .catch(function (error) {
-        res.status(404).json();
-      });
+    console.log(req.query.storyTitle);
+
+    if (req.query.storyTitle) {
+      storyModel.getAllByTitle(req.query.storyTitle, userId)
+        .then(function (stories) {
+          stories[0].userId = userId;
+          res.json(stories[0].dataValues);
+        })
+        .catch(function (error) {
+          console.log('Failed to retrieve story by title: ', error);
+          res.status(404).send(false);
+        });
+    } else {
+      console.log('Story Controller Reached');
+      storyModel.getAll(userId)
+        .then(function (stories) {
+          res.status(200).json(stories);
+        })
+        .catch(function (error) {
+          console.log('Failed to retrieve stories for user: ', error);
+          res.status(404).end();
+        });
+    }
+
+    // var userId = req.user.id;
+    // storyModel.getAll(userId)
+    //   .then(function (results) {
+    //     res.status(200).json(results);
+    //   })
+    //   .catch(function (error) {
+    //     res.status(404).json();
+    //   });
   }
 };

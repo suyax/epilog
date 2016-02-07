@@ -23,29 +23,31 @@ module.exports = {
         }, {transaction: t})
         //next, check if new users have been added to story via moment
         .then(function (addedMoment) {
-          // console.log("addedMoment-->", addedMoment.dataValues);
-          
-          momentId = addedMoment.dataValues.id;
-          //if so, add new users to users_stories join table
-          if(momentInfo.newCharacters && momentInfo.newCharacters.length > 0){
-            var dataForUsersStoriesTable = momentInfo.newCharacters.map(function(userId){
-              return {storyId: momentInfo.storyid, userId: userId};
-            });
-            // console.log("dataForUsersStoriesTable -->",dataForUsersStoriesTable);
-            return users_stories.bulkCreate(
-              dataForUsersStoriesTable
-              ,{transaction: t});
-          }
-          //if no additional users added, simply return the addedMoment and move onto last promise
-          return addedMoment;
-        //finally, add moment to story id in the moments_stories join table
-        }).then(function () {
-          var momentStoryDataPair = {storyId: momentInfo.storyid, momentId: momentId};
+          var momentStoryDataPair = { storyId: momentInfo.storyid, momentId: addedMoment.dataValues.id };
           // console.log("momentStoryDataPair-->", momentStoryDataPair);
           return moments_stories.create(
             momentStoryDataPair
             , {transaction: t});
-        }).then(function (result) {
+        })
+        // .then(function (addedMoment) {
+        //   console.log("Moment added within model file: ", addedMoment);
+          
+        //   momentId = addedMoment.dataValues.id;
+        //   //if so, add new users to users_stories join table
+        //   if(momentInfo.newCharacters && momentInfo.newCharacters.length > 0){
+        //     var dataForUsersStoriesTable = momentInfo.newCharacters.map(function(userId){
+        //       return {storyId: momentInfo.storyid, userId: userId};
+        //     });
+        //     // console.log("dataForUsersStoriesTable -->",dataForUsersStoriesTable);
+        //     return users_stories.bulkCreate(
+        //       dataForUsersStoriesTable
+        //       ,{transaction: t});
+        //   }
+        //   //if no additional users added, simply return the addedMoment and move onto last promise
+        //   return addedMoment;
+        // //finally, add moment to story id in the moments_stories join table
+        // })
+        .then(function (result) {
           console.log("successfully added a moment");
           return result.dataValues;
         }).catch(function (err) {

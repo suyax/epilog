@@ -24,10 +24,19 @@ module.exports =  {
       var parsedFileName = filename.split('_');
 
       // Fill the moment information container
-      momentData['caption'] = parsedFileName[1].split('+').join(' ');
+      momentData['caption'] = parsedFileName[1].split('%20').join(' ');
       momentData['storyid'] = Number(parsedFileName[2]);
       momentData['url'] = filepath;
       momentData['userid'] = Number(parsedFileName[3]);
+
+      if (parsedFileName.length === 6) {
+        var newCharacters = parsedFileName[4].split(',');
+        newCharacters.forEach(function (character) {
+          character = Number(character);
+        });
+
+        momentData['newCharacters'] = newCharacters;
+      }
 
       // Preserve binding to file inside fs.stat
       var fileData = file;
@@ -56,6 +65,7 @@ module.exports =  {
           fileData.on('end', function() {
             momentModel.add(momentData)
               .then(function (results){
+                console.log('Adding moment: ', results);
                 writeStream.end();
                 res.status(201).json(results);
               })

@@ -10,34 +10,6 @@ var tags = require('../db/dbModel').Tag;
 
 module.exports = {
 
-  check: function (userId, title, caption) {
-    // console.log("check params from controller -->", userId, title);
-    return stories.find({
-        attributes: ['id', 'title'],
-        include: [{
-          model: users,
-          where: {
-            id: userId
-          }
-        }],
-        where: {
-          title: title
-        }
-      })
-      .then(function (result) {
-        var exists = result !== null ? true : false;
-
-        if (exists) {
-          return result;
-        } else {
-          return false;
-        }
-      })
-      .catch(function (error) {
-        console.error('Error checking a story: ', error);
-      });
-  },
-
   add: function (storyData){
     //data to go into story table 
     var dataForStoryTable = {
@@ -116,16 +88,39 @@ module.exports = {
     return users.findOne({
         where: {id: userId},
         include: [{
-          model:stories,
+          model: stories,
           include: [
-            {model: moments, include: [{model: tags}]},
+            {model: moments/*, include: [{model: tags}]*/},
             {model: users, attributes: ['id', 'firstName', 'lastName', 'email']}
           ]
         }]
     }).then(function(result){
+      console.log('Moments from getAll: ', 
+        result.stories.map(function (story) {
+          return story.dataValues.moments;
+        }));
       return result.stories;
     }).catch(function(err){
       console.error("error trying to get all story objects-->", err);
     });
+  },
+
+  getAllByTitle: function(storyTitle, userId) {
+    console.log('Reached getAllByTitle: ', storyTitle, userId);
+    return users.findOne({
+      where: {id: userId},
+      include: [{
+        model: stories
+      }]
+    })
+      .then(function (result) {
+        console.log('Results from storyModel: ', result);
+        return result.dataValues.stories.filter(function (story) {
+          return story.dataValues.title === storyTitle;
+        });
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 };

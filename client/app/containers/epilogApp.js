@@ -88,8 +88,7 @@ class EpiLogApp extends Component {
           asset={viewControlState.passedProps.asset}
           storyTitle={viewControlState.passedProps.storyTitle}
           onBack={()=>{viewControlActions.setView('CAPTURE')}}
-          onSubmit={(redirect)=>{
-            console.log('Reached');
+          onSubmit={()=>{
             viewControlActions.setView('LIBRARY');
           }}
           />
@@ -105,10 +104,10 @@ class EpiLogApp extends Component {
           onCancel={()=>{viewControlActions.setView('CAPTURE')}}
           onSubmit={(redirect, asset)=>{
               if (redirect === 'HOME') {
-                viewControlActions.setView('HOME', {});
+                viewControlActions.setView('HOME');
+              } else {
+                viewControlActions.setView('NEW_STORY', { asset: asset });
               }
-
-              viewControlActions.setView('NEW_STORY', { asset: asset });
             }
           }
         />);

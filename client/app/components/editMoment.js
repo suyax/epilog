@@ -70,6 +70,7 @@ var EditMoment = React.createClass({
   //grabs all tags for a given story in the db; if story is NEW...returns an empty array
   getStoryTags: function(event){
     this.setState({currentStory: event.nativeEvent.text});
+
     if(this.state.currentStory.toLowerCase() in this.state.storyIdLookUp){
       var storyId = this.state.storyIdLookUp[this.state.currentStory];
       var storyTagsUrl = 'http://127.0.0.1:3000/api/tags/' + storyId;
@@ -107,31 +108,28 @@ var EditMoment = React.createClass({
   },
 
   submitMoment: function(textInputs, asset) {
-    var storyTitle = textInputs.storyTitle;
+    var storyTitle = this.state.currentStory;
     var momentCaption = textInputs.caption;
-    var submitMomentURL = 'http://127.0.0.1:3000/api/stories/check';
+    var checkStoryURL = 'http://127.0.0.1:3000/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
 
     return AsyncStorage.getItem('token')
       .then((result) => {
-        return fetch(submitMomentURL, {
-          method: 'POST',
+        return fetch(checkStoryURL, {
+          method: 'GET',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'token': result
-          },
-          body: JSON.stringify({
-            caption: momentCaption,
-            title: storyTitle
-          })
+            'token': result,
+            'caption': momentCaption,
+          }
         })
         .then((response) => response.json())
         .then((responseData) => {
           if (responseData) {
             var storyid = responseData.id;
-            var title = storyTitle.split(' ').join('+');
-            var caption = momentCaption.split(' ').join('+');
-            var userid = responseData.users[0].id;
+            var title = storyTitle.split(' ').join('%20');
+            var caption = momentCaption.split(' ').join('%20');
+            var userid = responseData.userId;
 
             AsyncStorage.getItem('token')
               .then((result) => {
@@ -157,11 +155,15 @@ var EditMoment = React.createClass({
               })
 
             return 'HOME';
+          } else {
+            asset.node.caption = momentCaption;
+            console.log('Asset passed to NEW_STORY: ', asset);
+
+            return 'NEW_STORY';
           }
-          return 'NEW_STORY';
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
       })
       .then((result) => {
@@ -195,7 +197,7 @@ var EditMoment = React.createClass({
           </TouchableHighlight>
 
           <TouchableHighlight key={asset} onPress={() => {
-              if (textFields.caption && textFields.storyTitle && textFields.tags) {
+              if (this.state.currentStory && textFields.caption) {
                 this.submitMoment(textFields, asset)
                   .then((result) => {
                     onSubmit(result, asset);
