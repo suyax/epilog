@@ -4,8 +4,6 @@ var Comment = require('./commentModel');
 // input: text and momentid on body, userid from auth token
 // output: json comment object
 var addOne = function (req, res) {
-  console.log("ADDING A COMMENT!");
-  console.log("text: ", req.body.text, ", momentId: ", req.body.momentId);
   if(req.body.text === undefined || 
     req.body.momentId === undefined ||
     req.user.id === undefined){

@@ -14,7 +14,13 @@ var addOne = function (text, userID, momentID) {
 // input: momentID
 // output: (promise) array of comments
 var getAllByMoment = function (momentID) {
-  return Comment.findAll({where:{momentId: momentID},order:['createdAt', 'DESC']});
+  return Comment.findAll({
+    where:{momentId: momentID},
+    order:['createdAt', 'DESC'],
+    include:[
+      { model: User, attributes: ['firstName','lastName']}
+    ]
+  });
 };
 
 // get all the comments writen by given user

@@ -31,7 +31,7 @@ class Moment extends Component{
     super(props);
 
     this.state = {
-      newComment: undefined,
+      newComment: "",
     }
   }
 
@@ -40,11 +40,8 @@ class Moment extends Component{
     if ((comments.lastUpdated === undefined && !comments.loading) || 
       // did we load the correct set of comments?
       comments.momentId !== moment.id ||
-      // a new comment was successfully submitted
-      (!submitStatus.submitting && submitStatus.lastUpdated > comments.lastUpdated) ||
       // or the last time we updated was 5 minutes ago
       (Date.now() - comments.lastUpdated) > (5 * 60 * 1000)){
-      console.log("FETCHING!");
       fetchComments(moment.id);
     }
   }
@@ -61,6 +58,8 @@ class Moment extends Component{
           {comments.data.map((comment)=>{
             return(
               <View key={comment.id}>
+                <Text>{comment.user.firstName}</Text>
+                <Text>{comment.user.lastName}</Text>
                 <Text>{comment.text}</Text>
               </View>
               )
@@ -71,7 +70,7 @@ class Moment extends Component{
   }
 
   render (){
-    const {moment, comments, submitComment} = this.props;
+    const {moment, comments, submitComment, fetchComments} = this.props;
     var innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
     return (
       <View style={{flex: 1}}>
@@ -97,13 +96,17 @@ class Moment extends Component{
                 Close
               </Button>
               <TextInput 
-                ref="comment"
+                value={this.state.newComment}
                 style={styles.textInput} 
                 placeholder={'Write a Comment'}
                 onChangeText={(text) => this.setState({newComment: text})}
               />
               <Button
-                onPress={()=>submitComment(this.state.newComment,moment.id)}
+                onPress={()=>{
+                  submitComment(this.state.newComment,moment.id)
+                  .then(()=>fetchComments(moment.id))
+                  .then(()=>this.setState({newComment:""}));
+                }}
                 style={styles.modalButton}>
                 Submit
               </Button>

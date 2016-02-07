@@ -100,8 +100,6 @@ export function failureSubmitComment (error) {
 // userid will be retrieved from the auth token
 export function submitComment (text, momentId) {
   return function (dispatch) {
-    console.log('SUBMITING NEW COMMENT!!!');
-    console.log('TEXT: ', text, ', MOMENTID', momentId);
     dispatch(requestSubmitComment(momentId)); // let the user know we are loading the stories
     return ( // return the promise for convenience
       AsyncStorage.getItem('token') // get the authentication token
@@ -126,11 +124,9 @@ export function submitComment (text, momentId) {
         return response.json();
       })
       .then((data) => {
-        console.log('SUCCESS!')
         return dispatch(successSubmitComment(data));
       })
       .catch((error) => {
-        console.log('FAILURE!')
         return dispatch(failureSubmitComment(error))
       })
     ); 
