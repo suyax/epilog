@@ -21,11 +21,16 @@ var Story = React.createClass({
   getInitialState: function() {
     //grab the story object associated with the story rendered on the story view (note: this
     //is passed in from the library view)
-    const story = this.props.asset; 
-    
+    const story = this.props.asset;
+
     //define variables that will ultimately give us access to the story's moments and tags
     var moments = story.moments;
-    var tagObjsByMoment = moments.map(function(momentObj){return momentObj['tags'];});
+    var checkTags = moments.filter(function(tag){
+      if (tag['tags']){
+        return tag;
+      }
+    });
+    var tagObjsByMoment = checkTags.map(function(momentObj){if (momentObj){console.log(momentObj);return momentObj['tags']}});
     var arrayOfTagObjectsForStory = tagObjsByMoment.reduce(function(aggregator,arrOfTags){return aggregator.concat(arrOfTags);}, []);
     var arrayOfTagNames = arrayOfTagObjectsForStory.map(function(tagObj){return tagObj['name'];});
     //set the variables defined above to the view's state
@@ -49,7 +54,7 @@ var Story = React.createClass({
     //if nothing has been entered, set filtered array to ALL moments
     if(tagToFilterBy === ""){
       this.setState({filteredMoments: this.state.moments});
-      return; 
+      return;
     //otherwise, filter moments by tag name. if tag name doesn't match anything in db, return an empty array
     //(i.e. nothing should be displayed on the page)
     } else {
@@ -73,7 +78,7 @@ var Story = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.scrollViewContainer}>
-          <AutoCompleteHelper 
+          <AutoCompleteHelper
             placeholder="Filter by Tag"
             data = {this.state.arrayOfTagNames}
             onFocus = {this.unfilterMoments}
