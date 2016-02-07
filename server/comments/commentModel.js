@@ -16,7 +16,7 @@ var addOne = function (text, userID, momentID) {
 var getAllByMoment = function (momentID) {
   return Comment.findAll({
     where:{momentId: momentID},
-    order:['createdAt', 'DESC'],
+    order: [['createdAt', 'DESC']],
     include:[
       { model: User, attributes: ['firstName','lastName']}
     ]

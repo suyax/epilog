@@ -95,10 +95,6 @@ module.exports = {
           ]
         }]
     }).then(function(result){
-      console.log('Moments from getAll: ',
-        result.stories.map(function (story) {
-          return story.dataValues.moments;
-        }));
       return result.stories;
     }).catch(function(err){
       console.error("error trying to get all story objects-->", err);
