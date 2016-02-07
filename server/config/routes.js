@@ -35,8 +35,8 @@ module.exports = function(app) {
   app.use(controller.auth.authenticateToken);
 
   app.get('/api/users', controller.users.find);
-  ////////////////////////////////////STORIES//////////////////////////////////////////
 
+  ////////////////////////////////////STORIES//////////////////////////////////////////
   //check if story is already associated to user (COMPLETED V1/CHECKED)
   //create a new moment (COMPLETED V1/CHECKED --> excluding functionality to add moment to multiple stories)
     //need to be able to add a comment, tag, AND potentially add a new user to a story??
@@ -54,7 +54,7 @@ module.exports = function(app) {
 
   // This should be a GET stories below with a query in the URL
   // app.post('/api/tags/:storyId', controller.stories.filterByTag);
-  
+
   //get all stories for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
@@ -70,21 +70,20 @@ module.exports = function(app) {
   //get all moments (probably don't need this going forward...)
   // inputs: storyid as input parameter
   app.get('/api/moments', controller.moments.getAll);
-  
+
   //get one moment
   app.get('/api/moments/:momentId', controller.moments.getOne);
 
-
   ////////////////////////////////////TAGS//////////////////////////////////////////////
-  
+
   // TODO: momentId should be a paramater in the post, since this is a post
   app.post('/api/tags/:momentId', controller.tags.add);
 
   // TODO storyid should be a url query parameter
   app.get('/api/tags/:storyId', controller.tags.getAllByStory);
- 
+
   ///////////////////////////////////COMMENTS///////////////////////////////////////////
-  
+
   app.get('/api/comments/:commentId', controller.comments.getOne);
 
   // get all of the comments by moment or by user
@@ -95,7 +94,11 @@ module.exports = function(app) {
   // add a comment,
   // input: text and momentid on body, userid from auth token
   // output: json comment object
-  app.post('/api/comments/', controller.comments.addOne);
+  app.post('/api/comments', controller.comments.addOne);
 
-  //////////////////////////
+  ///////////////////////////////////UPDATES///////////////////////////////////////////
+
+  //get the bathSize number of latest update
+  app.get('/api/updates', controller.updates.getRecent);
+
 };
