@@ -32,7 +32,7 @@ class EpiLogApp extends Component {
     if ((storiesState.lastUpdated === undefined && !storiesState.loading) || 
       // or the last time we updated was 5 minutes ago
       // will evaluate to false if lastUpdated is undefined. YAY JS!
-      (Date.now() - storiesState.lastUpdated) > (5 * 60 * 1000)){
+      (Date.now() - storiesState.lastUpdated) > (60 * 1000)){
         storiesActions.fetchStories();
     }
   }
