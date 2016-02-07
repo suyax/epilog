@@ -27,10 +27,11 @@ Moment,
 //import LogInFail from '../components/logInFail';
 //router for the app
 class EpiLogApp extends Component {
-  componentDidMount(){
+  componentWillMount(){
     const {storiesState, storiesActions} = this.props
-    if (!storiesState.loaded || 
+    if ((storiesState.lastUpdated === undefined && !storiesState.loading) || 
       // or the last time we updated was 5 minutes ago
+      // will evaluate to false if lastUpdated is undefined. YAY JS!
       (Date.now() - storiesState.lastUpdated) > (5 * 60 * 1000)){
         storiesActions.fetchStories();
     }
@@ -39,14 +40,11 @@ class EpiLogApp extends Component {
   render() {
     // Be explicit about what is available as props
     const {
-      viewControlState,
-      viewControlActions,
-      storiesState,
-      storiesActions,
-      authState,
-      authActions,
-      momentViewActions,
-      momentViewState,
+      viewControlState, viewControlActions,
+      storiesState, storiesActions,
+      authState, authActions,
+      momentViewState, momentViewActions,
+      commentState, commentActions,
     } = this.props;
 
     switch (viewControlState.currentView) {
@@ -68,7 +66,6 @@ class EpiLogApp extends Component {
           successLoggedIn={ () => { viewControlActions.setView('HOME') }}
           onSignUp={ () => { viewControlActions.setView('SIGNUP') }}
           />);
-
       case "SIGNUP":
         return (
           <SignUp
@@ -126,9 +123,13 @@ class EpiLogApp extends Component {
         />);
       case "MOMENT_VIEW":
         return(<Moment
+          fetchComments={commentActions.fetchComments}
+          comments={commentState.fetchedComments}
+          submitComment={commentActions.submitComment}
+          submitStatus={commentState.submitComment}
+          moment={viewControlState.passedProps.moment}
           commentsVisibility={momentViewState.commentsVisibility}
           setCommentsVisibility={momentViewActions.setCommentsVisibility}
-          assetURL={viewControlState.passedProps.moment.url}
         />);
       default:
         return <LogIn />;
@@ -141,6 +142,7 @@ export default connect(state => ({
     storiesState: state.stories,
     authState: state.authControl,
     momentViewState: state.momentViewControl,
+    commentState: state.commentData
   }),
   (dispatch) => ({
     viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
@@ -148,6 +150,7 @@ export default connect(state => ({
     authActions: bindActionCreators(actions.authActions, dispatch),
     thunkFetch: bindActionCreators(actions.thunkFetch, dispatch),
     momentViewActions: bindActionCreators(actions.momentViewControlActions, dispatch),
+    commentActions: bindActionCreators(actions.commentDataActions, dispatch),
   })
 )(EpiLogApp);
 

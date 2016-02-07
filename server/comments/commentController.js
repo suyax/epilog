@@ -4,6 +4,8 @@ var Comment = require('./commentModel');
 // input: text and momentid on body, userid from auth token
 // output: json comment object
 var addOne = function (req, res) {
+  console.log("ADDING A COMMENT!");
+  console.log("text: ", req.body.text, ", momentId: ", req.body.momentId);
   if(req.body.text === undefined || 
     req.body.momentId === undefined ||
     req.user.id === undefined){
@@ -24,9 +26,6 @@ var addOne = function (req, res) {
 // input: momentId or userId in url query
 // ouput: json array of comment objects
 var getAll = function (req, res) {
-  console.log('getting comments: ');
-  console.log('momentid: ', req.query.momentid);
-  console.log('userid: ', req.query.userid);
   if(req.query.momentid){
     Comment.getAllByMoment(parseInt(req.query.momentid))
     .then(function (comments) {
@@ -51,6 +50,7 @@ var getAll = function (req, res) {
       res.status(400).end();
     });
   } else {
+    console.log('dont have a momentid or user id')
     res.status(400).end();
   }
 };

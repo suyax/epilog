@@ -3,7 +3,8 @@
 import viewControl from './viewControl';
 import libraryControl from './libraryControl';
 import stories from './stories';
-import momentViewControl from './momentViewControl'
+import momentViewControl from './momentViewControl';
+import commentData from './commentData';
 import { combineReducers } from 'redux';
 
 export default combineReducers({
@@ -11,4 +12,5 @@ export default combineReducers({
   libraryControl,
   stories,
   momentViewControl,
+  commentData,
 });
