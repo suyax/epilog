@@ -37,7 +37,6 @@ module.exports = function(app) {
   app.get('/api/users', controller.users.find);
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
-
   //check if story is already associated to user (COMPLETED V1/CHECKED)
   //create a new moment (COMPLETED V1/CHECKED --> excluding functionality to add moment to multiple stories)
     //need to be able to add a comment, tag, AND potentially add a new user to a story??

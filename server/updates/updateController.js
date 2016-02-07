@@ -2,7 +2,7 @@ var updateModel = require('./updateModel');
 
 module.exports =  {
 
-  getRecent: function (req, res) {
+  /*getRecent: function (req, res) {
     var userId = req.user.id;
     var allUpdate;
     updateModel.getAllMoments(userId)
@@ -16,5 +16,15 @@ module.exports =  {
       .catch(function (error) {
         res.status(404).json();
       });
+  }*/
+  getRecent: function (req, res) {
+    var userId = req.user.id;
+    updateModel.getAllMoments(userId)
+    .then(function (results) {
+      res.status(200).json(results);
+    })
+    .catch(function(error) {
+      res.status(404).json();
+    });
   }
 };
