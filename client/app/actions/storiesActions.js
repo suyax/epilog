@@ -45,6 +45,9 @@ export function fetchStories () {
         }))
       })
       .then((response) => {
+        if(!response.ok){
+          throw new Error('Server response: ' + response.status);
+        }
         return response.json();
       })
       .then((data) => {
