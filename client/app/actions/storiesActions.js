@@ -1,8 +1,9 @@
 import {AsyncStorage} from 'react-native';
+import {SERVER_URL} from '../urls';
 
 export const REQUEST_STORIES = 'REQUEST_STORIES';
-export const RECIEVE_STORIES = 'RECIEVE_STORIES';
-const ALL_STORIES_URL = 'http://127.0.0.1:3000/api/stories'
+export const RECEIVE_STORIES = 'RECEIVE_STORIES';
+const ALL_STORIES_URL = SERVER_URL + '/api/stories'
 
 export function requestStories () {
   return {
@@ -10,19 +11,19 @@ export function requestStories () {
   }
 }
 
-export function recieveStories (stories) {
+export function receiveStories (stories) {
   return {
-    type: RECIEVE_STORIES,
+    type: RECEIVE_STORIES,
     payload: {
       stories: stories,
-      recievedAt: Date.now(),
+      receivedAt: Date.now(),
     },
   };
 }
 
 export function failureStories (error) {
   return {
-    type: RECIEVE_STORIES,
+    type: RECEIVE_STORIES,
     error: true,
     payload: error,
   };
@@ -47,7 +48,7 @@ export function fetchStories () {
         return response.json();
       })
       .then((data) => {
-        return dispatch(recieveStories(data));
+        return dispatch(receiveStories(data));
       })
       .catch((error) => {
         return dispatch(failuerStories(error))

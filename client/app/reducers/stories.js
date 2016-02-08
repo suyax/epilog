@@ -1,7 +1,7 @@
-import {REQUEST_STORIES, RECIEVE_STORIES} from '../actions/storiesActions';
+import {REQUEST_STORIES, RECEIVE_STORIES} from '../actions/storiesActions';
 
 const initialStates = {
-  loaded: false,
+  loading: false,
   data: undefined,
   lastUpdated: undefined,
   error: false,
@@ -12,21 +12,22 @@ export default function stories(state = initialStates, action = {}) {
   switch (action.type) {
     case REQUEST_STORIES:
       return Object.assign({}, state, {
-        loaded: false
+        loading: true,
       });
 
-    case RECIEVE_STORIES:
+    case RECEIVE_STORIES:
       if(action.error === true){
         return Object.assign({}, state, {
-          loaded: false,
+          loading: false,
           error: true,
           errorMessage: action.payload,
+          lastUpdated: Date.now(),
         });
       } else {
         return Object.assign({}, state, {
-          loaded: true,
+          loading: false,
           data: action.payload.stories,
-          lastUpdated: action.payload.recievedAt,
+          lastUpdated: action.payload.receivedAt,
         });
       }
 

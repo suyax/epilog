@@ -13,14 +13,11 @@ import React, {
 import NavBar from './navBar';
 
 class Library extends Component {
-  componentDidMount() {
-    this.props.onLoad();
-  }
 
   render() {
     const { stories } = this.props
 
-    if (!stories.loaded) {
+    if (stories.loading) {
       return this.renderLoadingView();
     }
 

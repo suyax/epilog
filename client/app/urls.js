@@ -1,4 +1,4 @@
-export const SERVER_URL = '104.131.118.27:3000';
+export const SERVER_URL = 'http://localhost:3000';
 
 // AUTHORIZATION ROUTES
 export const AUTH_SIGNUP = '/api/users/signup'; // POST

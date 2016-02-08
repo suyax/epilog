@@ -10,30 +10,41 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import Home from '../components/home';
-import CameraView from '../components/camera';
-import Capture from '../components/capture';
-import Library from '../components/library';
-import Story from '../components/story';
-import NewStory from '../components/newStory';
-import EditMoment from '../components/editMoment';
-import LogIn from '../components/logIn';
-import SignUp from '../components/signUp';
-import LogOut from '../components/logOut';
+import {
+Home,
+CameraView,
+Capture,
+Library,
+Story,
+NewStory,
+EditMoment,
+LogIn,
+SignUp,
+LogOut,
+Moment,
+} from '../components';
+
 //import LogInFail from '../components/logInFail';
 //router for the app
 class EpiLogApp extends Component {
+  componentWillMount(){
+    const {storiesState, storiesActions} = this.props
+    if ((storiesState.lastUpdated === undefined && !storiesState.loading) || 
+      // or the last time we updated was 5 minutes ago
+      // will evaluate to false if lastUpdated is undefined. YAY JS!
+      (Date.now() - storiesState.lastUpdated) > (60 * 1000)){
+        storiesActions.fetchStories();
+    }
+  }
 
   render() {
     // Be explicit about what is available as props
     const {
-      viewControlState,
-      viewControlActions,
-      storiesState,
-      storiesActions,
-      authState,
-      authActions,
-
+      viewControlState, viewControlActions,
+      storiesState, storiesActions,
+      authState, authActions,
+      momentViewState, momentViewActions,
+      commentState, commentActions,
     } = this.props;
 
     switch (viewControlState.currentView) {
@@ -55,7 +66,6 @@ class EpiLogApp extends Component {
           successLoggedIn={ () => { viewControlActions.setView('HOME') }}
           onSignUp={ () => { viewControlActions.setView('SIGNUP') }}
           />);
-
       case "SIGNUP":
         return (
           <SignUp
@@ -73,7 +83,6 @@ class EpiLogApp extends Component {
         return (
           <Library
           stories={storiesState}
-          onLoad={storiesActions.fetchStories}
           onTouchImage={ (asset) =>{ viewControlActions.setView('STORY', { asset: asset }) }}
           />);
       case "STORY":
@@ -81,6 +90,7 @@ class EpiLogApp extends Component {
           <Story
           asset={viewControlState.passedProps.asset}
           onBack={ () => { viewControlActions.setView('LIBRARY') }}
+          onPress={(moment) => viewControlActions.setView('MOMENT_VIEW', {moment: moment})}
           />);
       case "NEW_STORY":
         return (
@@ -111,6 +121,16 @@ class EpiLogApp extends Component {
             }
           }
         />);
+      case "MOMENT_VIEW":
+        return(<Moment
+          fetchComments={commentActions.fetchComments}
+          comments={commentState.fetchedComments}
+          submitComment={commentActions.submitComment}
+          submitStatus={commentState.submitComment}
+          moment={viewControlState.passedProps.moment}
+          commentsVisibility={momentViewState.commentsVisibility}
+          setCommentsVisibility={momentViewActions.setCommentsVisibility}
+        />);
       default:
         return <LogIn />;
     }
@@ -121,13 +141,16 @@ export default connect(state => ({
     viewControlState: state.viewControl,
     storiesState: state.stories,
     authState: state.authControl,
-    Urls:state.Urls, // where the various url's are
+    momentViewState: state.momentViewControl,
+    commentState: state.commentData
   }),
   (dispatch) => ({
     viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
     storiesActions: bindActionCreators(actions.storiesActions, dispatch),
     authActions: bindActionCreators(actions.authActions, dispatch),
     thunkFetch: bindActionCreators(actions.thunkFetch, dispatch),
+    momentViewActions: bindActionCreators(actions.momentViewControlActions, dispatch),
+    commentActions: bindActionCreators(actions.commentDataActions, dispatch),
   })
 )(EpiLogApp);
 
