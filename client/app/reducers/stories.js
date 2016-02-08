@@ -27,7 +27,7 @@ export default function stories(state = initialStates, action = {}) {
         return Object.assign({}, state, {
           loading: false,
           data: action.payload.stories,
-          lastUpdated: action.payload.recievedAt,
+          lastUpdated: action.payload.receivedAt,
         });
       }
 

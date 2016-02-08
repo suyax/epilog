@@ -16,7 +16,7 @@ export function receiveStories (stories) {
     type: RECEIVE_STORIES,
     payload: {
       stories: stories,
-      recievedAt: Date.now(),
+      receivedAt: Date.now(),
     },
   };
 }

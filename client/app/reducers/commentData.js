@@ -34,7 +34,7 @@ function fetchedComments (state = {
           loading: false,
           error: false,
           data: action.payload.comments,
-          lastUpdated: action.payload.recievedAt,
+          lastUpdated: action.payload.receivedAt,
         });
       }
 
@@ -68,7 +68,7 @@ function submitComment (state={
         return Object.assign({}, state, {
           submitting: false,
           error: false,
-          lastUpdated: action.payload.recievedAt,
+          lastUpdated: action.payload.receivedAt,
         });
       }
 

@@ -21,7 +21,7 @@ export function receiveComments (comments) {
     type: RECEIVE_COMMENTS,
     payload: {
       comments: comments,
-      recievedAt: Date.now(),
+      receivedAt: Date.now(),
     },
   };
 }
@@ -84,7 +84,7 @@ export function successSubmitComment (comment) {
     type: RECEIVE_SUBMIT_COMMENT,
     payload: {
       comment: comment,
-      recievedAt: Date.now(),
+      receivedAt: Date.now(),
     },
   };
 }
@@ -113,7 +113,7 @@ export function submitComment (text, momentId) {
           },
           body: JSON.stringify({
             text: text,
-            momentId: momentId,
+            momentid: momentId,
           }),
         }))
       })
