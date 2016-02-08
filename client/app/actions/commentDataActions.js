@@ -2,7 +2,7 @@ import {AsyncStorage} from 'react-native';
 import {SERVER_URL} from '../urls';
 
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS";
-export const RECIEVE_COMMENTS = "RECIEVE_COMMENTS";
+export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
 export const FAILURE_COMMENTS = "FAILURE_COMMENTS";
 
 const ALL_COMMENTS_URL = SERVER_URL + '/api/comments'
@@ -16,9 +16,9 @@ export function requestComments (momentId) {
   }
 }
 
-export function recieveComments (comments) {
+export function receiveComments (comments) {
   return {
-    type: RECIEVE_COMMENTS,
+    type: RECEIVE_COMMENTS,
     payload: {
       comments: comments,
       recievedAt: Date.now(),
@@ -28,7 +28,7 @@ export function recieveComments (comments) {
 
 export function failureComments (error) {
   return {
-    type: RECIEVE_COMMENTS,
+    type: RECEIVE_COMMENTS,
     error: true,
     payload: error,
   };
@@ -56,7 +56,7 @@ export function fetchComments (momentId) {
         return response.json();
       })
       .then((data) => {
-        return dispatch(recieveComments(data));
+        return dispatch(receiveComments(data));
       })
       .catch((error) => {
         return dispatch(failureComments(error))
@@ -66,7 +66,7 @@ export function fetchComments (momentId) {
 }
 
 export const REQUEST_SUBMIT_COMMENT = "REQUEST_SUBMIT_COMMENT";
-export const RECIEVE_SUBMIT_COMMENT = "RECIEVE_SUBMIT_COMMENT";
+export const RECEIVE_SUBMIT_COMMENT = "RECEIVE_SUBMIT_COMMENT";
 
 const SUBMIT_COMMENT_URL = SERVER_URL + '/api/comments';
 
@@ -81,7 +81,7 @@ export function requestSubmitComment (momentId) {
 
 export function successSubmitComment (comment) {
   return {
-    type: RECIEVE_SUBMIT_COMMENT,
+    type: RECEIVE_SUBMIT_COMMENT,
     payload: {
       comment: comment,
       recievedAt: Date.now(),
@@ -91,7 +91,7 @@ export function successSubmitComment (comment) {
 
 export function failureSubmitComment (error) {
   return {
-    type: RECIEVE_SUBMIT_COMMENT,
+    type: RECEIVE_SUBMIT_COMMENT,
     error: true,
     payload: error,
   };
