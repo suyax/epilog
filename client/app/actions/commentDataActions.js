@@ -113,7 +113,7 @@ export function submitComment (text, momentId) {
           },
           body: JSON.stringify({
             text: text,
-            momentid: momentId,
+            momentId: momentId,
           }),
         }))
       })
