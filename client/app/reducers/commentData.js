@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 import {
   REQUEST_COMMENTS, 
-  RECIEVE_COMMENTS,
+  RECEIVE_COMMENTS,
   REQUEST_SUBMIT_COMMENT,
-  RECIEVE_SUBMIT_COMMENT,
+  RECEIVE_SUBMIT_COMMENT,
 } from '../actions/commentDataActions';
 
 function fetchedComments (state = {
@@ -21,7 +21,7 @@ function fetchedComments (state = {
         loading: true,
       });
 
-    case RECIEVE_COMMENTS:
+    case RECEIVE_COMMENTS:
       if(action.error === true){
         return Object.assign({}, state, {
           loading: false,
@@ -56,7 +56,7 @@ function submitComment (state={
         submitting: true,
       });
 
-    case RECIEVE_SUBMIT_COMMENT:
+    case RECEIVE_SUBMIT_COMMENT:
       if(action.error === true){
         return Object.assign({}, state, {
           submitting: false,
