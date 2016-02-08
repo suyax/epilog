@@ -8,7 +8,7 @@ var tags_moments = require('../db/dbModel').Tags_Moments;
 
 module.exports = {
 
-  add: function (tagData){
+  add: function (tagData) {
     // console.log("tagData passed in from controller-->", tagData);
     var momentId = tagData.momentId; 
     var arrOfTagObjs = tagData.tags.map(function(tagName){
@@ -36,7 +36,7 @@ module.exports = {
     });
   },
 
-  getAllByMoment: function (momentId){
+  getAllByMoment: function (momentId) {
     return tags.findAll({
       attributes: ['name'],
       include: [{
@@ -46,19 +46,19 @@ module.exports = {
         }
       }]
     })
-    .then(function(result){
-      var arrayOfTagNames = result.map(function(tagObj){
+    .then(function (result) {
+      var arrayOfTagNames = result.map(function (tagObj) {
         return tagObj.dataValues.name;
       });
       console.log("array of tag names by moment from model -->", arrayOfTagNames);
       return arrayOfTagNames;
     })
-    .catch(function(error){
+    .catch(function (error) {
       console.error('Error getting tags by Moment:' , error);
     })
   },
 
-  getAllByStory: function(storyId){
+  getAllByStory: function (storyId) {
     return tags.findAll({
       attributes: ['name'],
       include: [{
@@ -70,7 +70,7 @@ module.exports = {
       }]
     })
     .then(function(result){
-      return arrayOfTagNames = result.map(function(tagObj){
+      return arrayOfTagNames = result.map(function (tagObj) {
         return tagObj.dataValues['name'];
       });
     })
@@ -78,7 +78,4 @@ module.exports = {
       console.error('Error getting tags by Story: ', error);
     })
   }
-
-
-
 };
