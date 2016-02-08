@@ -1,4 +1,4 @@
-import {REQUEST_STORIES, RECIEVE_STORIES} from '../actions/storiesActions';
+import {REQUEST_STORIES, RECEIVE_STORIES} from '../actions/storiesActions';
 
 const initialStates = {
   loading: false,
@@ -15,7 +15,7 @@ export default function stories(state = initialStates, action = {}) {
         loading: true,
       });
 
-    case RECIEVE_STORIES:
+    case RECEIVE_STORIES:
       if(action.error === true){
         return Object.assign({}, state, {
           loading: false,
