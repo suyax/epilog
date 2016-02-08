@@ -17,3 +17,5 @@ export const STORIES_GET_ONE = '/api/stories'; // GET w/storyId
 export const MOMENT_ADD = '/api/moments'; //POST
 export const MOMENT_GET_ALL = 'api/moments/story'; // GET w/storyID
 export const MOMENT_GET_ONE = 'api/moments'; // GET w/momentID
+
+export const UPDATE_GET_ALL = 'api/updates';//GET

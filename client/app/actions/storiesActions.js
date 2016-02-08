@@ -56,6 +56,6 @@ export function fetchStories () {
       .catch((error) => {
         return dispatch(failuerStories(error))
       })
-    ); 
+    );
   }
 }

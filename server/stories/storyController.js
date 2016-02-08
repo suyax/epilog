@@ -49,7 +49,7 @@ module.exports =  {
         res.status(404).json();
       });
   },
-  
+
   getAll: function (req, res) {
     var userId = req.user.id;
 
