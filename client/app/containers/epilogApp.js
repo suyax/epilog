@@ -30,7 +30,6 @@ class EpiLogApp extends Component {
 
   // This will only be run once
   componentWillMount () {
-    console.log('EpiLogApp will mount');
     const {storiesActions, tokenActions} = this.props;
     storiesActions.fetchStories();
     tokenActions.checkToken();
@@ -38,7 +37,6 @@ class EpiLogApp extends Component {
 
   // This will be run everytime the props/state changes
   componentWillUpdate () {
-    console.log('EpiLogApp will update');
     const {viewControlActions} = this.props;
     const {tokenState, viewControlState} = this.props;
     if(tokenState.error){

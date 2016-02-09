@@ -32,7 +32,6 @@ export function checkToken () {
     return ( // return the promise for convenience
       AsyncStorage.getItem('token') // get the authentication token
       .then((value) => {
-        console.log('token value: ', value);
         return (fetch( CHECK_TOKEN_URL, {
           method: 'GET',
           headers: {
@@ -46,11 +45,9 @@ export function checkToken () {
         if(!response.ok){
           throw new Error('Server response: ' + response.status);
         }
-        console.log('token is valid');
         return dispatch(checkTokenSuccess());
       })
       .catch((error) => {
-        console.log('token is invalid');
         return dispatch(checkTokenFailure(error))
       })
     ); 
