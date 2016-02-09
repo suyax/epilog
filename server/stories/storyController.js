@@ -18,7 +18,6 @@ module.exports =  {
 
   	storyModel.add(storyData)
   	  .then(function (results){
-        console.log('Returning from story controller: ', results);
   	    res.status(201).json(results);
   	  })
   	  .catch(function (error){
@@ -53,7 +52,6 @@ module.exports =  {
   
   getAll: function (req, res) {
     var userId = req.user.id;
-    console.log(req.query.storyTitle);
 
     if (req.query.storyTitle) {
       storyModel.getAllByTitle(req.query.storyTitle, userId)
@@ -66,7 +64,6 @@ module.exports =  {
           res.status(404).send(false);
         });
     } else {
-      console.log('Story Controller Reached');
       storyModel.getAll(userId)
         .then(function (stories) {
           res.status(200).json(stories);

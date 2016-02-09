@@ -52,8 +52,6 @@ var EditMoment = React.createClass({
             }
             var titles = responseData.map(function(storyObj){ return storyObj.title });
             this.setState({arrayOfStoryTitles: titles});
-            // console.log("arrayOfStoryTitles-->", this.state.arrayOfStoryTitles);
-            // console.log("storyIdLookUp table -->", this.state.storyIdLookUp);
           })
           .catch((error) => {
             console.log("error from db query:", error);
@@ -89,7 +87,6 @@ var EditMoment = React.createClass({
               return response.json()
             })
             .then((responseData) => {
-              // console.log(responseData);
               var tags = responseData;
               this.setState({arrayOfStoryTags: tags});
             })
@@ -111,6 +108,7 @@ var EditMoment = React.createClass({
     var storyTitle = this.state.currentStory;
     var momentCaption = textInputs.caption;
     var checkStoryURL = 'http://127.0.0.1:3000/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
+    var momentTags = textInputs.momentTags.split(', ');
 
     return AsyncStorage.getItem('token')
       .then((result) => {
@@ -129,7 +127,7 @@ var EditMoment = React.createClass({
             var storyid = responseData.id;
             var title = storyTitle.split(' ').join('%20');
             var caption = momentCaption.split(' ').join('%20');
-            var userid = responseData.userId;
+            var userid = responseData.users_stories.userId;
 
             AsyncStorage.getItem('token')
               .then((result) => {
@@ -139,7 +137,8 @@ var EditMoment = React.createClass({
                   fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
                   mimeType: 'image',
                   headers: {
-                    token: String(result)
+                    token: String(result),
+                    tags: JSON.stringify(momentTags)
                   }
                 };
               })
@@ -148,11 +147,19 @@ var EditMoment = React.createClass({
                   if (err) {
                     console.log(err);
                   } else {
-                    console.log(res);
+                    fetch('http://127.0.0.1:3000/api/tags/' + JSON.parse(res.data).momentId, {
+                      method: 'POST',
+                      headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'token': result.headers.token,
+                        'tags': JSON.stringify(JSON.parse(res.data).tags)
+                      }
+                    });
                     return res;
                   }
                 });
-              })
+              });
 
             return 'HOME';
           } else {
@@ -176,26 +183,28 @@ var EditMoment = React.createClass({
     const {asset, onCancel, onSubmit} = this.props;
     var textFields = {};
     var image = asset.node.image;
+
     return (
       <View style={styles.container}>
-        <AutoCompleteHelper 
-          placeholder="Story Title" 
-          data ={this.state.arrayOfStoryTitles} 
-          onBlur={this.getStoryTags}
-        />
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
+        </View>
+        <View style={styles.content}>
+          <AutoCompleteHelper
+            placeholder="Story Title" 
+            data={this.state.arrayOfStoryTitles} 
+            onBlur={this.getStoryTags}
+          />
         </View>
         <View style={ styles.textContainer }>
           <TextInput style={styles.textInput} placeholder='Create a Caption'
             onChangeText={(text)=>textFields.caption = text}/>
-        </View>
-        <AutoCompleteHelper placeholder="Add Tags" data={this.state.arrayOfStoryTags}/>
+          <TextInput style={styles.textInput} placeholder='Tag your moment'
+            onChangeText={(text)=>textFields.momentTags = text}/>
         <View style={styles.buttonContainer}>
           <TouchableHighlight onPress={onCancel}>
             <View><Text style={styles.button}>Cancel</Text></View>
           </TouchableHighlight>
-
           <TouchableHighlight key={asset} onPress={() => {
               if (this.state.currentStory && textFields.caption) {
                 this.submitMoment(textFields, asset)
@@ -208,6 +217,7 @@ var EditMoment = React.createClass({
             <View><Text style={styles.button}>Submit</Text></View>
           </TouchableHighlight>
         </View>
+        </View>        
       </View>
     );
   }
@@ -234,14 +244,16 @@ var styles = StyleSheet.create({
   },
   textContainer: {
     marginBottom: 20,
-    flex: 1
+    flex: 0.3
   },
   textInput: {
+    flexWrap: 'wrap',
     alignSelf: 'center',
     height: 5,
-    borderRadius: 2,
-    padding: 1,
-    width: 350,   
+    width: 350,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 2,   
     backgroundColor: '#FFFFFF',
     flex: 1,
     textAlign: 'center'
@@ -252,7 +264,7 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   content: {
-    flex: 0.3,
+    flex: 0.2,
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
@@ -261,8 +273,9 @@ var styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   buttonContainer: {
-    flex: 0.2,
+    flex: 1,
     justifyContent: 'space-around',
+    alignSelf: 'stretch',
     flexDirection: 'row',
   },
   button: {
