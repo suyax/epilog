@@ -6,7 +6,7 @@ var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 var jwt = require('jwt-simple');
 
-const SECRET = "puttehlimeinthecoconut";
+const SECRET = require('../../config').AUTH_TOKEN_SECRET;
 const EXPIRE = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds... I hope
 
 // makes a token, stores it, and returns it

@@ -22,3 +22,5 @@ client/lib
 .floobit
 .floo
 .flooignore
+
+config.js

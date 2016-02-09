@@ -26,13 +26,18 @@ module.exports = function(app) {
     // password in a url query
   app.post('/api/users/token', controller.auth.authenticateUser);
 
-  // //log out
-  //   //destroy session
-  //   //route user to sign in page
-  // app.get('/api/users/singout', controller.auth.logout);
+  // checks a token's validity
+    // input token on the request header
+    // output success or failure response depending on whether or not the token is valid
+  app.get('/api/users/token', controller.auth.authenticateToken, function (req,res) {
+    // the token was successfully authenticated.
+    res.end()
+  });
 
   // every route after this line will be authenticated with a token
   app.use(controller.auth.authenticateToken);
+
+  ////////////////////////////////////USERS////////////////////////////////////
 
   app.get('/api/users', controller.users.find);
 

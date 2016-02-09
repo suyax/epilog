@@ -5,6 +5,7 @@ import * as storiesActions from './storiesActions';
 import * as authActions from './authActions.js';
 import * as momentViewControlActions from './momentViewControlActions';
 import * as commentDataActions from './commentDataActions';
+import * as tokenActions from './tokenActions';
 
 export {
   viewControlActions, 
@@ -13,4 +14,5 @@ export {
   authActions, 
   momentViewControlActions,
   commentDataActions,
+  tokenActions,
 };
