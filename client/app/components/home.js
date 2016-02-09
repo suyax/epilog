@@ -11,6 +11,7 @@ import React, {
 } from 'react-native';
 
 import NavBar from './navBar';
+import moment from 'moment';
 
 class Home extends Component {
   componentDidMount() {
@@ -73,23 +74,23 @@ class Home extends Component {
     );
   }
 
-  renderRecentMoment(moment) {
+  renderRecentMoment(update) {
     return (
       <View
-        key={moment.id}
+        key={update.id}
       >
           <View style={styles.storyContainer}>
               <View style={styles.timeBox}>
-                <Text style={styles.text}>{moment.updatedAt.slice(0,4)+'\n'+moment.updatedAt.slice(5,10)}
+                <Text style={styles.text}>{moment(update.updatedAt).fromNow()}
                 </Text>
               </View>
               <View style={styles.imageBox}>
                 <Image
-                  source={{uri: moment.url}}
+                  source={{uri: update.url}}
                   style={styles.thumbnail}
                 >
         <TouchableHighlight
-          onPress={()=>{this.props.onTouchImage(moment)}}
+          onPress={()=>{this.props.onTouchImage(update)}}
           onShowUnderlay={this.onHighlight}
           onHideUnderlay={this.onUnhighlight}>
               <View style={styles.titleBox}>
@@ -99,7 +100,7 @@ class Home extends Component {
               </View>
               <View style={styles.groupBox}>
               <Text style={styles.headline}>
-              {moment.caption}
+              {update.caption}
               </Text>
               </View>
           </View>
