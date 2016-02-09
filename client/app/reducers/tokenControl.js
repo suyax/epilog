@@ -26,7 +26,7 @@ export default function tokenControl (state = initialStates, action = {}) {
         return Object.assign({}, state, {
           loading: false,
           error: false,
-          erroMessage: undefined,
+          errorMessage: undefined,
           lastUpdated: Date.now(),
         });
       }
