@@ -73,6 +73,7 @@ var Story = React.createClass({
 
     let { width, height } = Dimensions.get('window');
     const { asset, onBack ,onPress} = this.props;
+
     const story = this.props.asset;
     return (
       <View style={styles.container}>
@@ -107,6 +108,7 @@ var Story = React.createClass({
   },
 
   createRow: function(moment) {
+    console.log('moment',moment)
     return (
       <View key={moment.id} style={styles.container}>
         <View style={styles.storyContainer}>

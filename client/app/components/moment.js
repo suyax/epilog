@@ -37,7 +37,8 @@ class Moment extends Component{
 
   componentWillMount () {
     const {fetchComments, moment, comments, submitStatus} = this.props;
-    if ((comments.lastUpdated === undefined && !comments.loading) || 
+    console.log(this.props.moment)
+    if ((comments.lastUpdated === undefined && !comments.loading) ||
       // did we load the correct set of comments?
       comments.momentId !== moment.id ||
       // or the last time we updated was 5 minutes ago
@@ -95,9 +96,9 @@ class Moment extends Component{
                 style={styles.modalButton}>
                 Close
               </Button>
-              <TextInput 
+              <TextInput
                 value={this.state.newComment}
-                style={styles.textInput} 
+                style={styles.textInput}
                 placeholder={'Write a Comment'}
                 onChangeText={(text) => this.setState({newComment: text})}
               />
@@ -127,7 +128,7 @@ var styles = StyleSheet.create({
     height: 15,
     borderRadius: 2,
     padding: 1,
-    width: 350,   
+    width: 350,
     backgroundColor: '#FFFFFF',
     flex: 1,
     textAlign: 'center'

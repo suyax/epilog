@@ -19,7 +19,7 @@ class Home extends Component {
 
   }
   render() {
-    const { updates, onLogOut, onCamera} = this.props;
+    const { updates, onLogOut, onPress, onCamera} = this.props;
     if (updates.loading || !updates.lastUpdated) {
       return this.renderLoadingView();
     }
@@ -75,35 +75,30 @@ class Home extends Component {
   }
 
   renderRecentMoment(update) {
+    console.log('update',update)
     return (
-      <View
-        key={update.id}
-      >
+      <View key={update.id} style={styles.container}>
           <View style={styles.storyContainer}>
               <View style={styles.timeBox}>
                 <Text style={styles.text}>{moment(update.updatedAt).fromNow()}
                 </Text>
               </View>
-              <View style={styles.imageBox}>
+            <TouchableHighlight onPress={()=>{this.props.onPress(update)}}>
                 <Image
                   source={{uri: update.url}}
-                  style={styles.thumbnail}
-                >
-        <TouchableHighlight
-          onPress={()=>{this.props.onTouchImage(update)}}
-          onShowUnderlay={this.onHighlight}
-          onHideUnderlay={this.onUnhighlight}>
+                  style={styles.thumbnail}>
+                </Image>
+              </TouchableHighlight>
+              <View style={styles.imageBox}>
               <View style={styles.titleBox}>
               </View>
-        </TouchableHighlight>
-              </Image>
               </View>
               <View style={styles.groupBox}>
               <Text style={styles.headline}>
               {update.caption}
               </Text>
               </View>
-          </View>
+        </View>
         <Image
         style={styles.timeLine}
         source={require('../image/greyLine.png')}
@@ -195,6 +190,11 @@ var styles = StyleSheet.create({
   navBar: {
     flex: 1,
     alignItems: 'center',
+  },
+  text:{
+    textAlign: 'center',
+    color: ' white',
+    margin: 5,
   },
 });
 
