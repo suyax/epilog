@@ -27,13 +27,24 @@ Moment,
 //import LogInFail from '../components/logInFail';
 //router for the app
 class EpiLogApp extends Component {
-  componentWillMount(){
-    const {storiesState, storiesActions} = this.props
-    if ((storiesState.lastUpdated === undefined && !storiesState.loading) || 
-      // or the last time we updated was 5 minutes ago
-      // will evaluate to false if lastUpdated is undefined. YAY JS!
-      (Date.now() - storiesState.lastUpdated) > (60 * 1000)){
-        storiesActions.fetchStories();
+
+  // This will only be run once
+  componentWillMount () {
+    console.log('EpiLogApp will mount');
+    const {storiesActions, tokenActions} = this.props;
+    storiesActions.fetchStories();
+    tokenActions.checkToken();
+  }
+
+  // This will be run everytime the props/state changes
+  componentWillUpdate () {
+    console.log('EpiLogApp will update');
+    const {viewControlActions} = this.props;
+    const {tokenState, viewControlState} = this.props;
+    if(tokenState.error){
+      if(viewControlState.currentView !== 'LOGIN'){
+        viewControlActions.setView('LOGIN');
+      }
     }
   }
 
@@ -142,7 +153,8 @@ export default connect(state => ({
     storiesState: state.stories,
     authState: state.authControl,
     momentViewState: state.momentViewControl,
-    commentState: state.commentData
+    commentState: state.commentData,
+    tokenState: state.tokenControl,
   }),
   (dispatch) => ({
     viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
@@ -151,6 +163,7 @@ export default connect(state => ({
     thunkFetch: bindActionCreators(actions.thunkFetch, dispatch),
     momentViewActions: bindActionCreators(actions.momentViewControlActions, dispatch),
     commentActions: bindActionCreators(actions.commentDataActions, dispatch),
+    tokenActions: bindActionCreators(actions.tokenActions, dispatch),
   })
 )(EpiLogApp);
 
