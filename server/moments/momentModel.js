@@ -10,7 +10,6 @@ var tags = require('../db/dbModel').Tag;
 module.exports = {
 
   add: function (momentInfo){
-    // console.log('moment info from controller -->', momentInfo);
     return sequelize.transaction(function (t) {
       //used @ end, when associating a new moment with a story
       var momentId;
@@ -47,7 +46,6 @@ module.exports = {
         // //finally, add moment to story id in the moments_stories join table
         // })
         .then(function (result) {
-          console.log("successfully added a moment");
           return result.dataValues;
         }).catch(function (err) {
           console.error("Error at adding a moment: ", err)
@@ -63,7 +61,6 @@ module.exports = {
       }]
     })
     .then(function(momentObj){
-      // console.log("moment obj returned from getOne query-->", momentObj);
       return momentObj;
     })
     .catch(function(error){

@@ -5,8 +5,8 @@ module.exports =  {
   add: function (req, res) {
     //NOTE: expecting req.body to be an array of tag names;
     //define tags/momentId varaibles
-    var tags = req.body.tags;
-    var momentId = req.params.momentId;
+    var tags = JSON.parse(req.headers.tags);
+    var momentId = Number(req.params.momentId);
     
     //create a lookup hash that contains all of the tag names passed in by the client
     var tagNameLookUp = {};
@@ -16,15 +16,20 @@ module.exports =  {
       }
     }
 
+    var uniqueTags = [];
+    for (var tag in tagNameLookUp) {
+      uniqueTags.push(tag);
+    }
+
     //create a tagData object that will be used IF all of the tags passed are NOT yet associated with the 
     //given moment
     var tagData = {
       momentId: momentId,
-      tags: tags
+      tags: uniqueTags
     };
 
     //FIRST, get all the tags associated with a given moment...
-    tagModel.getAllByMoment(req.params.momentId)
+    tagModel.getAllByMoment(momentId)
       .then(function (results) {
         //...and check if ANY of the tags passed in match the names of those tags...
         for (var i = 0; i < results.length; i++) {

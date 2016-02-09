@@ -102,7 +102,6 @@ module.exports = {
   },
 
   getAllByTitle: function(storyTitle, userId) {
-    console.log('Reached getAllByTitle: ', storyTitle, userId);
     return users.findOne({
       where: {id: userId},
       include: [{
@@ -110,7 +109,6 @@ module.exports = {
       }]
     })
       .then(function (result) {
-        console.log('Results from storyModel: ', result);
         return result.dataValues.stories.filter(function (story) {
           return story.dataValues.title === storyTitle;
         });

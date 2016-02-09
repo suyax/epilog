@@ -9,11 +9,11 @@ var tags_moments = require('../db/dbModel').Tags_Moments;
 module.exports = {
 
   add: function (tagData) {
-    // console.log("tagData passed in from controller-->", tagData);
     var momentId = tagData.momentId; 
     var arrOfTagObjs = tagData.tags.map(function(tagName){
       return {name: tagName};
     });
+
     return sequelize.transaction(function (t) {
       return tags.bulkCreate(
         arrOfTagObjs
@@ -50,7 +50,6 @@ module.exports = {
       var arrayOfTagNames = result.map(function (tagObj) {
         return tagObj.dataValues.name;
       });
-      console.log("array of tag names by moment from model -->", arrayOfTagNames);
       return arrayOfTagNames;
     })
     .catch(function (error) {

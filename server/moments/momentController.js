@@ -12,6 +12,7 @@ module.exports =  {
   add: function (req, res) {
     // Moment information container for insertion
     var momentData = {};
+    var newTags = JSON.parse(req.headers.tags);
 
     // Create a Busboy instance using the request headers
     var busboy = new Busboy({headers: req.headers});
@@ -65,7 +66,7 @@ module.exports =  {
           fileData.on('end', function() {
             momentModel.add(momentData)
               .then(function (results){
-                console.log('Adding moment: ', results);
+                results.tags = newTags;
                 writeStream.end();
                 res.status(201).json(results);
               })
