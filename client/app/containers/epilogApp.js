@@ -24,7 +24,6 @@ LogOut,
 Moment,
 } from '../components';
 
-//import LogInFail from '../components/logInFail';
 //router for the app
 class EpiLogApp extends Component {
 
@@ -54,8 +53,9 @@ class EpiLogApp extends Component {
       authState, authActions,
       momentViewState, momentViewActions,
       commentState, commentActions,
-    } = this.props;
+      updateState, updateActions,
 
+    } = this.props;
     switch (viewControlState.currentView) {
       case "CAMERAVIEW":
         return (
@@ -66,6 +66,9 @@ class EpiLogApp extends Component {
       case "HOME":
         return (
           <Home
+          onLoad={updateActions.fetchUpdates}
+          updates={updateState}
+          onPress={(updates) => viewControlActions.setView('MOMENT_VIEW', {updates: updates})}
           onCamera={ () => {viewControlActions.setView('CAMERAVIEW') }}
           onLogOut={ () => {viewControlActions.setView('LOGOUT') }}
           />);
@@ -153,6 +156,7 @@ export default connect(state => ({
     momentViewState: state.momentViewControl,
     commentState: state.commentData,
     tokenState: state.tokenControl,
+    updateState: state.updates,
   }),
   (dispatch) => ({
     viewControlActions: bindActionCreators(actions.viewControlActions, dispatch),
@@ -162,6 +166,7 @@ export default connect(state => ({
     momentViewActions: bindActionCreators(actions.momentViewControlActions, dispatch),
     commentActions: bindActionCreators(actions.commentDataActions, dispatch),
     tokenActions: bindActionCreators(actions.tokenActions, dispatch),
+    updateActions: bindActionCreators(actions.updateActions, dispatch)
   })
 )(EpiLogApp);
 

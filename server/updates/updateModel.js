@@ -5,29 +5,25 @@ var Stories = require('../db/dbModel').Story;
 
 module.exports = {
   getAllMoments: function (userId) {
-    console.log('userId',userId);
-    return Users.findAll({
+    return Users.findOne({
+      where: {id: userId},
       include: [{
         model: Stories,
         include: [
-        {model: Users}]
+        {model: Moments},
+        ]
       }]
-    }).then(function(results) {
-      var allMoments = results.map(
-        function (moment) {
-          return moment.dataValues;
-        });
-      console.log ('all the update of moments-->', allMoments);
-      return allMoments;
+    }).then(function(result) {
+      return result.stories;
     }).catch(function(err){
       console.error("error trying to get all update-->", err);
     });
   },
+
   getAllComments: function (userId) {
     return Comments.findAll({
       where: { userid: userId }
     }).then(function(commentsResults) {
-      console.log('all the update of moments-->', results);
       return commentsResult;
     });
   }

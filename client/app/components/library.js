@@ -44,7 +44,7 @@ class Library extends Component {
       <View style={styles.container}>
         <View style={styles.list}>
           <Text>
-            Loading stories...
+            Loading Stories...
           </Text>
         </View>
         <View style={styles.navBar}>

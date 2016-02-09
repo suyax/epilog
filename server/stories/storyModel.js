@@ -5,7 +5,6 @@ var stories = require('../db/dbModel').Story;
 var moments = require('../db/dbModel').Moment;
 var users = require('../db/dbModel').User;
 var users_stories = require('../db/dbModel').Users_Stories;
-var moments = require('../db/dbModel').Moment;
 var tags = require('../db/dbModel').Tag;
 
 module.exports = {
