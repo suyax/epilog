@@ -5,6 +5,7 @@ import libraryControl from './libraryControl';
 import stories from './stories';
 import momentViewControl from './momentViewControl';
 import commentData from './commentData';
+import tokenControl from './tokenControl';
 import { combineReducers } from 'redux';
 
 export default combineReducers({
@@ -13,4 +14,5 @@ export default combineReducers({
   stories,
   momentViewControl,
   commentData,
+  tokenControl,
 });
