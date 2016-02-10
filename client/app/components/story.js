@@ -22,7 +22,7 @@ var Story = React.createClass({
     //grab the story object associated with the story rendered on the story view (note: this
     //is passed in from the library view)
     const story = this.props.asset;
-
+    console.log('story', story)
     //define variables that will ultimately give us access to the story's moments and tags
     var moments = story.moments;
     var checkTags = moments.filter(function(tag){
@@ -34,6 +34,7 @@ var Story = React.createClass({
     var arrayOfTagObjectsForStory = tagObjsByMoment.reduce(function(aggregator,arrOfTags){return aggregator.concat(arrOfTags);}, []);
     var arrayOfTagNames = arrayOfTagObjectsForStory.map(function(tagObj){return tagObj['name'];});
     //set the variables defined above to the view's state
+    console.log('array of tag', arrayOfTagNames);
     return {
       //holds all of the story titles associated with a particular user
       story: story,
@@ -59,11 +60,15 @@ var Story = React.createClass({
     //(i.e. nothing should be displayed on the page)
     } else {
       var copyOfMoments = this.state.moments.slice(0);
-      var filtered = copyOfMoments.filter(function(moment){
-        var momentTagNames = moment['tags'].map(function(tagObj){
-          return tagObj.name;
-        });
-        return momentTagNames.indexOf(tagToFilterBy) > -1;
+      var filtered = copyOfMoments.filter(function(moment) {
+        if(moment['tags']) {
+          var momentTagNames = moment['tags'].map(function(tagObj) {
+            return tagObj.name;
+          });
+          return momentTagNames.indexOf(tagToFilterBy) > -1;
+        } else {
+          return false;
+        }
       })
       this.setState({filteredMoments : filtered});
     }
@@ -75,16 +80,11 @@ var Story = React.createClass({
     const { asset, onBack ,onPress} = this.props;
 
     const story = this.props.asset;
-    console.log('story view', story)
+    //console.log('story view', story)
     return (
+      <View style={{position:'relative'}}>
       <View style={styles.container}>
         <View style={styles.scrollViewContainer}>
-          <AutoCompleteHelper
-            placeholder="Filter by Tag"
-            data = {this.state.arrayOfTagNames}
-            onFocus = {this.unfilterMoments}
-            onBlur = {this.filterMoments}
-          />
           <ScrollView
               style={styles.scrollView}
               showsVerticalScrollIndicator={true}
@@ -105,13 +105,22 @@ var Story = React.createClass({
           </TouchableHighlight>
         </View>
       </View>
+      <View style={styles.autoComplete}>
+          <AutoCompleteHelper
+            placeholder="Filter by Tag"
+            data = {this.state.arrayOfTagNames}
+            onFocus = {this.unfilterMoments}
+            onBlur = {this.filterMoments}
+          />
+      </View>
+      </View>
     );
   },
 
   createRow: function(moment) {
     console.log('moment',moment)
     return (
-      <View key={moment.id} style={styles.container}>
+      <View key={moment.id} style={styles.storyRow}>
         <View style={styles.storyContainer}>
           <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
             <Image
@@ -136,6 +145,15 @@ var Story = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  storyRow: {
+    flex: 1
+  },
+  autoComplete: {
+    position: 'absolute',
+    top: -14,
+    height: 30,
+    width: Dimensions.get('window').width,
+  },
   timeLine: {
     flex:1,
     alignSelf:'center',
@@ -149,6 +167,9 @@ var styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+    position: 'absolute'
   },
   scrollViewContainer: {
     flex: 11,

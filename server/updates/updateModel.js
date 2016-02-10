@@ -24,7 +24,7 @@ module.exports = {
     return Comments.findOne({
       where: { userid: userId },
       include: [{
-        model:
+        model: Moments
       }]
     }).then(function(commentsResults) {
       return commentsResult;
