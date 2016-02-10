@@ -29,7 +29,6 @@ class Moment extends Component{
 
   constructor(props) {
     super(props);
-
     this.state = {
       newComment: "",
     }
@@ -71,10 +70,20 @@ class Moment extends Component{
   }
 
   render (){
-    const {moment, comments, submitComment, fetchComments} = this.props;
-    var innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
+    const { onBack, moment, comments, submitComment, fetchComments } = this.props;
+    console.log('moment',this.props)
+    const innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
     return (
       <View style={{flex: 1}}>
+        <View style={styles.buttonContainer}>
+          <TouchableHighlight
+          key={this.state.moment}
+          onPress={onBack}>
+            <Text style={ styles.buttonText }>
+              Back
+            </Text>
+          </TouchableHighlight>
+        </View>
         <View style={styles.imageContainer}>
           <Image
             source={{uri: moment.url}}
@@ -139,7 +148,7 @@ var styles = StyleSheet.create({
     height: Dimensions.get('window').width,
   },
   imageContainer:{
-    flex: 1,
+    flex: 11,
     alignItems: 'stretch',
     justifyContent: 'center',
     alignSelf: 'stretch',
@@ -176,11 +185,17 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    margin: 5,
+    margin: 25,
     textAlign: 'center',
   },
   modalButton: {
     marginTop: 10,
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
+    flexDirection: 'row',
   },
 });
 

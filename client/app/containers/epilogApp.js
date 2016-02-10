@@ -101,7 +101,7 @@ class EpiLogApp extends Component {
         return (
           <Story
           asset={viewControlState.passedProps.asset}
-          onBack={ () => { viewControlActions.setView('LIBRARY') }}
+          onBack={()=>{viewControlActions.setView('LIBRARY')}}
           onPress={(moment) => viewControlActions.setView('MOMENT_VIEW', {moment: moment})}
           />);
       case "NEW_STORY":
@@ -118,7 +118,7 @@ class EpiLogApp extends Component {
       case "CAPTURE":
         return (
           <Capture
-          onTouchImage={ (asset) => { viewControlActions.setView('EDIT_MOMENT', { asset: asset }); }}
+          onTouchImage={(asset)=>{ viewControlActions.setView('EDIT_MOMENT', { asset: asset }); }}
           />);
       case "EDIT_MOMENT":
         return(<EditMoment
@@ -135,6 +135,7 @@ class EpiLogApp extends Component {
         />);
       case "MOMENT_VIEW":
         return(<Moment
+          onBack={ () => { viewControlActions.setView('LIBRARY')}}
           fetchComments={commentActions.fetchComments}
           comments={commentState.fetchedComments}
           submitComment={commentActions.submitComment}

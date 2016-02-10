@@ -75,6 +75,7 @@ var Story = React.createClass({
     const { asset, onBack ,onPress} = this.props;
 
     const story = this.props.asset;
+    console.log('story view', story)
     return (
       <View style={styles.container}>
         <View style={styles.scrollViewContainer}>

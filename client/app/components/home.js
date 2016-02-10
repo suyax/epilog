@@ -75,7 +75,6 @@ class Home extends Component {
   }
 
   renderRecentMoment(update) {
-    console.log('update',update)
     return (
       <View key={update.id} style={styles.container}>
           <View style={styles.storyContainer}>
@@ -90,10 +89,6 @@ class Home extends Component {
                 </Image>
               </TouchableHighlight>
               <View style={styles.imageBox}>
-              <View style={styles.titleBox}>
-              </View>
-              </View>
-              <View style={styles.groupBox}>
               <Text style={styles.headline}>
               {update.caption}
               </Text>
