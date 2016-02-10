@@ -36,6 +36,7 @@ class Moment extends Component{
 
   componentWillMount () {
     const {fetchComments, moment, comments, submitStatus} = this.props;
+    console.log(this.props.moment)
     if ((comments.lastUpdated === undefined && !comments.loading) ||
       // did we load the correct set of comments?
       comments.momentId !== moment.id ||
