@@ -15,6 +15,7 @@ var {
   NativeModules
 } = React;
 
+import {SERVER_URL} from '../urls';
 import NavBar from './navBar';
 
 class NewStory extends Component {
@@ -29,7 +30,7 @@ class NewStory extends Component {
     return AsyncStorage.getItem('token')
 
       .then((result) => {
-        fetch('http://127.0.0.1:3000/api/users', {
+        fetch(SERVER_URL + '/api/users', {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -46,7 +47,7 @@ class NewStory extends Component {
           }
         })
         .then((result) => {
-          fetch('http://127.0.0.1:3000/api/stories', {
+          fetch(SERVER_URL + '/api/stories', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -64,7 +65,7 @@ class NewStory extends Component {
 
             AsyncStorage.getItem('token')
               .then((result) => {
-                fetch('http://127.0.0.1:3000/api/users', {
+                fetch(SERVER_URL + '/api/users', {
                   method: 'GET',
                   headers: {
                     'Accept': 'application/json',
@@ -85,7 +86,7 @@ class NewStory extends Component {
 
                   return {
                     uri: asset.node.image.uri,
-                    uploadUrl: 'http://127.0.0.1:3000/api/moments',
+                    uploadUrl: SERVER_URL + '/api/moments',
                     fileName: title + '_' + caption + '_' + 
                       String(responseData.storyId) + '_' + 
                       String(responseData.userId) + '_' + characters + '.png',

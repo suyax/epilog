@@ -11,6 +11,7 @@ import React, {
   AlertIOS,
 } from 'react-native';
 
+import {SERVER_URL} from '../urls';
 import NavBar from './navBar';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
 
@@ -56,7 +57,7 @@ class LogIn extends React.Component {
     //for testing purpose should be remove when database complete
     //successLoggedIn();
     //console.log('fetch email' ,this.state.email ,'fetch password', this.state.password)
-    fetch('http://127.0.0.1:3000/api/users/token', {
+    fetch(SERVER_URL + '/api/users/token', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

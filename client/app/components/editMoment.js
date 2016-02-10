@@ -1,4 +1,5 @@
 var React = require('react-native');
+const {SERVER_URL} = require('../urls');
 var {
   Component,
   Image,
@@ -31,7 +32,7 @@ var EditMoment = React.createClass({
 
   //upon initialization, grabs all stories associated with a particular user, assuming the user has a valid token
   componentDidMount: function() {
-    var storyTitlesUrl = 'http://127.0.0.1:3000/api/stories';
+    var storyTitlesUrl = SERVER_URL + '/api/stories';
     
     return AsyncStorage.getItem('token')
       .then((result) => {
@@ -71,7 +72,7 @@ var EditMoment = React.createClass({
 
     if(this.state.currentStory.toLowerCase() in this.state.storyIdLookUp){
       var storyId = this.state.storyIdLookUp[this.state.currentStory];
-      var storyTagsUrl = 'http://127.0.0.1:3000/api/tags/' + storyId;
+      var storyTagsUrl = SERVER_URL + '/api/tags/' + storyId;
 
       return AsyncStorage.getItem('token')
         .then((result) => {
@@ -107,7 +108,7 @@ var EditMoment = React.createClass({
   submitMoment: function(textInputs, asset) {
     var storyTitle = this.state.currentStory;
     var momentCaption = textInputs.caption;
-    var checkStoryURL = 'http://127.0.0.1:3000/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
+    var checkStoryURL = SERVER_URL + '/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
     var momentTags = textInputs.momentTags.split(', ');
 
     return AsyncStorage.getItem('token')
@@ -133,7 +134,7 @@ var EditMoment = React.createClass({
               .then((result) => {
                 return {
                   uri: asset.node.image.uri,
-                  uploadUrl: 'http://127.0.0.1:3000/api/moments',
+                  uploadUrl: SERVER_URL + '/api/moments',
                   fileName: title + '_' + caption + '_' + String(storyid) + '_' + String(userid) + '_.png',
                   mimeType: 'image',
                   headers: {
@@ -147,7 +148,7 @@ var EditMoment = React.createClass({
                   if (err) {
                     console.log(err);
                   } else {
-                    fetch('http://127.0.0.1:3000/api/tags/' + JSON.parse(res.data).momentId, {
+                    fetch(SERVER_URL + '/api/tags/' + JSON.parse(res.data).momentId, {
                       method: 'POST',
                       headers: {
                         'Accept': 'application/json',

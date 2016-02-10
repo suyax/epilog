@@ -55,7 +55,7 @@ class SignUp extends React.Component {
     const { successSignedUp } = this.props
     //for testing purpose should be remove when database complete
     //successSignedUp();
-    fetch('http://127.0.0.1:3000/api/users', {
+    fetch(SERVER_URL + '/api/users', {
       method: 'POST',
       header: {
         'Accept': 'application/json',
