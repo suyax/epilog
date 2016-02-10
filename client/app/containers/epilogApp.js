@@ -68,7 +68,7 @@ class EpiLogApp extends Component {
           <Home
           onLoad={updateActions.fetchUpdates}
           updates={updateState}
-          onPress={(updates) => viewControlActions.setView('MOMENT_VIEW', {updates: updates})}
+          onPress={(moment) => viewControlActions.setView('MOMENT_VIEW', {moment: moment})}
           onCamera={ () => {viewControlActions.setView('CAMERAVIEW') }}
           onLogOut={ () => {viewControlActions.setView('LOGOUT') }}
           />);
