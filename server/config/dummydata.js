@@ -4,6 +4,7 @@ var stories = require('../db/dbModel').Story;
 var moments = require('../db/dbModel').Moment;
 var users = require('../db/dbModel').User;
 var users_stories = require('../db/dbModel').Users_Stories;
+var tags = require('../db/dbModel').Tag;
 var model = require('../models');
 var Promise = require('bluebird');
 
@@ -25,22 +26,46 @@ var dummyStoryData = [
   {"title": "me and suya", "description": "BFFs", "existingUsersToInclude": [1]}
 ];
 
+var dummyTagData = [
+  {'momentId': 1, 'tags': ['First']},
+  {'momentId': 2, 'tags': ['second']},
+  {'momentId': 3, 'tags': ['third']},
+  {'momentId': 4, 'tags': ['fourth']},
+  {'momentId': 5, 'tags': ['fifth']},
+  {'momentId': 6, 'tags': ['sixth']},
+];
+
 var dummyMomentData = [
-  {"url": path.join(__dirname + '/../images/earthshaker.jpeg'), "caption": "earthshaker!!!!", "userid": 1, "storyid": 3},
-  {"url": path.join(__dirname + '/../images/shadowfiend.jpeg'), "caption": "shadow friend", "userid": 2,  "storyid": 1},
-  {"url": path.join(__dirname + '/../images/arcwarden.jpeg'), "caption": "new guy", "userid": 2, "storyid": 4},
-  {"url": path.join(__dirname + '/../images/tswift1.jpeg'), "caption": "happy 9th anniversary!", "userid": 3, "storyid": 4},
-  {"url": path.join(__dirname + '/../images/tswift2.jpeg'), "caption": "nice hair dude", "userid": 1, "storyid": 4},
-  {"url": path.join(__dirname + '/../images/tswift3.jpeg'), "caption": "surprised bae at work", "userid": 4, "storyid": 3},
-  {"url": path.join(__dirname + '/../images/banks1.jpeg'), "caption": "say no more, fam", "userid": 4, "storyid": 3},
-  {"url": path.join(__dirname + '/../images/banks2.jpeg'), "caption": "find the rapper", "userid": 3, "storyid": 4},
-  {"url": path.join(__dirname + '/../images/banks3.jpeg'), "caption": "jeffrey dont smile", "userid": 2, "storyid": 3},
-  {"url": path.join(__dirname + '/../images/mongoose.jpeg'), "caption": "what is these animals", "userid": 1,  "storyid": 4},
-  {"url": path.join(__dirname + '/../images/mongoose2.jpeg'), "caption": "mongo", "userid": 2,  "storyid": 2},
-  {"url": path.join(__dirname + '/../images/beaver.jpeg'), "caption": "#throwbackthursday", "userid": 1, "storyid": 3},
-  // {"url": path.join(__dirname + '/../images/afraid.jpeg'), "caption": "of suya", "userid": 3, "storyid": 2},
-  // {"url": path.join(__dirname + '/../images/dinosaur.jpeg'), "caption": "suya half the time", "userid": 4, "storyid": 3},
-  // {"url": path.join(__dirname + '/../images/boulder.jpeg'), "caption": "suya the other half of the time", "userid": 3,"storyid": 3}
+  {"url": path.join(__dirname + '/../images/earthshaker.jpeg'), 
+    "caption": "earthshaker!!!!", "userid": 1, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/shadowfiend.jpeg'), 
+    "caption": "shadow friend", "userid": 2,  "storyid": 1},
+  {"url": path.join(__dirname + '/../images/arcwarden.jpeg'), 
+    "caption": "new guy", "userid": 2, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/tswift1.jpeg'), 
+    "caption": "happy 9th anniversary!", "userid": 3, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/tswift2.jpeg'), 
+    "caption": "nice hair dude", "userid": 1, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/tswift3.jpeg'), 
+    "caption": "surprised bae at work", "userid": 4, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/banks1.jpeg'), 
+    "caption": "say no more, fam", "userid": 4, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/banks2.jpeg'),
+     "caption": "find the rapper", "userid": 3, "storyid": 4},
+  {"url": path.join(__dirname + '/../images/banks3.jpeg'),
+     "caption": "jeffrey dont smile", "userid": 2, "storyid": 3},
+  {"url": path.join(__dirname + '/../images/mongoose.jpeg'),
+     "caption": "what is these animals", "userid": 1,  "storyid": 4},
+  {"url": path.join(__dirname + '/../images/mongoose2.jpeg'),
+     "caption": "mongo", "userid": 2,  "storyid": 2},
+  {"url": path.join(__dirname + '/../images/beaver.jpeg'),
+     "caption": "#throwbackthursday", "userid": 1, "storyid": 3},
+  // {"url": path.join(__dirname + '/../images/afraid.jpeg'),
+  //    "caption": "of suya", "userid": 3, "storyid": 2},
+  // {"url": path.join(__dirname + '/../images/dinosaur.jpeg'),
+  //    "caption": "suya half the time", "userid": 4, "storyid": 3},
+  // {"url": path.join(__dirname + '/../images/boulder.jpeg'),
+  //    "caption": "suya the other half of the time", "userid": 3,"storyid": 3}
 ];
 
 module.exports = function () {
@@ -77,6 +102,12 @@ module.exports = function () {
         };
         return model.moments.add(momentInfo);
       });
+    })
+    // create tags
+    .then(function(){
+      return Promise.each(dummyTagData, function(dumbTag){
+        return model.tags.add(dumbTag);
+      })
     })
     //account for errors
     .catch(function(err){
