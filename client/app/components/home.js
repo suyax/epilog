@@ -12,6 +12,7 @@ import React, {
 
 import NavBar from './navBar';
 import moment from 'moment';
+import externalStyles from '../style/external-styles.js'
 
 class Home extends Component {
   componentDidMount() {
