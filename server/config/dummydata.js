@@ -8,10 +8,7 @@ var tags = require('../db/dbModel').Tag;
 var model = require('../models');
 var Promise = require('bluebird');
 
-// local server
-// var SERVER_URL = 'http://localhost:3000/';
-// digital ocean server
-var SERVER_URL = 'http://104.131.118.27:3000/';
+var SERVER_URL = require('../config.js').SERVER_URL;
 
 //will need to change once we have oauth
 var dummyUserData = [
@@ -41,29 +38,29 @@ var dummyTagData = [
 ];
 
 var dummyMomentData = [
-  {"url": SERVER_URL + 'earthshaker.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/earthshaker.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
     "caption": "earthshaker!!!!", "userid": 1, "storyid": 3},
-  {"url": SERVER_URL + 'shadowfiend.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/shadowfiend.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
     "caption": "shadow friend", "userid": 2,  "storyid": 1},
-  {"url": SERVER_URL + 'arcwarden.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/arcwarden.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
     "caption": "new guy", "userid": 2, "storyid": 4},
-  {"url": SERVER_URL + 'tswift1.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/tswift1.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
     "caption": "happy 9th anniversary!", "userid": 3, "storyid": 4},
-  {"url": SERVER_URL + 'tswift2.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/tswift2.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
     "caption": "nice hair dude", "userid": 1, "storyid": 4},
-  {"url": SERVER_URL + 'tswift3.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/tswift3.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
     "caption": "surprised bae at work", "userid": 4, "storyid": 3},
-  {"url": SERVER_URL + 'banks1.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/banks1.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
     "caption": "say no more, fam", "userid": 4, "storyid": 3},
-  {"url": SERVER_URL + 'banks2.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/banks2.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
      "caption": "find the rapper", "userid": 3, "storyid": 4},
-  {"url": SERVER_URL + 'banks3.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/banks3.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
      "caption": "jeffrey dont smile", "userid": 2, "storyid": 3},
-  {"url": SERVER_URL + 'mongoose.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/mongoose.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
      "caption": "what is these animals", "userid": 1,  "storyid": 4},
-  {"url": SERVER_URL + 'mongoose2.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/mongoose2.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
      "caption": "mongo", "userid": 2,  "storyid": 2},
-  {"url": SERVER_URL + 'beaver.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
+  {"url": SERVER_URL + '/beaver.jpeg', createdAt: "2016-02-10T19:22:48.558Z",
      "caption": "#throwbackthursday", "userid": 1, "storyid": 3},
   // {"url": path.join(__dirname + '/../images/afraid.jpeg'),
   //    "caption": "of suya", "userid": 3, "storyid": 2},

@@ -4,6 +4,7 @@ var images = '/../images';
 var Promise = require('bluebird');
 var momentModel = require('./momentModel');
 var Busboy = require('busboy');
+var SERVER_URL = require('../config.js').SERVER_URL;
 
 module.exports =  {
 
@@ -27,7 +28,7 @@ module.exports =  {
       // Fill the moment information container
       momentData['caption'] = parsedFileName[1].split('%20').join(' ');
       momentData['storyid'] = Number(parsedFileName[2]);
-      momentData['url'] = filepath;
+      momentData['url'] = SERVER_URL + '/' + filename;
       momentData['userid'] = Number(parsedFileName[3]);
 
       if (parsedFileName.length === 6) {
