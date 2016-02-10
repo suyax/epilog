@@ -75,7 +75,6 @@ class Home extends Component {
   }
 
   renderRecentMoment(update) {
-    console.log(update)
     return (
       <View key={update.id} style={styles.container}>
           <View style={styles.storyContainer}>
