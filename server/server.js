@@ -13,7 +13,7 @@ var app = express();
 app.use(bodyParser.urlencoded({limit: '1gb', extended: true}));
 app.use(bodyParser.json());
 //serve up static files upon initialization of server
-app.use(express.static(path.join(__dirname, "/client")));
+app.use(express.static('images'));
 
 
 //listen on routes   
