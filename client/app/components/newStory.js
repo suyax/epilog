@@ -19,6 +19,7 @@ var {
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
 import {SERVER_URL} from '../urls';
 import NavBar from './navBar';
+import externalStyles from '../style/external-styles.js';
 
 class NewStory extends Component {
 
@@ -127,8 +128,9 @@ class NewStory extends Component {
     };
 
     return (
-      <View style={ styles.container }>
-
+      <View style={externalStyles.viewBody}>
+        <View style={externalStyles.topBar}>
+        </View>
         <View style={ styles.content }>
           <Image
             source={{ uri: asset.node.image.uri }}

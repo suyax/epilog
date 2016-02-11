@@ -132,7 +132,7 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'rgba(0,0,0,0.2)',
     color: 'white',
-   },
+  },
   list: {
     flex: 9,
   },

@@ -9,7 +9,7 @@ const externalStyles = StyleSheet.create({
     alignSelf: 'center',
   },
   contentText: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#3d3d3d',
     marginLeft: 10,
     textAlign: 'left',

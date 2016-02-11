@@ -16,6 +16,8 @@ var {
 } = React;
 
 import AutoCompleteHelper from './autoComplete';
+import externalStyles from '../style/external-styles.js';
+
 
 var EditMoment = React.createClass({
 
@@ -188,7 +190,12 @@ var EditMoment = React.createClass({
     var image = asset.node.image;
 
     return (
-      <View style={styles.container}>
+      <View style={externalStyles.viewBody}>
+        <View style={externalStyles.topBar}>
+          <Text style={externalStyles.viewTitle}>
+            Edit Moment
+          </Text>
+        </View>
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
@@ -199,42 +206,39 @@ var EditMoment = React.createClass({
             onBlur={this.getStoryTags}
           />
         </View>
-          <View style={ styles.textContainer }>
+        <View style={ styles.textContainer }>
           <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
             <View style={ styles.positionBox }>
-            <TextInput
-              style={styles.textInput}
-              placeholder={'Create a Caption'}
-              onChangeText={(text)=>textFields.caption = text}
-              autoCapitalize={'none'}
-              onSubmitEditing={() => dismissKeyboard()}
-              />
-            <TextInput
-              style={styles.textInput}
-              placeholder={'Tag your moment'}
-              onChangeText={(text)=>textFields.momentTags = text}
-              autoCapitalize={'none'}
-              onSubmitEditing={() => dismissKeyboard()}
-              />
+              <TextInput
+                style={styles.textInput}
+                placeholder={'Create a Caption'}
+                onChangeText={(text)=>textFields.caption = text}
+                onSubmitEditing={() => dismissKeyboard()}
+                />
+              <TextInput
+                style={styles.textInput}
+                placeholder={'Tag your moment'}
+                onChangeText={(text)=>textFields.momentTags = text}
+                onSubmitEditing={() => dismissKeyboard()}
+                />
             </View>
-            </TouchableWithoutFeedback>
-          <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={onCancel}>
-              <View><Text style={styles.button}>Cancel</Text></View>
-            </TouchableHighlight>
-            <TouchableHighlight key={asset} onPress={() => {
-                if (this.state.currentStory && textFields.caption) {
-                  this.submitMoment(textFields, asset)
-                    .then((result) => {
-                      onSubmit(result, asset);
-                    });
-                }
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableHighlight onPress={onCancel}>
+            <View><Text style={styles.button}>Cancel</Text></View>
+          </TouchableHighlight>
+          <TouchableHighlight key={asset} onPress={() => {
+              if (this.state.currentStory && textFields.caption) {
+                this.submitMoment(textFields, asset)
+                  .then((result) => {
+                    onSubmit(result, asset);
+                  });
               }
-            }>
-              <View><Text style={styles.button}>Submit</Text></View>
-            </TouchableHighlight>
-          </View>
-          </View>
+          }}>
+            <View><Text style={styles.button}>Submit</Text></View>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -259,12 +263,12 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
   },
   textColumn: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'column',
   },
   textContainer: {
     marginBottom: 20,
-    flex: 0.3
+    flex: 2,
   },
   textInput: {
     height: 40,
@@ -281,12 +285,13 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   content: {
-    flex: 0.2,
-    justifyContent: 'space-around',
-    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    padding: 0,
   },
   imageContainer: {
-    flex: 1,
+    flex: 3,
     justifyContent: 'space-around',
   },
   buttonContainer: {
