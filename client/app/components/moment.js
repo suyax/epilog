@@ -12,6 +12,8 @@ const {
   Dimensions,
 } = React;
 
+import moment from 'moment';
+
 class Button extends Component{
   render() {
     return (
@@ -57,7 +59,9 @@ class Moment extends Component{
           {comments.data.map((comment)=>{
             return(
               <View key={comment.id}>
-                <Text>{comment.user.firstName+' '+comment.user.lastName+': '+comment.text}</Text>
+                <Text style={{fontWeight: 'bold'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal'}}>{comment.text}</Text> </Text>
+                <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12}}>{moment(comment.createdAt).fromNow()}</Text>
+                <Text></Text>
               </View>
               )
           })}
@@ -67,6 +71,7 @@ class Moment extends Component{
   }
 
   render (){
+    let { width, height } = Dimensions.get('window');
     const { onBack, moment, comments, submitComment, fetchComments } = this.props;
     console.log('moment',this.props)
     const innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
@@ -86,43 +91,38 @@ class Moment extends Component{
             source={{uri: moment.url}}
             style={styles.image}>
           </Image>
-          <Button onPress={()=>this.props.setCommentsVisibility(true)}>
-            Comments
-          </Button>
+          <ScrollView
+              style={styles.scrollView}
+              showsVerticalScrollIndicator={true}
+              automaticallyAdjustContentInsets={false}
+              horizontal={false}
+              snapToInterval={height/2}>
+              {this.renderComments()}
+          </ScrollView>
+            <View style={styles.commentInputForm}>
+              <View style={{flex: 11}}> 
+               <TextInput
+                 value={this.state.newComment}
+                 style={styles.textInput}
+                 placeholder={'Write a Comment'}
+                 onChangeText={(text) => this.setState({newComment: text})}
+               />
+              </View>
+              <View style={{flex: 1, backgroundColor: 'white'}}>
+               <TouchableHighlight
+                 style={styles.commentButton}
+                 onPress={()=>{
+                   submitComment(this.state.newComment,moment.id)
+                   .then(()=>fetchComments(moment.id))
+                   .then(()=>this.setState({newComment:""}));
+                 }}>
+                   <Image
+                     style={{backgroundColor: 'white'}}
+                     source={require('../image/Submit.gif')}/>
+               </TouchableHighlight>
+              </View>
+            </View> 
         </View>
-
-        <Modal
-          animated={true}
-          transparent={true}
-          visible={this.props.commentsVisibility}>
-          <View style={[styles.container]}>
-            <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-              <Button
-                onPress={()=>this.props.setCommentsVisibility(false)}
-                style={styles.modalButton}>
-                Close
-              </Button>
-              <TextInput
-                value={this.state.newComment}
-                style={styles.textInput}
-                placeholder={'Write a Comment'}
-                onChangeText={(text) => this.setState({newComment: text})}
-              />
-              <Button
-                onPress={()=>{
-                  submitComment(this.state.newComment,moment.id)
-                  .then(()=>fetchComments(moment.id))
-                  .then(()=>this.setState({newComment:""}));
-                }}
-                style={styles.modalButton}>
-                Submit
-              </Button>
-              <ScrollView>
-                {this.renderComments()}
-              </ScrollView>
-            </View>
-          </View>
-        </Modal>
       </View>
     )
   }
@@ -130,14 +130,16 @@ class Moment extends Component{
 
 var styles = StyleSheet.create({
   textInput: {
-    alignSelf: 'center',
-    height: 15,
-    borderRadius: 2,
-    padding: 1,
-    width: 350,
+    height: 44,
     backgroundColor: '#FFFFFF',
     flex: 1,
-    textAlign: 'center'
+    padding: 10, 
+    textAlign: 'left'
+  },
+  scrollView: {
+    padding: 10, 
+    flex: 3,
+    backgroundColor: '#FFFFFF'
   },
   image:{
     flex:11,
@@ -162,6 +164,9 @@ var styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
   },
+  commentInputForm: {
+    flexDirection: 'row'
+  },
   row: {
     alignItems: 'center',
     flex: 1,
@@ -185,7 +190,9 @@ var styles = StyleSheet.create({
     margin: 25,
     textAlign: 'center',
   },
-  modalButton: {
+  commentButton: {
+    height: 34, 
+    backgroundColor: 'white',
     marginTop: 10,
   },
   buttonContainer: {
