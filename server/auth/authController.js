@@ -52,7 +52,7 @@ module.exports = {
         }
       })
       .catch(function (error) {
-        console.log('Error while trying to authenticate user: ', error);
+        console.log('Error while trying to authenticate user (',request.ip, '): ', error);
       });
     }
   },
