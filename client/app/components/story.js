@@ -15,12 +15,29 @@ import React, {
 } from 'react-native';
 
 import NavBar from './navBar';
-import AutoCompleteHelper from './autoComplete.js';
+import AutoCompleteHelper from './autoComplete';
+
+class Button extends Component{
+  render() {
+    return (
+      <TouchableHighlight
+        onPress={this.props.onPress}
+        style={[styles.button]}
+        underlayColor="#a9d9d4">
+          <Text style={[styles.buttonText]}>{this.props.children}</Text>
+      </TouchableHighlight>
+    );
+  }
+}
 
 class Story extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   //upon initialization...
   componentWillMount() {
+    const {fetchComments, moment, comments, submitStatus} = this.props;
     //grab the story object associated with the story rendered on the story view (note: this
     //is passed in from the library view)
     const story = this.props.asset;
@@ -36,6 +53,7 @@ class Story extends Component {
     var arrayOfTagNames = arrayOfTagObjectsForStory.map(function(tagObj){return tagObj['name'];});
     //set the variables defined above to the view's state
     this.state = {
+      newComment: "",
       //holds all of the story titles associated with a particular user
       story: story,
       //all of the moments associated with the story
@@ -188,7 +206,7 @@ var styles = StyleSheet.create({
      textAlign: 'center',
      borderRadius: 5,
      backgroundColor: 'rgba(0,0,0,0.2)',
-     color: 'white',
+     color: 'white'
    },
   buttonText: {
     textAlign: 'center',

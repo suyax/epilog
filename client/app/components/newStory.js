@@ -12,9 +12,11 @@ var {
   PixelRatio,
   Dimensions,
   TouchableHighlight,
-  NativeModules
+  NativeModules,
+  TouchableWithoutFeedback
 } = React;
 
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
 import {SERVER_URL} from '../urls';
 import NavBar from './navBar';
 
@@ -87,8 +89,8 @@ class NewStory extends Component {
                   return {
                     uri: asset.node.image.uri,
                     uploadUrl: SERVER_URL + '/api/moments',
-                    fileName: title + '_' + caption + '_' + 
-                      String(responseData.storyId) + '_' + 
+                    fileName: title + '_' + caption + '_' +
+                      String(responseData.storyId) + '_' +
                       String(responseData.userId) + '_' + characters + '.png',
                     mimeType: 'image',
                     headers: {
@@ -133,16 +135,24 @@ class NewStory extends Component {
             style={ styles.thumbnail }
           />
         </View>
-
+        <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
         <View style={ styles.textContainer }>
-          <TextInput style={styles.textInput} value={textInputs.newStoryTitle}
-            onChangeText={(text)=>textInputs.newStoryTitle = text} />
+          <TextInput
+          style={styles.textInput}
+          value={textInputs.newStoryTitle}
+          onChangeText={(text)=>textInputs.newStoryTitle = text}
+          onSubmitEditing={() => {
+            dismissKeyboard()
+          }} />
           <TextInput style={styles.textInput} placeholder='Description'
             onChangeText={(text)=>textInputs.newStoryDescription = text} />
           <TextInput style={styles.textInput} placeholder='Add friends to your story'
-            onChangeText={(text)=>textInputs.newStoryCharacters = text} />
+            onChangeText={(text)=>textInputs.newStoryCharacters = text}
+            onSubmitEditing={() => {
+              dismissKeyboard()
+            }} />
         </View>
-
+        </TouchableWithoutFeedback>
         <View style={ styles.buttonContainer }>
           <TouchableHighlight onPress={onBack}>
             <Text style={ styles.button }>
