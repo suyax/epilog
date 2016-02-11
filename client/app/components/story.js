@@ -151,7 +151,7 @@ class Story extends Component {
             <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
             <Image
               style={styles.backdrop}
-              source={{uri: moment.url}}>
+              source={{uri: moment.url.slice()}}>
             </Image>
             </TouchableHighlight>
           </View>
@@ -160,6 +160,7 @@ class Story extends Component {
             <View style={{alignSelf: 'center'}}>
             <Text style={styles.dateText}>{moment.createdAt.slice(0,10)}
             </Text>
+
             </View>
           </View>
         </View>
@@ -223,7 +224,7 @@ var styles = StyleSheet.create({
   buttonText: {
     textAlign: 'left',
     fontSize: 20,
-    color: 'white'
+    color: 'black'
   },
   row: {
     flex: 1,
