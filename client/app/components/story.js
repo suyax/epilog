@@ -37,7 +37,6 @@ class Story extends Component {
 
   //upon initialization...
   componentWillMount() {
-    const {fetchComments, moment, comments, submitStatus} = this.props;
     //grab the story object associated with the story rendered on the story view (note: this
     //is passed in from the library view)
     const story = this.props.asset;
@@ -64,6 +63,38 @@ class Story extends Component {
       //moments filtered by tag; should START by being equal to ALL of the moments.
       filteredMoments: moments
     };
+  }
+
+  fetchComment (moment) {
+    const {fetchComments, comments, submitStatus} = this.props;
+    if ((comments.lastUpdated === undefined && !comments.loading) ||
+      // did we load the correct set of comments?
+      comments.momentId !== moment.id ||
+      // or the last time we updated was 5 minutes ago
+      (Date.now() - comments.lastUpdated) > (5 * 60 * 1000)){
+      fetchComments(moment.id);
+    }
+  }
+
+  renderComments () {
+    const {comments, fetchComments} = this.props;
+    if(comments.loading || comments.lastUpdated === undefined){
+      return (<View><Text>Loading Comments...</Text></View>);
+    } else if (comments.error){
+      return (<View><Text>Sorry, but the Comments couldn't be loaded</Text></View>);
+    } else {
+      return (
+        <View>
+          {comments.data.map((comment)=>{
+            return(
+              <View key={comment.id}>
+                <Text>{comment.user.firstName+' '+comment.user.lastName+': '+comment.text}</Text>
+              </View>
+              )
+          })}
+        </View>
+        )
+    }
   }
 
   //helper func that filters a story's moments based on tag name
@@ -96,6 +127,8 @@ class Story extends Component {
     let { width, height } = Dimensions.get('window');
     const { asset, onBack , onPress} = this.props;
     const story = this.props.asset;
+
+
     return (
       <View style={{position:'relative'}}>
       <View style={styles.container}>
@@ -133,6 +166,7 @@ class Story extends Component {
   }
 
   createRow(moment) {
+    const innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
     return (
       <View key={moment.id} style={styles.storyRow}>
         <View style={styles.storyContainer}>
@@ -144,24 +178,56 @@ class Story extends Component {
           </View>
           <View>
             <Text style={styles.headline}>{moment.caption}</Text>
-            <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
-            <Text style={styles.headline}>Comment</Text>
-            </TouchableHighlight>
+            <Button onPress={()=>this.props.setCommentsVisibility(true)}>
+              Comments
+            </Button>
           </View>
             <Text style={styles.text}>{moment.createdAt.slice(0,10)}
             </Text>
         </View>
           <Image
           style={styles.timeLine}
-          source={require('../image/greyLine.png')}
-          >
+          source={require('../image/greyLine.png')}>
           </Image>
-      </View>
+        <Modal
+          animated={true}
+          transparent={true}
+          visible={this.props.commentsVisibility}>
+          <View style={[styles.container]}>
+            <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+              <Button
+                onPress={()=>this.props.setCommentsVisibility(false)}
+                style={styles.modalButton}>
+                Close
+              </Button>
+              <TextInput
+                value={this.state.newComment}
+                style={styles.textInput}
+                placeholder={'Write a Comment'}
+                onChangeText={(text) => this.setState({newComment: text})}
+              />
+            </View>
+          </View>
+        </Modal>
+        </View>
+
       )
   }
 }
 
 var styles = StyleSheet.create({
+  button: {
+    borderRadius: 5,
+    flex: 1,
+    height: 44,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  innerContainer: {
+    borderRadius: 10,
+    alignItems: 'center',
+  },
   storyRow: {
     flex: 1
   },
