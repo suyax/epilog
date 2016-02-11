@@ -24,7 +24,6 @@ import externalStyles from '../style/external-styles.js';
 class NewStory extends Component {
 
   submitNewStory(textInputs, asset) {
-    console.log('Asset in newStory: ', asset);
     var title = textInputs.newStoryTitle;
     var description = textInputs.newStoryDescription;
     var caption = asset.node.caption;
@@ -124,40 +123,47 @@ class NewStory extends Component {
     const { asset, onBack, onSubmit } = this.props;
     const newStory = this.props.asset;
     var textInputs = {
-      newStoryTitle: this.props.storyTitle
+      newStoryTitle: asset.storyTitle
     };
 
     return (
       <View style={externalStyles.viewBody}>
         <View style={externalStyles.topBar}>
+          <Text style={externalStyles.viewTitle}>
+            New story
+          </Text>
         </View>
-        <View style={ styles.content }>
+        <View style={styles.imageContainer}>
+          <Text style={styles.title}>
+            {textInputs.newStoryTitle}
+          </Text>
           <Image
-            source={{ uri: asset.node.image.uri }}
-            style={ styles.thumbnail }
+            source={{uri: asset.node.image.uri}}
+            style={styles.thumbnail}
           />
         </View>
-        <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-        <View style={ styles.textContainer }>
-          <TextInput
-          style={styles.textInput}
-          value={textInputs.newStoryTitle}
-          onChangeText={(text)=>textInputs.newStoryTitle = text}
-          onSubmitEditing={() => {
-            dismissKeyboard()
-          }} />
-          <TextInput style={styles.textInput} placeholder='Description'
-            onChangeText={(text)=>textInputs.newStoryDescription = text} />
-          <TextInput style={styles.textInput} placeholder='Add friends to your story'
-            onChangeText={(text)=>textInputs.newStoryCharacters = text}
-            onSubmitEditing={() => {
-              dismissKeyboard()
-            }} />
+        <View style={externalStyles.textContainer}>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+          <TextInput 
+            style={externalStyles.textInput} 
+            placeholder='Story Description'
+            onChangeText={(text)=>textInputs.newStoryDescription = text} 
+          />
+          </TouchableWithoutFeedback>
         </View>
-        </TouchableWithoutFeedback>
-        <View style={ styles.buttonContainer }>
+        <View style={externalStyles.textContainer}>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+          <TextInput 
+            style={externalStyles.textInput} 
+            placeholder='Add friends to your story'
+            onChangeText={(text)=>textInputs.newStoryCharacters = text}
+            onSubmitEditing={() => {dismissKeyboard()}} 
+          />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={externalStyles.buttonContainer}>
           <TouchableHighlight onPress={onBack}>
-            <Text style={ styles.button }>
+            <Text style={externalStyles.button}>
               Cancel
             </Text>
           </TouchableHighlight>
@@ -170,75 +176,32 @@ class NewStory extends Component {
                 });
             }
           }}>
-            <Text style={ styles.button }>
+            <Text style={externalStyles.button}>
               Submit
             </Text>
           </TouchableHighlight>
         </View>
-
-        <View style={ styles.navBar }>
-          <NavBar />
-        </View>
-
       </View>
     );
   }
 };
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    alignSelf: 'stretch',
-    flexDirection: 'column',
-    backgroundColor: 'grey'
-  },
-  content: {
-    flex: 11,
-    justifyContent: 'center',
-  },
-  navBar: {
-    flex: 1
-  },
-  textContainer: {
-    marginBottom: 20
-  },
-  textInput: {
-    flexWrap: 'wrap',
-    alignSelf: 'center',
-    height: 30,
-    borderRadius: 2,
-    padding: 1,
-    width: 350,
-    marginTop: 10,
-    backgroundColor: '#FFFFFF',
-    borderColor: 'black',
-    borderWidth: 1,
-    flex: 4,
-    textAlign: 'center'
-  },
   thumbnail: {
     width: 320,
     height: 240,
     alignSelf: 'center'
   },
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'space-around',
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    marginBottom: 18
-  },
-  button: {
-    borderWidth: 1,
-    borderColor: 'black',
-    width: 100,
-    height: 30,
+  title: {
+    margin: 15,
+    fontSize: 28,
+    color: '#3d3d3d',
     alignSelf: 'center',
-    textAlign: 'center',
-    paddingTop: 7
-  }
+  },
+  imageContainer: {
+    flex: 4,
+    justifyContent: 'space-around',
+  },
 });
 
 module.exports = NewStory;

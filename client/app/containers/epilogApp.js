@@ -128,6 +128,7 @@ class EpiLogApp extends Component {
               if (redirect === 'HOME') {
                 viewControlActions.setView('HOME');
               } else {
+                console.log('Asset from editMoment: ', asset);
                 viewControlActions.setView('NEW_STORY', { asset: asset });
               }
             }

@@ -71,6 +71,39 @@ const externalStyles = StyleSheet.create({
     marginBottom: 2,
     backgroundColor: '#5379ae',
   },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    marginTop: 40,
+  },
+  button: {
+    width: 120,
+    height: 45,
+    alignSelf: 'center',
+    textAlign: 'center',
+    backgroundColor: '#957a78',
+    color: '#ffffff',
+    paddingTop: 13,
+  },
+  textContainer: {
+    alignSelf: 'center',
+    flex: 1,
+    borderBottomColor: '#b6b6b6',
+    borderBottomWidth: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 15,
+    marginTop: 15,
+    width: 400,
+  },
+  textInput: {
+    height: 40,
+    backgroundColor:'white',
+    textAlign: 'center',
+    margin: 0,
+    color: ' #2C3539'
+  },
 });
 
 module.exports = externalStyles;

@@ -115,6 +115,7 @@ var EditMoment = React.createClass({
     var momentCaption = textInputs.caption;
     var checkStoryURL = SERVER_URL + '/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
     var momentTags = textInputs.momentTags.split(', ');
+    asset.storyTitle = storyTitle;
 
     return AsyncStorage.getItem('token')
       .then((result) => {
@@ -149,9 +150,9 @@ var EditMoment = React.createClass({
                 };
               })
               .then((result) => {
+                console.log(result);
                 NativeModules.FileTransfer.upload(result, (err, res) => {
                   if (err) {
-                    console.log(err);
                   } else {
                     fetch(SERVER_URL + '/api/tags/' + JSON.parse(res.data).momentId, {
                       method: 'POST',
@@ -200,34 +201,34 @@ var EditMoment = React.createClass({
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
-        <View style={styles.autoComplete}>
           <AutoCompleteHelper
             placeholder="Story Title"
             data={this.state.arrayOfStoryTitles}
             onBlur={this.getStoryTags}
           />
-        </View>
-        <View style={ styles.textContainer }>
+        <View style={externalStyles.textContainer}>
           <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-            <View style={ styles.positionBox }>
-              <TextInput
-                style={styles.textInput}
-                placeholder={'Create a Caption'}
-                onChangeText={(text)=>textFields.caption = text}
-                onSubmitEditing={() => dismissKeyboard()}
-                />
-              <TextInput
-                style={styles.textInput}
-                placeholder={'Tag your moment'}
-                onChangeText={(text)=>textFields.momentTags = text}
-                onSubmitEditing={() => dismissKeyboard()}
-                />
-            </View>
+            <TextInput
+              style={externalStyles.textInput}
+              placeholder={'Create a Caption'}
+              onChangeText={(text)=>textFields.caption = text}
+              onSubmitEditing={() => dismissKeyboard()}
+            />
           </TouchableWithoutFeedback>
         </View>
-        <View style={styles.buttonContainer}>
+        <View style={externalStyles.textContainer}>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+            <TextInput
+              style={externalStyles.textInput}
+              placeholder={'Tag your moment'}
+              onChangeText={(text)=>textFields.momentTags = text}
+              onSubmitEditing={() => dismissKeyboard()}
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={externalStyles.buttonContainer}>
           <TouchableHighlight onPress={onCancel}>
-            <View><Text style={styles.button}>Cancel</Text></View>
+            <View><Text style={externalStyles.button}>Cancel</Text></View>
           </TouchableHighlight>
           <TouchableHighlight key={asset} onPress={() => {
               if (this.state.currentStory && textFields.caption) {
@@ -237,7 +238,7 @@ var EditMoment = React.createClass({
                   });
               }
           }}>
-            <View><Text style={styles.button}>Submit</Text></View>
+            <View><Text style={externalStyles.button}>Submit</Text></View>
           </TouchableHighlight>
         </View>
       </View>
@@ -246,12 +247,6 @@ var EditMoment = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  autoComplete: {
-    top: -14,
-    height: 25,
-    width: Dimensions.get('window').width,
-
-  },
   container: {
     flex: 1,
     alignItems: 'stretch',
@@ -260,49 +255,18 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'grey'
   },
-    positionBox: {
-    flex: 4
-  },
-  row: {
-    padding: 5,
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-  },
-  textColumn: {
-    flex: 2,
-    flexDirection: 'column',
-  },
-  textContainer: {
-    marginBottom: 20,
-    flex: 2,
-  },
-  textInput: {
-    height: 40,
-    backgroundColor:'white',
-    borderColor: 'gray',
-    borderWidth: 2,
-    textAlign: 'center',
-    margin: 5,
-    color: ' #2C3539'
-  },
+  
   imageWide: {
     width: 320,
     height: 240,
     alignSelf: 'center'
   },
-  content: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-    padding: 0,
-  },
   imageContainer: {
-    flex: 3,
+    flex: 4,
     justifyContent: 'space-around',
   },
   buttonContainer: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'space-around',
     alignSelf: 'stretch',
     flexDirection: 'row',
