@@ -1,4 +1,12 @@
-export const SERVER_URL = 'http://localhost:3000';
+// export const SERVER_URL = 'http://localhost:3000';
+
+// digital ocean
+/* (add a '/' at the begining of this line to toggele SERVER_URL)
+// Local Server
+export const SERVER_URL = "http://localhost:3000" 
+/*/// Docker Server
+export const SERVER_URL = "http://104.131.118.27:3000"
+//*/
 
 // AUTHORIZATION ROUTES
 export const AUTH_SIGNUP = '/api/users/signup'; // POST
