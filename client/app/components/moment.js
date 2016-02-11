@@ -36,7 +36,6 @@ class Moment extends Component{
 
   componentWillMount () {
     const {fetchComments, moment, comments, submitStatus} = this.props;
-    //console.log(this.props.moment)
     if ((comments.lastUpdated === undefined && !comments.loading) ||
       // did we load the correct set of comments?
       comments.momentId !== moment.id ||
@@ -58,9 +57,7 @@ class Moment extends Component{
           {comments.data.map((comment)=>{
             return(
               <View key={comment.id}>
-                <Text>{comment.user.firstName}</Text>
-                <Text>{comment.user.lastName}</Text>
-                <Text>{comment.text}</Text>
+                <Text>{comment.user.firstName+' '+comment.user.lastName+': '+comment.text}</Text>
               </View>
               )
           })}

@@ -9,33 +9,33 @@ import React, {
   ListView,
   PixelRatio,
   Dimensions,
-  TouchableHighlight
+  TextInput,
+  TouchableHighlight,
+  Modal,
 } from 'react-native';
 
 import NavBar from './navBar';
 import AutoCompleteHelper from './autoComplete.js';
 
-var Story = React.createClass({
+class Story extends Component {
 
   //upon initialization...
-  getInitialState: function() {
+  componentWillMount() {
     //grab the story object associated with the story rendered on the story view (note: this
     //is passed in from the library view)
     const story = this.props.asset;
-    console.log('story', story)
     //define variables that will ultimately give us access to the story's moments and tags
-    var moments = story.moments;
-    var checkTags = moments.filter(function(tag){
+    const moments = story.moments;
+    const checkTags = moments.filter(function(tag){
       if (tag['tags']){
         return tag;
       }
     });
-    var tagObjsByMoment = checkTags.map(function(momentObj){if (momentObj){console.log(momentObj);return momentObj['tags']}});
+    var tagObjsByMoment = checkTags.map(function(momentObj){if (momentObj){return momentObj['tags']}});
     var arrayOfTagObjectsForStory = tagObjsByMoment.reduce(function(aggregator,arrOfTags){return aggregator.concat(arrOfTags);}, []);
     var arrayOfTagNames = arrayOfTagObjectsForStory.map(function(tagObj){return tagObj['name'];});
     //set the variables defined above to the view's state
-    console.log('array of tag', arrayOfTagNames);
-    return {
+    this.state = {
       //holds all of the story titles associated with a particular user
       story: story,
       //all of the moments associated with the story
@@ -46,10 +46,10 @@ var Story = React.createClass({
       //moments filtered by tag; should START by being equal to ALL of the moments.
       filteredMoments: moments
     };
-  },
+  }
 
   //helper func that filters a story's moments based on tag name
-  filterMoments: function(event){
+  filterMoments(event){
     //grab tag name entered into auto complete search field
     var tagToFilterBy = event.nativeEvent.text;
     //if nothing has been entered, set filtered array to ALL moments
@@ -72,15 +72,12 @@ var Story = React.createClass({
       })
       this.setState({filteredMoments : filtered});
     }
-  },
+  }
 
-  render: function() {
-
+  render(){
     let { width, height } = Dimensions.get('window');
-    const { asset, onBack ,onPress} = this.props;
-
+    const { asset, onBack , onPress} = this.props;
     const story = this.props.asset;
-    //console.log('story view', story)
     return (
       <View style={{position:'relative'}}>
       <View style={styles.container}>
@@ -92,7 +89,7 @@ var Story = React.createClass({
               horizontal={false}
               snapToInterval={height/2}
               snapToAlignment={'start'}>
-              {this.state.filteredMoments.map(this.createRow)}
+              {this.state.filteredMoments.map(this.createRow.bind(this))}
           </ScrollView>
         </View>
         <View style={styles.row}>
@@ -114,22 +111,24 @@ var Story = React.createClass({
           />
       </View>
       </View>
-    );
-  },
+    )
+  }
 
-  createRow: function(moment) {
-    console.log('moment',moment)
+  createRow(moment) {
     return (
       <View key={moment.id} style={styles.storyRow}>
         <View style={styles.storyContainer}>
-          <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
+          <View>
             <Image
               style={styles.backdrop}
               source={{uri: moment.url}}>
             </Image>
-          </TouchableHighlight>
+          </View>
           <View>
             <Text style={styles.headline}>{moment.caption}</Text>
+            <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
+            <Text style={styles.headline}>Comment</Text>
+            </TouchableHighlight>
           </View>
             <Text style={styles.text}>{moment.createdAt.slice(0,10)}
             </Text>
@@ -142,7 +141,7 @@ var Story = React.createClass({
       </View>
       )
   }
-});
+}
 
 var styles = StyleSheet.create({
   storyRow: {
@@ -213,6 +212,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: ' white',
   },
-});
+})
 
 module.exports = Story
