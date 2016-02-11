@@ -6,7 +6,8 @@ import React, {
   View,
   TouchableHighlight,
   TextInput,
-  AlertIOS
+  AlertIOS,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
@@ -88,6 +89,7 @@ class SignUp extends React.Component {
       <View style={styles.container}>
         <View style={styles.positionBox}>
         </View>
+        <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
         <View style={styles.positionBox}>
           <Text style={styles.title}>
           Sign Up
@@ -142,7 +144,7 @@ class SignUp extends React.Component {
             }}
             />
         </View>
-
+        </TouchableWithoutFeedback>
         <View style={styles.Container}>
         <View style={styles.textContainer}>
           <TouchableHighlight

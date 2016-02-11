@@ -9,6 +9,7 @@ import React, {
   TouchableHighlight,
   TextInput,
   AlertIOS,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import {SERVER_URL} from '../urls';
@@ -89,6 +90,7 @@ class LogIn extends React.Component {
       <View style={styles.container}>
         <View style={styles.positionBox}>
         </View>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
           <View style={styles.positionBox}>
             <Text style={styles.title}>
             Login
@@ -116,6 +118,7 @@ class LogIn extends React.Component {
               style={[styles.input, styles.wrapper]}
             />
       </View>
+      </TouchableWithoutFeedback>
       <View style={styles.Container}>
       <View style={styles.textContainer}>
           <TouchableHighlight

@@ -1,5 +1,6 @@
 var React = require('react-native');
 const {SERVER_URL} = require('../urls');
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 var {
   Component,
   Image,
@@ -10,10 +11,11 @@ var {
   TextInput,
   TouchableHighlight,
   NativeModules,
-  AsyncStorage
+  AsyncStorage,
+  TouchableWithoutFeedback
 } = React;
 
-import AutoCompleteHelper from './autoComplete.js';
+import AutoCompleteHelper from './autoComplete';
 
 var EditMoment = React.createClass({
 
@@ -33,7 +35,7 @@ var EditMoment = React.createClass({
   //upon initialization, grabs all stories associated with a particular user, assuming the user has a valid token
   componentDidMount: function() {
     var storyTitlesUrl = SERVER_URL + '/api/stories';
-    
+
     return AsyncStorage.getItem('token')
       .then((result) => {
         return fetch(storyTitlesUrl, {
@@ -101,7 +103,7 @@ var EditMoment = React.createClass({
         .catch((error) => {
           console.log(error);
         })
-    
+
     }
   },
 
@@ -178,7 +180,7 @@ var EditMoment = React.createClass({
         return result
       });
   },
-  
+
   //renders autocomplete fields in addition to caption field + image
   render: function() {
     const {asset, onCancel, onSubmit} = this.props;
@@ -192,33 +194,47 @@ var EditMoment = React.createClass({
         </View>
         <View style={styles.content}>
           <AutoCompleteHelper
-            placeholder="Story Title" 
-            data={this.state.arrayOfStoryTitles} 
+            placeholder="Story Title"
+            data={this.state.arrayOfStoryTitles}
             onBlur={this.getStoryTags}
           />
         </View>
-        <View style={ styles.textContainer }>
-          <TextInput style={styles.textInput} placeholder='Create a Caption'
-            onChangeText={(text)=>textFields.caption = text}/>
-          <TextInput style={styles.textInput} placeholder='Tag your moment'
-            onChangeText={(text)=>textFields.momentTags = text}/>
-        <View style={styles.buttonContainer}>
-          <TouchableHighlight onPress={onCancel}>
-            <View><Text style={styles.button}>Cancel</Text></View>
-          </TouchableHighlight>
-          <TouchableHighlight key={asset} onPress={() => {
-              if (this.state.currentStory && textFields.caption) {
-                this.submitMoment(textFields, asset)
-                  .then((result) => {
-                    onSubmit(result, asset);
-                  });
+          <View style={ styles.textContainer }>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+            <View style={ styles.positionBox }>
+            <TextInput
+              style={styles.textInput}
+              placeholder={'Create a Caption'}
+              onChangeText={(text)=>textFields.caption = text}
+              autoCapitalize={'none'}
+              onSubmitEditing={() => dismissKeyboard()}
+              />
+            <TextInput
+              style={styles.textInput}
+              placeholder={'Tag your moment'}
+              onChangeText={(text)=>textFields.momentTags = text}
+              autoCapitalize={'none'}
+              onSubmitEditing={() => dismissKeyboard()}
+              />
+            </View>
+            </TouchableWithoutFeedback>
+          <View style={styles.buttonContainer}>
+            <TouchableHighlight onPress={onCancel}>
+              <View><Text style={styles.button}>Cancel</Text></View>
+            </TouchableHighlight>
+            <TouchableHighlight key={asset} onPress={() => {
+                if (this.state.currentStory && textFields.caption) {
+                  this.submitMoment(textFields, asset)
+                    .then((result) => {
+                      onSubmit(result, asset);
+                    });
+                }
               }
-            }
-          }>
-            <View><Text style={styles.button}>Submit</Text></View>
-          </TouchableHighlight>
-        </View>
-        </View>        
+            }>
+              <View><Text style={styles.button}>Submit</Text></View>
+            </TouchableHighlight>
+          </View>
+          </View>
       </View>
     );
   }
@@ -232,6 +248,9 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'column',
     backgroundColor: 'grey'
+  },
+    positionBox: {
+    flex: 4
   },
   row: {
     padding: 5,
@@ -248,16 +267,13 @@ var styles = StyleSheet.create({
     flex: 0.3
   },
   textInput: {
-    flexWrap: 'wrap',
-    alignSelf: 'center',
-    height: 5,
-    width: 350,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 2,   
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    textAlign: 'center'
+    height: 40,
+    backgroundColor:'white',
+    borderColor: 'gray',
+    borderWidth: 2,
+    textAlign: 'center',
+    margin: 5,
+    color: ' #2C3539'
   },
   imageWide: {
     width: 320,

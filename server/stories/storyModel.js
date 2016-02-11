@@ -89,7 +89,7 @@ module.exports = {
         include: [{
           model: stories,
           include: [
-            {model: moments/*, include: [{model: tags}]*/},
+            {model: moments, include: [{model: tags}]},
             {model: users, attributes: ['id', 'firstName', 'lastName', 'email']}
           ]
         }]

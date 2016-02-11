@@ -21,8 +21,11 @@ module.exports = {
   },
 
   getAllComments: function (userId) {
-    return Comments.findAll({
-      where: { userid: userId }
+    return Comments.findOne({
+      where: { userid: userId },
+      include: [{
+        model: Moments
+      }]
     }).then(function(commentsResults) {
       return commentsResult;
     });
