@@ -22,7 +22,7 @@ class Button extends Component{
     return (
       <TouchableHighlight
         onPress={this.props.onPress}
-        style={[styles.button]}
+        style={styles.button}
         underlayColor="#a9d9d4">
           <Text style={[styles.buttonText]}>{this.props.children}</Text>
       </TouchableHighlight>
@@ -193,8 +193,12 @@ class Story extends Component {
           animated={true}
           transparent={true}
           visible={this.props.commentsVisibility}>
-          <View style={[styles.container]}>
+          <View style={[styles.modalContainer]}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
+              <Image
+                style={styles.backdrop}
+                source={{uri: moment.url}}>
+              </Image>
               <Button
                 onPress={()=>this.props.setCommentsVisibility(false)}
                 style={styles.modalButton}>
@@ -209,13 +213,39 @@ class Story extends Component {
             </View>
           </View>
         </Modal>
-        </View>
+      </View>
 
       )
   }
 }
 
 var styles = StyleSheet.create({
+  modalButtonText: {
+    fontSize: 18,
+    margin: 25,
+    textAlign: 'center',
+  },
+  textInput: {
+    alignSelf: 'center',
+    height: 15,
+    borderRadius: 2,
+    padding: 1,
+    width: 300,
+    backgroundColor: '#FFFFFF',
+    flex: 1,
+    textAlign: 'center'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalImage: {
+    flex:11,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+  },
   button: {
     borderRadius: 5,
     flex: 1,
@@ -295,6 +325,9 @@ var styles = StyleSheet.create({
   text:{
     textAlign: 'center',
     color: ' white',
+  },
+  modalButton: {
+    marginTop: 10,
   },
 })
 
