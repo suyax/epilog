@@ -11,6 +11,7 @@ import React, {
 } from 'react-native';
 
 import NavBar from './navBar';
+import externalStyles from '../style/external-styles.js';
 
 class Library extends Component {
 
@@ -22,7 +23,12 @@ class Library extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View style={externalStyles.viewBody}>
+        <View style={externalStyles.topBar}>
+          <Text style={externalStyles.viewTitle}>
+            Library
+          </Text>
+        </View>
         <RecyclerViewBackedScrollView style={styles.list}>
           <View style = {styles.listView}>
             {stories.data.map(
@@ -41,7 +47,7 @@ class Library extends Component {
 
   renderLoadingView() {
     return (
-      <View style={styles.container}>
+      <View style={externalStyles.viewBody}>
         <View style={styles.list}>
           <Text>
             Loading Stories...
@@ -56,40 +62,38 @@ class Library extends Component {
 
   renderStory(story) {
     return (
-      <View
-        key={story.id}
-      >
-          <View style={styles.storyContainer}>
-              <View style={styles.timeBox}>
-                <Text style={styles.text}>{story.updatedAt.slice(0,4)+'\n'+story.updatedAt.slice(5,10)}
-                </Text>
-              </View>
-              <View style={styles.imageBox}>
-                <Image
-                  source={{uri: story.moments[0].url}}
-                  style={styles.thumbnail}
-                >
-        <TouchableHighlight
-          onPress={()=>{this.props.onTouchImage(story)}}
-          onShowUnderlay={this.onHighlight}
-          onHideUnderlay={this.onUnhighlight}>
-              <View style={styles.titleBox}>
-                <Text style={styles.title}>{story.title}</Text>
-              </View>
-        </TouchableHighlight>
-              </Image>
-              </View>
-              <View style={styles.groupBox}>
-              <Text style={styles.headline}>
-              {story.description}
-              </Text>
-              </View>
+      <View key={story.id}>
+        <View style={styles.storyContainer}>
+          <View style={styles.timeBox}>
+            <Text style={externalStyles.dateText}>{story.updatedAt.slice(0,4)+'\n'+story.updatedAt.slice(5,10)}
+            </Text>
           </View>
-        <Image
-        style={styles.timeLine}
-        source={require('../image/greyLine.png')}
-        >
-        </Image>
+          <View>
+            <Image
+              source={{uri: story.moments[0].url}}
+              style={externalStyles.roundThumbnail}
+            >
+              <TouchableHighlight
+                onPress={()=>{this.props.onTouchImage(story)}}
+                onShowUnderlay={this.onHighlight}
+                onHideUnderlay={this.onUnhighlight}>
+                <View style={styles.titleBox}>
+                  <Text style={styles.title}>{story.title}</Text>
+                </View>
+              </TouchableHighlight>
+            </Image>
+          </View>
+          <View style={styles.storyInfoBox}>
+            <Text style={externalStyles.storyTitle}>{story.title}</Text>
+            <View style={externalStyles.horizontalLine}>
+            </View>
+            <Text style={externalStyles.contentText}>
+              {story.description}
+            </Text>
+          </View>
+        </View>
+        <View style={externalStyles.timeLine}>
+        </View>
       </View>
     );
   }
@@ -105,7 +109,8 @@ var styles = StyleSheet.create({
     height: 100,
   },
   timeBox: {
-    flex: 2
+    marginLeft: 13,
+    marginRight: 25,
   },
   imageBox: {
     flex: 7,
@@ -122,7 +127,7 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    marginTop:10,
+    marginTop: 10,
     fontWeight: 'bold',
     color: 'white',
   },
@@ -167,7 +172,7 @@ var styles = StyleSheet.create({
      color: 'white',
    },
   list: {
-    flex: 11,
+    flex: 9,
   },
   navBar: {
     flex: 1,
@@ -177,6 +182,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  storyInfoBox: {
+    marginRight: 10,
+    marginLeft: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    width: 130,
   },
 });
 
