@@ -166,6 +166,7 @@ class Story extends Component {
   }
 
   createRow(moment) {
+    console.log(moment)
     const innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
     return (
       <View key={moment.id} style={styles.storyRow}>
@@ -173,12 +174,14 @@ class Story extends Component {
           <View>
             <Image
               style={styles.backdrop}
-              source={{uri: moment.url}}>
+              source={{uri: moment.url.slice()}}>
             </Image>
           </View>
           <View>
             <Text style={styles.headline}>{moment.caption}</Text>
-            <Button onPress={()=>this.props.setCommentsVisibility(true)}>
+            <Button onPress={()=>{
+              console.log(moment)
+              this.props.setCommentsVisibility(true)}}>
               Comments
             </Button>
           </View>
@@ -193,12 +196,15 @@ class Story extends Component {
           animated={true}
           transparent={true}
           visible={this.props.commentsVisibility}>
-          <View style={[styles.modalContainer]}>
+          <View style={styles.modalContainer}>
             <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
               <Image
                 style={styles.backdrop}
                 source={{uri: moment.url}}>
               </Image>
+              <Text>
+              {moment.caption}
+              </Text>
               <Button
                 onPress={()=>this.props.setCommentsVisibility(false)}
                 style={styles.modalButton}>
@@ -307,7 +313,7 @@ var styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     fontSize: 20,
-    color: 'white'
+    color: 'black'
   },
   row: {
     flex: 1,
@@ -327,7 +333,9 @@ var styles = StyleSheet.create({
     color: ' white',
   },
   modalButton: {
+    alignSelf: 'center',
     marginTop: 10,
+    color: 'black'
   },
 })
 
