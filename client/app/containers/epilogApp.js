@@ -135,7 +135,7 @@ class EpiLogApp extends Component {
         />);
       case "MOMENT_VIEW":
         return(<Moment
-          onBack={ () => { viewControlActions.setView('LIBRARY')}}
+          onBack={ () => { viewControlActions.setView('HOME')}}
           fetchComments={commentActions.fetchComments}
           comments={commentState.fetchedComments}
           submitComment={commentActions.submitComment}
