@@ -69,19 +69,16 @@ class Library extends Component {
             </Text>
           </View>
           <View>
+          <TouchableHighlight
+            onPress={()=>{this.props.onTouchImage(story)}}
+            onShowUnderlay={this.onHighlight}
+            onHideUnderlay={this.onUnhighlight}>
             <Image
               source={{uri: story.moments[0].url}}
               style={externalStyles.roundThumbnail}
             >
-              <TouchableHighlight
-                onPress={()=>{this.props.onTouchImage(story)}}
-                onShowUnderlay={this.onHighlight}
-                onHideUnderlay={this.onUnhighlight}>
-                <View style={styles.titleBox}>
-                  <Text style={styles.title}>{story.title}</Text>
-                </View>
-              </TouchableHighlight>
             </Image>
+          </TouchableHighlight>
           </View>
           <View style={styles.storyInfoBox}>
             <Text style={externalStyles.storyTitle}>{story.title}</Text>

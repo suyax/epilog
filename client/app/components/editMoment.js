@@ -3,6 +3,7 @@ const {SERVER_URL} = require('../urls');
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 var {
   Component,
+  Dimensions,
   Image,
   StyleSheet,
   View,
@@ -199,7 +200,7 @@ var EditMoment = React.createClass({
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
-        <View style={styles.content}>
+        <View style={styles.autoComplete}>
           <AutoCompleteHelper
             placeholder="Story Title"
             data={this.state.arrayOfStoryTitles}
@@ -245,6 +246,12 @@ var EditMoment = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  autoComplete: {
+    top: -14,
+    height: 25,
+    width: Dimensions.get('window').width,
+
+  },
   container: {
     flex: 1,
     alignItems: 'stretch',
