@@ -10,6 +10,7 @@ import React, {
   Dimensions,
 } from 'react-native';
 
+import Moment from 'moment';
 import NavBar from './navBar';
 import externalStyles from '../style/external-styles.js';
 
@@ -63,7 +64,8 @@ class Library extends Component {
       <View key={story.id}>
         <View style={styles.storyContainer}>
           <View style={styles.timeBox}>
-            <Text style={externalStyles.dateText}>{story.updatedAt.slice(0,4)+'\n'+story.updatedAt.slice(5,10)}
+            <Text style={externalStyles.dateText}>
+            {Moment(parseInt(story.updatedAt)).fromNow()}
             </Text>
           </View>
           <View>

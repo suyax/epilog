@@ -13,7 +13,9 @@ module.exports = {
     //data to go into story table
     var dataForStoryTable = {
       title: storyData.title,
-      description: storyData.description
+      description: storyData.description,
+      createdAt: storyData.createdAt || Date.now(),
+      updatedAt: storyData.updatedAt || Date.now(),
     };
 
     return sequelize.transaction(function (t) {

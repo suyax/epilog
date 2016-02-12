@@ -9,9 +9,11 @@ module.exports = {
       where: {id: userId},
       include: [{
         model: Stories,
-        include: [
-        {model: Moments},
-        ]
+        include: [{
+          model: Moments,
+          order: [['updatedAt', 'DESC']],
+        }],
+        order: [['updatedAt', 'DESC']],
       }]
     }).then(function(result) {
       return result.stories;
