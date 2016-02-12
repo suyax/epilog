@@ -18,19 +18,6 @@ import externalStyles from '../style/external-styles.js';
 import NavBar from './navBar';
 import AutoCompleteHelper from './autoComplete';
 
-class Button extends Component{
-  render() {
-    return (
-      <TouchableHighlight
-        onPress={this.props.onPress}
-        style={[styles.button]}
-        underlayColor="#a9d9d4">
-          <Text style={[styles.buttonText]}>{this.props.children}</Text>
-      </TouchableHighlight>
-    );
-  }
-}
-
 class Story extends Component {
   constructor(props) {
     super(props);
@@ -222,6 +209,7 @@ var styles = StyleSheet.create({
      color: '#5379ae'
    },
   buttonText: {
+    fontFamily: "Noteworthy",
     textAlign: 'left',
     fontSize: 20,
     color: 'white'

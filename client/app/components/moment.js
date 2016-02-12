@@ -16,6 +16,7 @@ const {
 
 import moment from 'moment';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
+import externalStyles from '../style/external-styles.js';
 
 class Button extends Component{
   render() {
@@ -75,7 +76,7 @@ class Moment extends Component{
           {comments.data.map((comment)=>{
             return(
               <View key={comment.id}>
-                <Text style={{fontWeight: 'bold', fontFamily: 'Futura'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal'}}>{comment.text}</Text> </Text>
+                <Text style={{fontWeight: 'bold', fontFamily: 'Futura'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal', fontFamily: 'Futura'}}>{comment.text}</Text> </Text>
                 <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12, fontFamily: 'Futura'}}>{moment(comment.createdAt).fromNow()}</Text>
                 <Text></Text>
               </View>
@@ -92,55 +93,61 @@ class Moment extends Component{
     const innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
     return (
       <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-        <View style={{height: this.state.visibleHeight}}>
-          <View style={styles.buttonContainer}>
-            <TouchableHighlight
-            key={this.state.moment}
-            onPress={onBack}>
-              <Text style={ styles.buttonText }>
-                Back
+      <View style={{height: this.state.visibleHeight}}>
+        <View style={{flex: 1, }}>
+          <View style={externalStyles.topBar}>
+            <View style={[styles.titleRow, {flex:1, alignItems:'flex-start'}]}>
+                <TouchableHighlight
+                key={this.state.moment}
+                onPress={onBack}>
+                  <View ><Text style={styles.buttonText}>Back</Text></View>
+                </TouchableHighlight>
+              </View>
+            <View style={{alignSelf:'center',flex:10}}>
+              <Text style={[externalStyles.viewTitle,] }>Moment
               </Text>
-            </TouchableHighlight>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image
-              source={{uri: moment.url}}
-              style={styles.image}>
-            </Image>
-            <ScrollView
-                style={styles.scrollView}
-                showsVerticalScrollIndicator={true}
-                automaticallyAdjustContentInsets={false}
-                horizontal={false}
-                snapToInterval={height/2}>
-                {this.renderComments()}
-            </ScrollView>
-              <View style={styles.commentInputForm}>
-                <View style={{flex: 11}}> 
-                 <TextInput
-                   value={this.state.newComment}
-                   style={styles.textInput}
-                   placeholder={'Write a Comment'}
-                   onChangeText={(text) => this.setState({newComment: text})}
-                 />
-                </View>
-                <View style={{flex: 1, backgroundColor: 'white'}}>
-                 <TouchableHighlight
-                   style={styles.commentButton}
-                   onPress={()=>{
-                     submitComment(this.state.newComment,moment.id)
-                     .then(()=>fetchComments(moment.id))
-                     .then(()=>this.setState({newComment:""}));
-                   }}>
-                     <Image
-                       style={{backgroundColor: 'white'}}
-                       source={require('../image/Submit.gif')}/>
-                 </TouchableHighlight>
-                </View>
-              </View> 
+            </View>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+        <View style={[styles.imageContainer]}>
+          <Image
+            source={{uri: moment.url}}
+            style={styles.image}>
+          </Image>
+          <ScrollView
+              style={styles.scrollView}
+              showsVerticalScrollIndicator={true}
+              automaticallyAdjustContentInsets={false}
+              horizontal={false}
+              snapToInterval={height/2}>
+              {this.renderComments()}
+          </ScrollView>
+            <View style={styles.commentInputForm}>
+              <View style={{flex: 11}}>
+               <TextInput
+                 value={this.state.newComment}
+                 style={styles.textInput}
+                 placeholder={'Write a Comment'}
+                 onChangeText={(text) => this.setState({newComment: text})}
+               />
+              </View>
+              <View style={{flex: 1, backgroundColor: 'white'}}>
+               <TouchableHighlight
+                 style={styles.commentButton}
+                 onPress={()=>{
+                   submitComment(this.state.newComment,moment.id)
+                   .then(()=>fetchComments(moment.id))
+                   .then(()=>this.setState({newComment:""}));
+                 }}>
+                   <Image
+                     style={{backgroundColor: 'white'}}
+                     source={require('../image/Submit.gif')}/>
+               </TouchableHighlight>
+              </View>
+            </View>
+        </View>
+        </View>
+        </TouchableWithoutFeedback>
     )
   }
 }
@@ -151,12 +158,11 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     fontFamily: 'Futura',
     flex: 1,
-    padding: 10, 
+    padding: 10,
     textAlign: 'left'
   },
   scrollView: {
-    // fontFamily: 'Futura',
-    padding: 10, 
+    padding: 10,
     flex: 3,
     backgroundColor: '#FFFFFF'
   },
@@ -206,12 +212,12 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: "Noteworthy",
-    fontSize: 18,
-    margin: 25,
-    textAlign: 'center',
+    textAlign: 'left',
+    fontSize: 20,
+    color: 'white'
   },
   commentButton: {
-    height: 34, 
+    height: 34,
     backgroundColor: 'white',
     marginTop: 10,
   },
@@ -220,6 +226,12 @@ var styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignSelf: 'stretch',
     flexDirection: 'row',
+  },
+  titleRow: {
+    borderWidth: 1,
+    marginTop: 10,
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 
