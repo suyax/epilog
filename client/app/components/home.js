@@ -39,11 +39,7 @@ class Home extends Component {
           <View style={[styles.titleRow, {flex:1, alignItems:'flex-end'}]}>
           <TouchableHighlight
             onPress={onLogOut}>
-            <View>
-            <Image
-            style={{Color: 'black'}}
-              source={require('../image/log out.png')}>
-            </Image></View>
+            <View><Text style={styles.buttonText}>Log Out</Text></View>
           </TouchableHighlight>
           </View>
         </View>
@@ -110,13 +106,6 @@ class Home extends Component {
 }
 
 var styles = StyleSheet.create({
-  backdrop: {
-    paddingTop: 100,
-    height: 200,
-    width: 200,
-    borderColor: 'rgba(255,255,255,0.3)',
-    borderWidth: 8,
-  },
   timeLine: {
     flex: 1,
     width: 2,
@@ -203,7 +192,7 @@ var styles = StyleSheet.create({
   },
   textBox: {
     flexDirection: 'column',
-    width: 100,
+    width: 120,
   },
   timeBox: {
     marginLeft: 8,
