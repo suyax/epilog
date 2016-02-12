@@ -5,7 +5,8 @@ import React, {
   StyleSheet,
   Image,
   Text,
-  View
+  View,
+  Dimensions,
 } from 'react-native';
 
 import NavBar from './navBar';
@@ -14,11 +15,11 @@ import externalStyles from '../style/external-styles.js';
 
 
 const CAMERA_ROLL_VIEW = 'camera_roll_view';
+const width = Dimensions.get('window').width;
 
 class Capture extends Component {
   _renderImage(asset) {
-    const imageSize = 120;
-    const imageStyle = [cameraRollStyles.image, {width: imageSize, height: imageSize}];
+    const imageStyle = [cameraRollStyles.image, {width: width*3/4, height: width/2}];
     const { onTouchImage } = this.props;
     return (
       <TouchableOpacity key={asset} onPress={()=>{
@@ -76,10 +77,15 @@ var styles = StyleSheet.create({
 var cameraRollStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    width: 130,
+    justifyContent: 'center',
+    alignSelf: 'stretch',
+    alignItems: 'center',
   },
   image: {
-    margin: 2,
+    marginLeft: width/8,
+    marginRight: width/8,
+    marginTop: width/16,
+    marginBottom: width/16,
   },
   info: {
     flex: 1,
