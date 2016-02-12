@@ -183,7 +183,7 @@ var styles = StyleSheet.create({
   },
   textBox: {
     flexDirection: 'column',
-    width: 120,
+    width: 100,
   },
   timeBox: {
     marginLeft: 8,
