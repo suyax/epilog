@@ -155,7 +155,7 @@ var styles = StyleSheet.create({
     textAlign: 'left'
   },
   scrollView: {
-    fontFamily: 'Futura',
+    // fontFamily: 'Futura',
     padding: 10, 
     flex: 3,
     backgroundColor: '#FFFFFF'

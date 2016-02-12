@@ -219,7 +219,7 @@ var EditMoment = React.createClass({
     }
     return (
       <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-        <View style={externalStyles.viewBody,{height: this.state.visibleHeight}}>
+        <View style={[externalStyles.viewBody,{height: this.state.visibleHeight}]}>
           <View style={externalStyles.topBar}>
             <Text style={externalStyles.viewTitle}>
               Add a Moment
