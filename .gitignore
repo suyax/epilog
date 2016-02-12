@@ -23,4 +23,7 @@ client/lib
 .floo
 .flooignore
 
+# images
+server/images
+
 config.js
