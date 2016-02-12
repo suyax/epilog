@@ -38,7 +38,7 @@ class EpiLogApp extends Component {
   componentWillUpdate () {
     const {viewControlActions} = this.props;
     const {tokenState, viewControlState} = this.props;
-    if(tokenState.error || !tokenState.lastUpdated){
+    if(!tokenState.loading && tokenState.error){
       if(viewControlState.currentView !== 'LOGIN'){
         viewControlActions.setView('LOGIN');
       }
