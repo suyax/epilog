@@ -64,8 +64,32 @@ class Story extends Component {
       filteredMoments: moments
     };
   }
+  renderComments () {
+      const {comments, fetchComments} = this.props;
+      if(comments.loading || comments.lastUpdated === undefined){
+        return (<View><Text>Loading Comments...</Text></View>);
+      } else if (comments.error){
+        return (<View><Text>Sorry, but the Comments couldn't be loaded</Text></View>);
+      } else {
+        return (
+          <View>
+            {comments.data.map((comment)=>{
+              return(
+                <View key={comment.id}>
+                  <Text style={{fontWeight: 'bold'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal'}}>{comment.text}</Text> </Text>
+                  <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12}}>{moment(comment.createdAt).fromNow()}</Text>
+                  <Text></Text>
+                </View>
+                )
+            })}
+          </View>
+          )
+      }
+    }
 
-  fetchComment (moment) {
+
+  fetch (moment) {
+    console.log('fetch',moment);
     const {fetchComments, comments, submitStatus} = this.props;
     if ((comments.lastUpdated === undefined && !comments.loading) ||
       // did we load the correct set of comments?
@@ -75,28 +99,6 @@ class Story extends Component {
       fetchComments(moment.id);
     }
   }
-
-  renderComments () {
-    const {comments, fetchComments} = this.props;
-    if(comments.loading || comments.lastUpdated === undefined){
-      return (<View><Text>Loading Comments...</Text></View>);
-    } else if (comments.error){
-      return (<View><Text>Sorry, but the Comments couldn't be loaded</Text></View>);
-    } else {
-      return (
-        <View>
-          {comments.data.map((comment)=>{
-            return(
-              <View key={comment.id}>
-                <Text>{comment.user.firstName+' '+comment.user.lastName+': '+comment.text}</Text>
-              </View>
-              )
-          })}
-        </View>
-        )
-    }
-  }
-
   //helper func that filters a story's moments based on tag name
   filterMoments(event){
     //grab tag name entered into auto complete search field
@@ -127,8 +129,6 @@ class Story extends Component {
     let { width, height } = Dimensions.get('window');
     const { asset, onBack , onPress} = this.props;
     const story = this.props.asset;
-
-
     return (
       <View style={{position:'relative'}}>
       <View style={styles.container}>
@@ -166,25 +166,27 @@ class Story extends Component {
   }
 
   createRow(moment) {
-    console.log(moment)
-    const innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
     return (
       <View key={moment.id} style={styles.storyRow}>
         <View style={styles.storyContainer}>
           <View>
+          <TouchableHighlight
+          onPress={()=>{ console.log(moment);this.fetch(moment)}}>
             <Image
               style={styles.backdrop}
-              source={{uri: moment.url.slice()}}>
+              source={{uri: moment.url.slice()}}
+              >
             </Image>
+            </TouchableHighlight>
           </View>
-          <View>
-            <Text style={styles.headline}>{moment.caption}</Text>
-            <Button onPress={()=>{
-              console.log(moment)
-              this.props.setCommentsVisibility(true)}}>
-              Comments
-            </Button>
-          </View>
+          <ScrollView
+              style={styles.scrollView}
+              showsVerticalScrollIndicator={true}
+              automaticallyAdjustContentInsets={false}
+              horizontal={false}
+              snapToInterval={ Dimensions.get('window').width/2 }>
+              {this.renderComments()}
+          </ScrollView>
             <Text style={styles.text}>{moment.createdAt.slice(0,10)}
             </Text>
         </View>
@@ -192,35 +194,7 @@ class Story extends Component {
           style={styles.timeLine}
           source={require('../image/greyLine.png')}>
           </Image>
-        <Modal
-          animated={true}
-          transparent={true}
-          visible={this.props.commentsVisibility}>
-          <View style={styles.modalContainer}>
-            <View style={[styles.innerContainer, innerContainerTransparentStyle]}>
-              <Image
-                style={styles.backdrop}
-                source={{uri: moment.url}}>
-              </Image>
-              <Text>
-              {moment.caption}
-              </Text>
-              <Button
-                onPress={()=>this.props.setCommentsVisibility(false)}
-                style={styles.modalButton}>
-                Close
-              </Button>
-              <TextInput
-                value={this.state.newComment}
-                style={styles.textInput}
-                placeholder={'Write a Comment'}
-                onChangeText={(text) => this.setState({newComment: text})}
-              />
-            </View>
-          </View>
-        </Modal>
       </View>
-
       )
   }
 }
@@ -250,7 +224,7 @@ var styles = StyleSheet.create({
   modalImage: {
     flex:11,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
   button: {
     borderRadius: 5,

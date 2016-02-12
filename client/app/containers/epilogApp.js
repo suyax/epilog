@@ -108,13 +108,10 @@ class EpiLogApp extends Component {
           <Story
           asset={viewControlState.passedProps.asset}
           onBack={()=>{viewControlActions.setView('LIBRARY')}}
-          onPress={(moment) => viewControlActions.setView('MOMENT_VIEW', {moment: moment})}
           fetchComments={commentActions.fetchComments}
           comments={commentState.fetchedComments}
           submitComment={commentActions.submitComment}
           submitStatus={commentState.submitComment}
-          commentsVisibility={momentViewState.commentsVisibility}
-          setCommentsVisibility={momentViewActions.setCommentsVisibility}
           />);
       case "NEW_STORY":
         return (
