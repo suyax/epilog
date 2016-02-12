@@ -47,6 +47,7 @@ var styles = StyleSheet.create({
   navOption: {
     textAlign: 'center',
     flex: 0.65,
+    fontFamily: 'Noteworthy',
     fontSize: 20,
     color: '#e4e4e4',
     width: 140,

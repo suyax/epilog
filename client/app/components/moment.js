@@ -59,8 +59,8 @@ class Moment extends Component{
           {comments.data.map((comment)=>{
             return(
               <View key={comment.id}>
-                <Text style={{fontWeight: 'bold'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal'}}>{comment.text}</Text> </Text>
-                <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12}}>{moment(comment.createdAt).fromNow()}</Text>
+                <Text style={{fontWeight: 'bold', fontFamily: 'Futura'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal'}}>{comment.text}</Text> </Text>
+                <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12, fontFamily: 'Futura'}}>{moment(comment.createdAt).fromNow()}</Text>
                 <Text></Text>
               </View>
               )
@@ -132,11 +132,13 @@ var styles = StyleSheet.create({
   textInput: {
     height: 44,
     backgroundColor: '#FFFFFF',
+    fontFamily: 'Futura',
     flex: 1,
     padding: 10, 
     textAlign: 'left'
   },
   scrollView: {
+    fontFamily: 'Futura',
     padding: 10, 
     flex: 3,
     backgroundColor: '#FFFFFF'
@@ -186,6 +188,7 @@ var styles = StyleSheet.create({
     overflow: 'hidden',
   },
   buttonText: {
+    fontFamily: "Noteworthy",
     fontSize: 18,
     margin: 25,
     textAlign: 'center',

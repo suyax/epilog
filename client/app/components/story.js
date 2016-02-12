@@ -213,7 +213,8 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
   },
   headline: {
-     fontSize: 15,
+     fontSize: 14,
+     fontFamily: 'Futura',
      padding: 10,
      textAlign: 'center',
      borderRadius: 5,
@@ -238,7 +239,8 @@ var styles = StyleSheet.create({
     borderWidth: 8,
   },
   dateText: {
-    fontSize: 18,
+    fontSize: 14,
+    fontFamily: 'Futura',
     color: '#5379ae',
     textAlign: 'justify',
   },

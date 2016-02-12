@@ -139,6 +139,7 @@ var styles = StyleSheet.create({
   },
   content: {
     flex: 9,
+    padding: 10, 
     justifyContent: 'center',
   },
   navBar: {
@@ -170,7 +171,8 @@ var styles = StyleSheet.create({
   },
   text:{
     textAlign: 'center',
-    fontSize: 10,
+    fontSize: 12,
+    fontStyle: 'italic',
     color: ' #5379ae',
     marginRight: 4,
   },

@@ -8,26 +8,28 @@ const {height, width} = Dimensions.get('window');
 
 const externalStyles = StyleSheet.create({
   viewTitle: {
+    fontFamily: 'Noteworthy',
     fontSize: 35,
     color: '#ffffff',
     alignSelf: 'center',
   },
   contentText: {
-    fontSize: 15,
+    fontSize: 14,
+    fontFamily: 'Futura',
     color: '#3d3d3d',
     marginLeft: 10,
     textAlign: 'left',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   dateText: {
-    fontSize: 18,
+    fontSize: 12,
+    fontFamily: 'Futura',
     color: '#5379ae',
     textAlign: 'justify',
-    marginLeft: 12,
   },
   storyTitle: {
     marginLeft: 10,
-    fontSize: 15,
+    fontSize: 14,
     color: '#5379ae'
   },
   squareThumbnail: {
@@ -40,6 +42,7 @@ const externalStyles = StyleSheet.create({
     height: 150,
   },
   roundThumbnail: {
+    marginTop: 40,
     alignSelf: 'center',
     width: 155,
     height: 155,
@@ -88,10 +91,12 @@ const externalStyles = StyleSheet.create({
     width: 120,
     height: 45,
     alignSelf: 'center',
+    fontFamily: 'Noteworthy',
+    fontSize: 16, 
     textAlign: 'center',
     backgroundColor: '#957a78',
     color: '#ffffff',
-    paddingTop: 13,
+    paddingTop: 8,
   },
   textContainer: {
     alignSelf: 'center',
@@ -105,6 +110,7 @@ const externalStyles = StyleSheet.create({
   },
   textInput: {
     height: 40,
+    fontFamily: 'Futura',
     backgroundColor:'white',
     textAlign: 'center',
     margin: 0,

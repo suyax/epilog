@@ -114,7 +114,7 @@ class LogIn extends React.Component {
               <TextInput
                 ref="email"
                 autoCapitalize={'none'}
-                placeholder={'EMAIL'}
+                placeholder={'Email'}
                 keyboardType={'email-address'}
                 onChangeText={text => this.fields.email = text}
                 onSubmitEditing={() => {
@@ -129,7 +129,7 @@ class LogIn extends React.Component {
               <TextInput
                 ref='password'
                 autoCapitalize={'none'}
-                placeholder={'PASSWORD'}
+                placeholder={'Password'}
                 secureTextEntry={true}
                 onChangeText={text => this.fields.password = text}
                 onSubmitEditing={() => dismissKeyboard()}
