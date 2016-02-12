@@ -63,7 +63,7 @@ const externalStyles = StyleSheet.create({
   },
   timeLine: {
     flex: 1,
-    width: 2,
+  width: 2,
     height: 100,
     marginTop: 5,
     marginLeft: 183,

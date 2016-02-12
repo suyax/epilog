@@ -14,6 +14,7 @@ import React, {
   Modal,
 } from 'react-native';
 
+import externalStyles from '../style/external-styles.js';
 import NavBar from './navBar';
 import AutoCompleteHelper from './autoComplete';
 
@@ -53,7 +54,6 @@ class Story extends Component {
     var arrayOfTagNames = arrayOfTagObjectsForStory.map(function(tagObj){return tagObj['name'];});
     //set the variables defined above to the view's state
     this.state = {
-      newComment: "",
       //holds all of the story titles associated with a particular user
       story: story,
       //all of the moments associated with the story
@@ -97,36 +97,47 @@ class Story extends Component {
     const { asset, onBack , onPress} = this.props;
     const story = this.props.asset;
     return (
-      <View style={{position:'relative'}}>
+      <View>
       <View style={styles.container}>
-        <View style={styles.scrollViewContainer}>
-          <ScrollView
-              style={styles.scrollView}
-              showsVerticalScrollIndicator={true}
-              automaticallyAdjustContentInsets={false}
-              horizontal={false}
-              snapToInterval={height/2}
-              snapToAlignment={'start'}>
-              {this.state.filteredMoments.map(this.createRow.bind(this))}
-          </ScrollView>
-        </View>
-        <View style={styles.row}>
+      <View style={externalStyles.topBar}>
+        <View style={[styles.row, {flex:1, alignItems:'flex-start'}]}>
           <TouchableHighlight
             key={this.state.story}
             onPress={onBack}
             onShowUnderlay={this.onHighlight}
             onHideUnderlay={this.onUnhighlight}>
-            <View style={styles.row}><Text style={styles.buttonText}>Back</Text></View>
+            <View style={[styles.row]}><Text style={styles.buttonText}>Back</Text></View>
           </TouchableHighlight>
         </View>
+        <View style={{alignSelf:'center'}}>
+        <Text style={[externalStyles.viewTitle,{flex:10} ] }>
+          Story
+        </Text>
+        </View>
+        <View style={{flex:1}}>
+        </View>
+      </View>
+      <View style={{flex:1, backgroundColor:'#fffaef'}}>
+      </View>
+      <View style={styles.scrollViewContainer}>
+        <ScrollView
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={true}
+            automaticallyAdjustContentInsets={false}
+            horizontal={false}
+            snapToInterval={height/2}
+            snapToAlignment={'start'}>
+            {this.state.filteredMoments.map(this.createRow.bind(this))}
+        </ScrollView>
+      </View>
       </View>
       <View style={styles.autoComplete}>
-          <AutoCompleteHelper
-            placeholder="Filter by Tag"
-            data = {this.state.arrayOfTagNames}
-            onFocus = {this.unfilterMoments}
-            onBlur = {this.filterMoments}
-          />
+        <AutoCompleteHelper
+          placeholder="Filter by Tag"
+          data = {this.state.arrayOfTagNames}
+          onFocus = {this.unfilterMoments}
+          onBlur = {this.filterMoments}
+        />
       </View>
       </View>
     )
@@ -137,25 +148,24 @@ class Story extends Component {
       <View key={moment.id} style={styles.storyRow}>
         <View style={styles.storyContainer}>
           <View>
+            <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
             <Image
               style={styles.backdrop}
               source={{uri: moment.url}}>
             </Image>
+            </TouchableHighlight>
           </View>
           <View>
             <Text style={styles.headline}>{moment.caption}</Text>
-            <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
-            <Text style={styles.headline}>Comment</Text>
-            </TouchableHighlight>
-          </View>
-            <Text style={styles.text}>{moment.createdAt.slice(0,10)}
+            <View style={{alignSelf: 'center'}}>
+            <Text style={styles.dateText}>{moment.createdAt.slice(0,10)}
             </Text>
+            </View>
+          </View>
         </View>
-          <Image
-          style={styles.timeLine}
-          source={require('../image/greyLine.png')}
-          >
-          </Image>
+        <View
+        style={styles.timeLine}>
+        </View>
       </View>
       )
   }
@@ -166,16 +176,18 @@ var styles = StyleSheet.create({
     flex: 1
   },
   autoComplete: {
-    position: 'absolute',
-    top: -14,
-    height: 30,
+    top: Dimensions.get('window').width/6 ,
+    height: 48,
     width: Dimensions.get('window').width,
   },
   timeLine: {
-    flex:1,
-    alignSelf:'center',
-    width:2,
-    height: 100
+    flex: 1,
+    width: 2,
+    height: 100,
+    marginTop: 5,
+    marginBottom: 5,
+    marginLeft: Dimensions.get('window').width/2,
+    backgroundColor: '#5379ae',
   },
   storyContainer: {
     flex: 1,
@@ -189,10 +201,10 @@ var styles = StyleSheet.create({
     position: 'absolute'
   },
   scrollViewContainer: {
-    flex: 11,
+    flex: 9,
   },
   scrollView: {
-   backgroundColor:'#92A8D1',
+    backgroundColor:'#fffaef',
   },
   thumbnail: {
     flex: 1,
@@ -201,22 +213,21 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
   },
   headline: {
-     fontSize: 20,
+     fontSize: 15,
      padding: 10,
      textAlign: 'center',
      borderRadius: 5,
      backgroundColor: 'rgba(0,0,0,0.2)',
-     color: 'white'
+     color: '#5379ae'
    },
   buttonText: {
-    textAlign: 'center',
+    textAlign: 'left',
     fontSize: 20,
     color: 'white'
   },
   row: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'black'
   },
   backdrop: {
     paddingTop: 100,
@@ -226,9 +237,10 @@ var styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.3)',
     borderWidth: 8,
   },
-  text:{
-    textAlign: 'center',
-    color: ' white',
+  dateText: {
+    fontSize: 18,
+    color: '#5379ae',
+    textAlign: 'justify',
   },
 })
 

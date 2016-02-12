@@ -75,9 +75,9 @@ class EpiLogApp extends Component {
       case "LOGIN":
         return (
           <LogIn
-          successLoggedIn={ () => { 
+          successLoggedIn={ () => {
             tokenActions.checkTokenSuccess();
-            viewControlActions.setView('HOME'); 
+            viewControlActions.setView('HOME');
           }}
           onSignUp={ () => { viewControlActions.setView('SIGNUP') }}
           />);
@@ -177,4 +177,3 @@ export default connect(state => ({
     updateActions: bindActionCreators(actions.updateActions, dispatch)
   })
 )(EpiLogApp);
-

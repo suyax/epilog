@@ -17,11 +17,9 @@ class Library extends Component {
 
   render() {
     const { stories } = this.props
-
     if (stories.loading) {
       return this.renderLoadingView();
     }
-
     return (
       <View style={externalStyles.viewBody}>
         <View style={externalStyles.topBar}>
