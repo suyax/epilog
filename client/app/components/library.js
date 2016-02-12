@@ -68,7 +68,7 @@ class Library extends Component {
             {Moment(parseInt(story.updatedAt)).fromNow()}
             </Text>
           </View>
-          <View>
+          <View style={styles.imageBox}>
           <TouchableHighlight
             onPress={()=>{this.props.onTouchImage(story)}}
             onShowUnderlay={this.onHighlight}
@@ -103,70 +103,33 @@ var styles = StyleSheet.create({
     marginLeft: 40,
     alignSelf:'stretch',
     width:2,
-    height: 100,
+    // height: 100,
   },
   timeBox: {
+    flex: 1,
     marginLeft: 13,
     marginRight: 25,
   },
   imageBox: {
-    flex: 7,
-    justifyContent:'flex-end'
+    flex: 2,
+    // justifyContent:'flex-end'
   },
-  groupBox: {
-    flex: 3,
-  },
-  titleBox: {
-    marginTop:100,
-    height: 75,
-    width: 150,
-    backgroundColor:'rgba(146, 168, 209, 0.5)',
-    alignItems: 'center'
-  },
-  title: {
-    marginTop: 10,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  text:{
-    textAlign: 'center',
-    color: ' white',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'flex-end',
-    alignSelf: 'stretch',
+  storyInfoBox: {
+    paddingRight: 10,
+    paddingLeft: 10,
     flexDirection: 'column',
-    backgroundColor:'#92A8D1',
+    justifyContent: 'space-between',
+    // width: 130,
+    flex:2,
   },
   storyContainer: {
     padding: 20,
     alignItems: 'center',
-    height: 135,
+    // height: 135,
+    height: Dimensions.get('window').width*2/5,
     width: Dimensions.get('window').width,
     flexDirection: 'row'
   },
-  textContainer: {
-    flex: 1,
-    marginBottom: 8,
-    alignItems: 'center',
-  },
-  thumbnail: {
-    alignSelf:'center',
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-  },
-  headline: {
-     fontSize: 12,
-     padding: 10,
-     height:100,
-     textAlign: 'left',
-     borderRadius: 5,
-     backgroundColor: 'rgba(0,0,0,0.2)',
-     color: 'white',
-   },
   list: {
     flex: 9,
   },
@@ -178,13 +141,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-  storyInfoBox: {
-    marginRight: 10,
-    marginLeft: 10,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    width: 130,
   },
 });
 
