@@ -18,7 +18,7 @@ class Library extends Component {
 
   render() {
     const { stories } = this.props
-    if (stories.loading) {
+    if (stories.loading || stories.data === undefined) {
       return this.renderLoadingView();
     }
     return (
@@ -141,8 +141,7 @@ var styles = StyleSheet.create({
     backgroundColor:'#92A8D1',
   },
   storyContainer: {
-    padding: 5,
-    margin: 5,
+    padding: 20,
     alignItems: 'center',
     height: 135,
     width: Dimensions.get('window').width,

@@ -14,7 +14,7 @@ const externalStyles = StyleSheet.create({
     alignSelf: 'center',
   },
   contentText: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: 'Futura',
     color: '#3d3d3d',
     marginLeft: 10,
@@ -22,14 +22,14 @@ const externalStyles = StyleSheet.create({
     flexWrap: 'wrap'
   },
   dateText: {
-    fontSize: 18,
+    fontSize: 12,
+    fontFamily: 'Futura',
     color: '#5379ae',
     textAlign: 'justify',
-    marginLeft: 12,
   },
   storyTitle: {
     marginLeft: 10,
-    fontSize: 15,
+    fontSize: 14,
     color: '#5379ae'
   },
   squareThumbnail: {
@@ -42,6 +42,7 @@ const externalStyles = StyleSheet.create({
     height: 150,
   },
   roundThumbnail: {
+    marginTop: 40,
     alignSelf: 'center',
     width: 155,
     height: 155,
@@ -91,10 +92,11 @@ const externalStyles = StyleSheet.create({
     height: 45,
     alignSelf: 'center',
     fontFamily: 'Noteworthy',
+    fontSize: 16, 
     textAlign: 'center',
     backgroundColor: '#957a78',
     color: '#ffffff',
-    paddingTop: 13,
+    paddingTop: 8,
   },
   textContainer: {
     alignSelf: 'center',
