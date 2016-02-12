@@ -10,6 +10,7 @@ import React, {
 } from 'react-native';
 
 import NavBar from './navBar';
+import externalStyles from '../style/external-styles.js';
 var STORAGE_KEY = 'token';
 
 class LogOut extends React.Component {
@@ -39,26 +40,24 @@ class LogOut extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={externalStyles.viewBody}>
         <View style={styles.positionBox}>
         </View>
         <View style={styles.positionBox}>
           <Text style={styles.text}>
           Are you sure you want to log out?
           </Text>
-          <View style={styles.textContainer}>
+          <View style={externalStyles.buttonContainer}>
           <TouchableHighlight
-          style={styles.button}
           onPress={this.destoryToken.bind(this)}>
           <View>
-            <Text style={styles.buttonText}>LogOut</Text>
+            <Text style={externalStyles.button}>LogOut</Text>
           </View>
           </TouchableHighlight>
           <TouchableHighlight
-          style={styles.button}
           onPress={this.goHome.bind(this)}>
           <View>
-            <Text style={styles.buttonText}>Stay</Text>
+            <Text style={externalStyles.button}>Stay</Text>
           </View>
           </TouchableHighlight>
           </View>
@@ -70,11 +69,11 @@ class LogOut extends React.Component {
 
 var styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor:'#92A8D1',
   },
   positionBox: {
-    flex: 5
+    flex: 2,
   },
   input: {
     height: 40,
