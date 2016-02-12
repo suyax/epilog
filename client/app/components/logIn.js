@@ -15,7 +15,6 @@ import React, {
 } from 'react-native';
 
 import {SERVER_URL} from '../urls';
-import NavBar from './navBar';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
 import externalStyles from '../style/external-styles.js';
 
@@ -109,9 +108,8 @@ class LogIn extends React.Component {
     const { onSignUp } = this.props;
     return (
       <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-        <View style={[externalStyles.viewBody,{height: this.state.visibleHeight} ]}>
-          <View style={styles.positionBox}>
-          </View>
+        <View style={[externalStyles.viewBody,
+          {height: this.state.visibleHeight, justifyContent: 'flex-end'} ]}>
           <View style={styles.positionBox}>
             <Text style={styles.title}>Login</Text>
             <View style={externalStyles.textContainer}>
@@ -143,7 +141,7 @@ class LogIn extends React.Component {
             </View>
           </View>
           <View style={styles.Container}>
-            <View style={externalStyles.buttonContainer}>
+            <View style={[externalStyles.buttonContainer, styles.buttonContainer]}>
               <TouchableHighlight onPress={this._submitForm.bind(this)}>
                 <Text style={externalStyles.button}>Submit</Text>
               </TouchableHighlight>
@@ -151,7 +149,7 @@ class LogIn extends React.Component {
             <Text style={styles.text}>
               Don't have an account?
             </Text>
-            <View style={externalStyles.buttonContainer}>
+            <View style={[externalStyles.buttonContainer, styles.buttonContainer]}>
               <TouchableHighlight onPress={onSignUp}>
                 <Text style={externalStyles.button}>Sign Up</Text>
               </TouchableHighlight>
@@ -165,11 +163,8 @@ class LogIn extends React.Component {
 
 var styles = StyleSheet.create({
   container: {
-    flex:1,
-    backgroundColor:'transparent'
   },
   positionBox: {
-    flex: 5
   },
   textInput: {
     color: '#000000'
@@ -178,12 +173,9 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 5,
   },
-  button: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    height: 40,
-    width: 100,
-    backgroundColor: 'white',
+  buttonContainer: {
+    marginTop: 10,
+    marginBottom: 10,
   },
   textContainer: {
     flex: 1,
