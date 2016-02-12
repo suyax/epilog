@@ -94,7 +94,8 @@ class NewStory extends Component {
                       String(responseData.userId) + '_' + characters + '.png',
                     mimeType: 'image',
                     headers: {
-                      token: result.token
+                      token: result.token,
+                      tags: JSON.stringify(asset.momentTags),
                     }
                   };
                 })
@@ -103,7 +104,15 @@ class NewStory extends Component {
                     if (err) {
                       console.log(err);
                     } else {
-                      console.log(res);
+                      fetch(SERVER_URL + '/api/tags/' + JSON.parse(res.data).momentId, {
+                        method: 'POST',
+                        headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json',
+                          'token': result.headers.token,
+                          'tags': JSON.stringify(JSON.parse(res.data).tags)
+                        }
+                      });
                       return res;
                     }
                   });

@@ -118,7 +118,7 @@ class EpiLogApp extends Component {
           storyTitle={viewControlState.passedProps.storyTitle}
           onBack={()=>{viewControlActions.setView('CAPTURE')}}
           onSubmit={()=>{
-            viewControlActions.setView('LIBRARY');
+            viewControlActions.setView('HOME');
           }}
           />
         );

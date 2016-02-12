@@ -120,6 +120,7 @@ var EditMoment = React.createClass({
     var checkStoryURL = SERVER_URL + '/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
     var momentTags = textInputs.momentTags.split(', ');
     asset.storyTitle = storyTitle;
+    asset.momentTags = momentTags;
 
     return AsyncStorage.getItem('token')
       .then((result) => {
