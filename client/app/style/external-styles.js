@@ -1,6 +1,10 @@
 import React, {
-  StyleSheet
+  StyleSheet,
+  Dimensions,
+  DeviceEventEmitter,
 } from 'react-native';
+
+const {height, width} = Dimensions.get('window');
 
 const externalStyles = StyleSheet.create({
   viewTitle: {
@@ -48,7 +52,9 @@ const externalStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   viewBody: {
-    flex: 9,
+    width: width,
+    height: height,
+    // flex: 9,
     alignItems: 'stretch',
     justifyContent: 'space-between',
     alignSelf: 'stretch',
