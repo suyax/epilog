@@ -31,7 +31,9 @@ var EditMoment = React.createClass({
         //look up hash that checks currentStory against stories associated with user in db
         storyIdLookUp: {},
         //all tags associated with a particular story
-        arrayOfStoryTags: []
+        arrayOfStoryTags: [],
+        //flag that determines if story is new or not
+        isNewStory: false
       };
   },
 
@@ -76,9 +78,9 @@ var EditMoment = React.createClass({
     this.setState({currentStory: event.nativeEvent.text});
 
     if(this.state.currentStory.toLowerCase() in this.state.storyIdLookUp){
+      this.setState({isNewStory: false})
       var storyId = this.state.storyIdLookUp[this.state.currentStory];
       var storyTagsUrl = SERVER_URL + '/api/tags/' + storyId;
-
       return AsyncStorage.getItem('token')
         .then((result) => {
           return fetch(storyTagsUrl, {
@@ -108,6 +110,8 @@ var EditMoment = React.createClass({
         })
 
     }
+
+    this.setState({isNewStory: true})
   },
 
   submitMoment: function(textInputs, asset) {
@@ -185,12 +189,17 @@ var EditMoment = React.createClass({
       });
   },
 
+
+
   //renders autocomplete fields in addition to caption field + image
   render: function() {
     const {asset, onCancel, onSubmit} = this.props;
     var textFields = {};
     var image = asset.node.image;
-
+    var newStoryAlert;
+    if(this.state.isNewStory){
+      newStoryAlert = <Text style={styles.newStoryAlert}>Awesome! You're creating a new story!</Text>
+    }
     return (
       <View style={externalStyles.viewBody}>
         <View style={externalStyles.topBar}>
@@ -201,6 +210,11 @@ var EditMoment = React.createClass({
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
+<<<<<<< HEAD
+=======
+        <View>{newStoryAlert}</View>
+        <View style={styles.content}>
+>>>>>>> added help text to view that alerts user if they are creating a new story
           <AutoCompleteHelper
             placeholder="Story Title"
             data={this.state.arrayOfStoryTitles}
@@ -255,7 +269,6 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'grey'
   },
-  
   imageWide: {
     width: 320,
     height: 240,
