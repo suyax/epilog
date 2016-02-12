@@ -210,16 +210,12 @@ var EditMoment = React.createClass({
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
-<<<<<<< HEAD
-=======
         <View>{newStoryAlert}</View>
-        <View style={styles.content}>
->>>>>>> added help text to view that alerts user if they are creating a new story
-          <AutoCompleteHelper
-            placeholder="Story Title"
-            data={this.state.arrayOfStoryTitles}
-            onBlur={this.getStoryTags}
-          />
+        <AutoCompleteHelper
+          placeholder="Story Title"
+          data={this.state.arrayOfStoryTitles}
+          onBlur={this.getStoryTags}
+        />
         <View style={externalStyles.textContainer}>
           <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
             <TextInput
