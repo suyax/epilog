@@ -41,15 +41,15 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'white',
+    backgroundColor: '#957a78',
   },
   navOption: {
     textAlign: 'center',
-    fontWeight:'bold',
-    flex: 1,
+    flex: 0.65,
     fontSize: 20,
-    color: ' grey',
-    width: 135,
+    color: '#e4e4e4',
+    width: 140,
+    marginTop: 19,
   },
 });
 

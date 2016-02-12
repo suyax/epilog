@@ -12,45 +12,53 @@ import React, {
 
 import NavBar from './navBar';
 import moment from 'moment';
+import externalStyles from '../style/external-styles.js';
 
 class Home extends Component {
   componentDidMount() {
     this.props.onLoad();
-
   }
+
   render() {
     const { updates, onLogOut, onPress, onCamera} = this.props;
+
     if (updates.loading || !updates.lastUpdated) {
       return this.renderLoadingView();
     }
+
     return (
-      <View style={styles.container}>
+      <View style={externalStyles.viewBody}>
+        <View style={externalStyles.topBar}>
+          <Text style={externalStyles.viewTitle}>
+            Home
+          </Text>
+        </View>
         <View style={styles.content}>
-        <View style={styles.positionBox}>
-        <RecyclerViewBackedScrollView style={styles.list}>
-          <View style = {styles.listView}>
-            {updates.data.map(
-              (update) => {
-                return this.renderRecentMoment(update);
-              })
-            }
+          <View style={styles.positionBox}>
+            <RecyclerViewBackedScrollView style={styles.list}>
+              <View style = {styles.listView}>
+                {updates.data.map(
+                  (update) => {
+                    return this.renderRecentMoment(update);
+                  })
+                }
+              </View>
+            </RecyclerViewBackedScrollView>
           </View>
-        </RecyclerViewBackedScrollView>
-          </View>
-        <TouchableHighlight
-          style={styles.navBar}
-          onPress={onCamera}>
-            <Image
-              style={styles.icon}
-              source={require('../image/CameraIcon.png')}/>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.navBar}
-          onPress={onLogOut}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Log Out</Text>
-          </View>
-        </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.navBar}
+            onPress={onCamera}>
+              <Image
+                style={styles.icon}
+                source={require('../image/CameraIcon.png')}/>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.navBar}
+            onPress={onLogOut}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Log Out</Text>
+            </View>
+          </TouchableHighlight>
         </View>
         <View style={styles.navBar}>
           <NavBar />
@@ -77,53 +85,38 @@ class Home extends Component {
   renderRecentMoment(update) {
     return (
       <View key={update.id} style={styles.container}>
-          <View style={styles.storyContainer}>
-              <View style={styles.timeBox}>
-                <Text style={styles.text}>{moment(update.updatedAt).fromNow()}
-                </Text>
-              </View>
-            <TouchableHighlight onPress={()=>{this.props.onPress(update)}}>
-                <Image
-                  source={{uri: update.url}}
-                  style={styles.thumbnail}>
-                </Image>
-              </TouchableHighlight>
-              <View style={styles.imageBox}>
-              <Text style={styles.headline}>
-              {update.caption}
+        <View style={styles.storyContainer}>
+            <View style={styles.timeBox}>
+              <Text style={styles.text}>{moment(update.updatedAt).fromNow()}
               </Text>
-              </View>
+            </View>
+          <TouchableHighlight onPress={()=>{this.props.onPress(update)}}>
+            <Image
+              source={{uri: update.url}}
+              style={externalStyles.rectangleThumbnail}>
+            </Image>
+            </TouchableHighlight>
+            <View style={styles.textBox}>
+              <Text style={externalStyles.contentText}>
+                {update.caption}
+              </Text>
+            </View>
         </View>
-        <Image
-        style={styles.timeLine}
-        source={require('../image/greyLine.png')}
-        >
-        </Image>
+        <View style={externalStyles.timeLine}>
+        </View>
       </View>
     );
   }
 }
 
 var styles = StyleSheet.create({
-  timeLine: {
-    flex:1,
-    marginLeft: 40,
-    alignSelf:'stretch',
-    width:2,
-    height: 100,
-  },
   storyContainer: {
-    padding: 5,
-    margin: 5,
+    padding: 2,
+    margin: 2,
     alignItems: 'center',
     height: 135,
     width: Dimensions.get('window').width,
     flexDirection: 'row'
-  },
-  textContainer: {
-    flex: 1,
-    marginBottom: 8,
-    alignItems: 'center',
   },
   thumbnail: {
     alignSelf:'center',
@@ -139,9 +132,9 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'rgba(0,0,0,0.2)',
     color: 'white',
-   },
+  },
   list: {
-    flex: 11,
+    flex: 9,
   },
   container: {
     flex: 1,
@@ -149,10 +142,10 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'stretch',
     flexDirection: 'column',
-    backgroundColor:'#92A8D1',
+    backgroundColor:'#fffaef',
   },
   content: {
-    flex: 11,
+    flex: 9,
     justifyContent: 'center',
   },
   navBar: {
@@ -182,15 +175,20 @@ var styles = StyleSheet.create({
   positionBox: {
     flex: 10
   },
-  navBar: {
-    flex: 1,
-    alignItems: 'center',
-  },
   text:{
     textAlign: 'center',
-    color: ' white',
-    margin: 5,
+    fontSize: 10,
+    color: ' #5379ae',
+    marginRight: 4,
   },
+  textBox: {
+    flexDirection: 'column',
+    width: 120,
+  },
+  timeBox: {
+    marginLeft: 8,
+    marginRight: 8,
+  }
 });
 
 module.exports = Home;

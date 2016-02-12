@@ -3,6 +3,7 @@ const {SERVER_URL} = require('../urls');
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard';
 var {
   Component,
+  Dimensions,
   Image,
   StyleSheet,
   View,
@@ -16,6 +17,8 @@ var {
 } = React;
 
 import AutoCompleteHelper from './autoComplete';
+import externalStyles from '../style/external-styles.js';
+
 
 var EditMoment = React.createClass({
 
@@ -112,6 +115,7 @@ var EditMoment = React.createClass({
     var momentCaption = textInputs.caption;
     var checkStoryURL = SERVER_URL + '/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
     var momentTags = textInputs.momentTags.split(', ');
+    asset.storyTitle = storyTitle;
 
     return AsyncStorage.getItem('token')
       .then((result) => {
@@ -127,7 +131,7 @@ var EditMoment = React.createClass({
         .then((response) => response.json())
         .then((responseData) => {
           if (responseData) {
-            var storyid = responseData.id;
+            var storyid = responseData.users_stories.storyId;
             var title = storyTitle.split(' ').join('_');
             var caption = momentCaption.split(' ').join('_');
             var userid = responseData.users_stories.userId;
@@ -146,9 +150,9 @@ var EditMoment = React.createClass({
                 };
               })
               .then((result) => {
+                console.log(result);
                 NativeModules.FileTransfer.upload(result, (err, res) => {
                   if (err) {
-                    console.log(err);
                   } else {
                     fetch(SERVER_URL + '/api/tags/' + JSON.parse(res.data).momentId, {
                       method: 'POST',
@@ -188,53 +192,55 @@ var EditMoment = React.createClass({
     var image = asset.node.image;
 
     return (
-      <View style={styles.container}>
+      <View style={externalStyles.viewBody}>
+        <View style={externalStyles.topBar}>
+          <Text style={externalStyles.viewTitle}>
+            Edit Moment
+          </Text>
+        </View>
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.imageWide}/>
         </View>
-        <View style={styles.content}>
           <AutoCompleteHelper
             placeholder="Story Title"
             data={this.state.arrayOfStoryTitles}
             onBlur={this.getStoryTags}
           />
-        </View>
-          <View style={ styles.textContainer }>
+        <View style={externalStyles.textContainer}>
           <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-            <View style={ styles.positionBox }>
             <TextInput
-              style={styles.textInput}
+              style={externalStyles.textInput}
               placeholder={'Create a Caption'}
               onChangeText={(text)=>textFields.caption = text}
-              autoCapitalize={'none'}
               onSubmitEditing={() => dismissKeyboard()}
-              />
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={externalStyles.textContainer}>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
             <TextInput
-              style={styles.textInput}
+              style={externalStyles.textInput}
               placeholder={'Tag your moment'}
               onChangeText={(text)=>textFields.momentTags = text}
-              autoCapitalize={'none'}
               onSubmitEditing={() => dismissKeyboard()}
-              />
-            </View>
-            </TouchableWithoutFeedback>
-          <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={onCancel}>
-              <View><Text style={styles.button}>Cancel</Text></View>
-            </TouchableHighlight>
-            <TouchableHighlight key={asset} onPress={() => {
-                if (this.state.currentStory && textFields.caption) {
-                  this.submitMoment(textFields, asset)
-                    .then((result) => {
-                      onSubmit(result, asset);
-                    });
-                }
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={externalStyles.buttonContainer}>
+          <TouchableHighlight onPress={onCancel}>
+            <View><Text style={externalStyles.button}>Cancel</Text></View>
+          </TouchableHighlight>
+          <TouchableHighlight key={asset} onPress={() => {
+              if (this.state.currentStory && textFields.caption) {
+                this.submitMoment(textFields, asset)
+                  .then((result) => {
+                    onSubmit(result, asset);
+                  });
               }
-            }>
-              <View><Text style={styles.button}>Submit</Text></View>
-            </TouchableHighlight>
-          </View>
-          </View>
+          }}>
+            <View><Text style={externalStyles.button}>Submit</Text></View>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -249,48 +255,18 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'grey'
   },
-    positionBox: {
-    flex: 4
-  },
-  row: {
-    padding: 5,
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-  },
-  textColumn: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  textContainer: {
-    marginBottom: 20,
-    flex: 0.3
-  },
-  textInput: {
-    height: 40,
-    backgroundColor:'white',
-    borderColor: 'gray',
-    borderWidth: 2,
-    textAlign: 'center',
-    margin: 5,
-    color: ' #2C3539'
-  },
+  
   imageWide: {
     width: 320,
     height: 240,
     alignSelf: 'center'
   },
-  content: {
-    flex: 0.2,
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-  },
   imageContainer: {
-    flex: 1,
+    flex: 4,
     justifyContent: 'space-around',
   },
   buttonContainer: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'space-around',
     alignSelf: 'stretch',
     flexDirection: 'row',
