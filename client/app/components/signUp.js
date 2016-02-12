@@ -35,7 +35,6 @@ class SignUp extends React.Component {
     }
   }
   componentWillMount () {
-    console.log('Login will mount: ',DeviceEventEmitter);
     DeviceEventEmitter.addListener('keyboardWillShow', (e)=>{
       let newSize = Dimensions.get('window').height - e.endCoordinates.height
       this.setState({visibleHeight: newSize})
@@ -48,7 +47,6 @@ class SignUp extends React.Component {
   componentWillUnmount(){
     DeviceEventEmitter.removeAllListeners('keyboardWillShow');
     DeviceEventEmitter.removeAllListeners('keyboardWillHide');
-    console.log('Login will unmount: ',DeviceEventEmitter);
   }
   _submitForm () {
     const { firstname, lastname, email, password } = this.fields
@@ -200,10 +198,8 @@ class SignUp extends React.Component {
 
 var styles = StyleSheet.create({
   container: {
-    // flex:1,
   },
   positionBox: {
-    // flex: 5
   },
   textInput: {
     color: ' #000000'

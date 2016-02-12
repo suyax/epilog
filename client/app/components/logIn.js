@@ -36,7 +36,6 @@ class LogIn extends React.Component {
   }
 
   componentWillMount () {
-    console.log('Login will mount: ',DeviceEventEmitter);
     DeviceEventEmitter.addListener('keyboardWillShow', (e)=>{
       let newSize = Dimensions.get('window').height - e.endCoordinates.height
       this.setState({visibleHeight: newSize})
@@ -49,7 +48,6 @@ class LogIn extends React.Component {
   componentWillUnmount(){
     DeviceEventEmitter.removeAllListeners('keyboardWillShow');
     DeviceEventEmitter.removeAllListeners('keyboardWillHide');
-    console.log('Login will unmount: ',DeviceEventEmitter);
   }
 
   _submitForm () {
