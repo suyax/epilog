@@ -4,6 +4,7 @@ import React, {
   StyleSheet,
   Text,
   View,
+  Image,
   TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -21,11 +22,11 @@ class NavBar extends Component {
           Home
           </Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=> viewActions.setView("CAPTURE")}underlayColor="orange">
-          <Text style={styles.navOption}>
-          Capture
-          </Text>
-        </TouchableHighlight>
+        <View style={styles.cameraIcon}>
+          <TouchableHighlight onPress={()=> viewActions.setView("CAMERAVIEW")}underlayColor="orange">
+            <Image style={styles.icon} source={require('../image/gray-camera-icon.png')}/>
+          </TouchableHighlight>
+        </View>
         <TouchableHighlight onPress={()=> viewActions.setView("LIBRARY")}underlayColor="orange">
           <Text style={styles.navOption}>
           Library
@@ -50,6 +51,18 @@ var styles = StyleSheet.create({
     color: '#e4e4e4',
     width: 140,
     marginTop: 19,
+  },
+  icon: {
+    alignSelf: 'center',
+    height: 50,
+    width: 50,
+  },
+  cameraIcon: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    flex: 0.65,
+    flexDirection: 'column',
+    width: 140,
   },
 });
 

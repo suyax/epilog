@@ -61,6 +61,7 @@ class EpiLogApp extends Component {
         return (
           <CameraView
           onTakePicture={ () => {viewControlActions.setView('CAPTURE')}}
+          onGoToGallery={ () => {viewControlActions.setView('CAPTURE')}}
           />
           );
       case "HOME":

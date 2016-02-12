@@ -136,8 +136,8 @@ var EditMoment = React.createClass({
         .then((responseData) => {
           if (responseData) {
             var storyid = responseData.users_stories.storyId;
-            var title = storyTitle.split(' ').join('_');
-            var caption = momentCaption.split(' ').join('_');
+            var title = storyTitle.split(' ').join('&*&');
+            var caption = momentCaption.split(' ').join('&*&');
             var userid = responseData.users_stories.userId;
 
             AsyncStorage.getItem('token')
@@ -154,7 +154,6 @@ var EditMoment = React.createClass({
                 };
               })
               .then((result) => {
-                console.log(result);
                 NativeModules.FileTransfer.upload(result, (err, res) => {
                   if (err) {
                   } else {
@@ -175,7 +174,6 @@ var EditMoment = React.createClass({
             return 'HOME';
           } else {
             asset.node.caption = momentCaption;
-            console.log('Asset passed to NEW_STORY: ', asset);
 
             return 'NEW_STORY';
           }
@@ -198,13 +196,13 @@ var EditMoment = React.createClass({
     var image = asset.node.image;
     var newStoryAlert;
     if(this.state.isNewStory){
-      newStoryAlert = <Text style={styles.newStoryAlert}>Awesome! You're creating a new story!</Text>
+      newStoryAlert = <Text style={styles.newStoryAlert}>* This will be a brand new story!</Text>
     }
     return (
       <View style={externalStyles.viewBody}>
         <View style={externalStyles.topBar}>
           <Text style={externalStyles.viewTitle}>
-            Edit Moment
+            Add a Moment
           </Text>
         </View>
         <View style={styles.imageContainer}>
@@ -289,7 +287,11 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 7,
     marginTop: 15
-  }
+  },
+  newStoryAlert: {
+    color: '#5379ae',
+    alignSelf: 'center',
+  },
 });
 
 module.exports = EditMoment;
