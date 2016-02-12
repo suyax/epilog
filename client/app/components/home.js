@@ -47,13 +47,6 @@ class Home extends Component {
           </View>
           <TouchableHighlight
             style={styles.navBar}
-            onPress={onCamera}>
-              <Image
-                style={styles.icon}
-                source={require('../image/CameraIcon.png')}/>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.navBar}
             onPress={onLogOut}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>Log Out</Text>
