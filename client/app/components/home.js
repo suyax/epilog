@@ -39,7 +39,11 @@ class Home extends Component {
           <View style={[styles.titleRow, {flex:1, alignItems:'flex-end'}]}>
           <TouchableHighlight
             onPress={onLogOut}>
-            <View><Text style={styles.buttonText}>Log Out</Text></View>
+            <View>
+            <Image
+            style={{Color: 'black'}}
+              source={require('../image/log out.png')}>
+            </Image></View>
           </TouchableHighlight>
           </View>
         </View>
