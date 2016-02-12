@@ -13,7 +13,8 @@ var {
   Dimensions,
   TouchableHighlight,
   NativeModules,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  DeviceEventEmitter,
 } = React;
 
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
@@ -22,6 +23,28 @@ import NavBar from './navBar';
 import externalStyles from '../style/external-styles.js';
 
 class NewStory extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      visibleHeight: Dimensions.get('window').height
+    }
+  }
+
+  componentWillMount () {
+    DeviceEventEmitter.addListener('keyboardWillShow', (e)=>{
+      let newSize = Dimensions.get('window').height - e.endCoordinates.height
+      this.setState({visibleHeight: newSize})
+    });
+    DeviceEventEmitter.addListener('keyboardWillHide', (e)=>{
+      this.setState({visibleHeight: Dimensions.get('window').height})
+    });
+  }
+
+  componentWillUnmount(){
+    DeviceEventEmitter.removeAllListeners('keyboardWillShow');
+    DeviceEventEmitter.removeAllListeners('keyboardWillHide');
+  }
 
   submitNewStory(textInputs, asset) {
     var title = textInputs.newStoryTitle;
@@ -136,61 +159,59 @@ class NewStory extends Component {
     };
 
     return (
-      <View style={externalStyles.viewBody}>
-        <View style={externalStyles.topBar}>
-          <Text style={externalStyles.viewTitle}>
-            New story
-          </Text>
-        </View>
-        <View style={styles.imageContainer}>
-          <Text style={styles.title}>
-            {textInputs.newStoryTitle}
-          </Text>
-          <Image
-            source={{uri: asset.node.image.uri}}
-            style={styles.thumbnail}
-          />
-        </View>
-        <View style={externalStyles.textContainer}>
-          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-          <TextInput 
-            style={externalStyles.textInput} 
-            placeholder='Story Description'
-            onChangeText={(text)=>textInputs.newStoryDescription = text} 
-          />
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={externalStyles.textContainer}>
-          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-          <TextInput 
-            style={externalStyles.textInput} 
-            placeholder='Add friends to your story'
-            onChangeText={(text)=>textInputs.newStoryCharacters = text}
-            onSubmitEditing={() => {dismissKeyboard()}} 
-          />
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={externalStyles.buttonContainer}>
-          <TouchableHighlight onPress={onBack}>
-            <Text style={externalStyles.button}>
-              Cancel
+      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+        <View style={[externalStyles.viewBody]}>
+          <View style={externalStyles.topBar}>
+            <Text style={externalStyles.viewTitle}>
+              New story
             </Text>
-          </TouchableHighlight>
+          </View>
+          <View style={styles.imageContainer}>
+            <Text style={styles.title}>
+              {textInputs.newStoryTitle}
+            </Text>
+            <Image
+              source={{uri: asset.node.image.uri}}
+              style={styles.thumbnail}
+            />
+          </View>
+          <View style={externalStyles.textContainer}>
+            <TextInput 
+              style={externalStyles.textInput} 
+              placeholder='Story Description'
+              onChangeText={(text)=>textInputs.newStoryDescription = text} 
+            />
+          </View>
+          <View style={externalStyles.textContainer}>
+            <TextInput 
+              style={externalStyles.textInput} 
+              placeholder='Add friends to your story'
+              onChangeText={(text)=>textInputs.newStoryCharacters = text}
+              onSubmitEditing={() => {dismissKeyboard()}} 
+            />
+          </View>
+          <View style={externalStyles.buttonContainer}>
+            <TouchableHighlight onPress={onBack}>
+              <Text style={externalStyles.button}>
+                Cancel
+              </Text>
+            </TouchableHighlight>
 
-          <TouchableHighlight key={asset} onPress={() => {
-            if (textInputs.newStoryTitle && textInputs.newStoryDescription) {
-              this.submitNewStory(textInputs, asset)
-                .then(() => {
-                  onSubmit();
-                });
-            }
-          }}>
-            <Text style={externalStyles.button}>
-              Submit
-            </Text>
-          </TouchableHighlight>
+            <TouchableHighlight key={asset} onPress={() => {
+              if (textInputs.newStoryTitle && textInputs.newStoryDescription) {
+                this.submitNewStory(textInputs, asset)
+                  .then(() => {
+                    onSubmit();
+                  });
+              }
+            }}>
+              <Text style={externalStyles.button}>
+                Submit
+              </Text>
+            </TouchableHighlight>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 };

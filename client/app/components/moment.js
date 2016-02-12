@@ -10,9 +10,12 @@ const {
   TouchableHighlight,
   Modal,
   Dimensions,
+  DeviceEventEmitter,
+  TouchableWithoutFeedback,
 } = React;
 
 import moment from 'moment';
+import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
 
 class Button extends Component{
   render() {
@@ -33,6 +36,7 @@ class Moment extends Component{
     super(props);
     this.state = {
       newComment: "",
+      visibleHeight: Dimensions.get('window').height,
     }
   }
 
@@ -45,6 +49,18 @@ class Moment extends Component{
       (Date.now() - comments.lastUpdated) > (5 * 60 * 1000)){
       fetchComments(moment.id);
     }
+    DeviceEventEmitter.addListener('keyboardWillShow', (e)=>{
+      let newSize = Dimensions.get('window').height - e.endCoordinates.height
+      this.setState({visibleHeight: newSize})
+    });
+    DeviceEventEmitter.addListener('keyboardWillHide', (e)=>{
+      this.setState({visibleHeight: Dimensions.get('window').height})
+    });
+  }
+
+  componentWillUnmount(){
+    DeviceEventEmitter.removeAllListeners('keyboardWillShow');
+    DeviceEventEmitter.removeAllListeners('keyboardWillHide');
   }
 
   renderComments () {
@@ -73,57 +89,58 @@ class Moment extends Component{
   render (){
     let { width, height } = Dimensions.get('window');
     const { onBack, moment, comments, submitComment, fetchComments } = this.props;
-    console.log('moment',this.props)
     const innerContainerTransparentStyle = {backgroundColor: '#fff', padding: 20};
     return (
-      <View style={{flex: 1}}>
-        <View style={styles.buttonContainer}>
-          <TouchableHighlight
-          key={this.state.moment}
-          onPress={onBack}>
-            <Text style={ styles.buttonText }>
-              Back
-            </Text>
-          </TouchableHighlight>
+      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+        <View style={{height: this.state.visibleHeight}}>
+          <View style={styles.buttonContainer}>
+            <TouchableHighlight
+            key={this.state.moment}
+            onPress={onBack}>
+              <Text style={ styles.buttonText }>
+                Back
+              </Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.imageContainer}>
+            <Image
+              source={{uri: moment.url}}
+              style={styles.image}>
+            </Image>
+            <ScrollView
+                style={styles.scrollView}
+                showsVerticalScrollIndicator={true}
+                automaticallyAdjustContentInsets={false}
+                horizontal={false}
+                snapToInterval={height/2}>
+                {this.renderComments()}
+            </ScrollView>
+              <View style={styles.commentInputForm}>
+                <View style={{flex: 11}}> 
+                 <TextInput
+                   value={this.state.newComment}
+                   style={styles.textInput}
+                   placeholder={'Write a Comment'}
+                   onChangeText={(text) => this.setState({newComment: text})}
+                 />
+                </View>
+                <View style={{flex: 1, backgroundColor: 'white'}}>
+                 <TouchableHighlight
+                   style={styles.commentButton}
+                   onPress={()=>{
+                     submitComment(this.state.newComment,moment.id)
+                     .then(()=>fetchComments(moment.id))
+                     .then(()=>this.setState({newComment:""}));
+                   }}>
+                     <Image
+                       style={{backgroundColor: 'white'}}
+                       source={require('../image/Submit.gif')}/>
+                 </TouchableHighlight>
+                </View>
+              </View> 
+          </View>
         </View>
-        <View style={styles.imageContainer}>
-          <Image
-            source={{uri: moment.url}}
-            style={styles.image}>
-          </Image>
-          <ScrollView
-              style={styles.scrollView}
-              showsVerticalScrollIndicator={true}
-              automaticallyAdjustContentInsets={false}
-              horizontal={false}
-              snapToInterval={height/2}>
-              {this.renderComments()}
-          </ScrollView>
-            <View style={styles.commentInputForm}>
-              <View style={{flex: 11}}> 
-               <TextInput
-                 value={this.state.newComment}
-                 style={styles.textInput}
-                 placeholder={'Write a Comment'}
-                 onChangeText={(text) => this.setState({newComment: text})}
-               />
-              </View>
-              <View style={{flex: 1, backgroundColor: 'white'}}>
-               <TouchableHighlight
-                 style={styles.commentButton}
-                 onPress={()=>{
-                   submitComment(this.state.newComment,moment.id)
-                   .then(()=>fetchComments(moment.id))
-                   .then(()=>this.setState({newComment:""}));
-                 }}>
-                   <Image
-                     style={{backgroundColor: 'white'}}
-                     source={require('../image/Submit.gif')}/>
-               </TouchableHighlight>
-              </View>
-            </View> 
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
@@ -138,7 +155,7 @@ var styles = StyleSheet.create({
     textAlign: 'left'
   },
   scrollView: {
-    fontFamily: 'Futura',
+    // fontFamily: 'Futura',
     padding: 10, 
     flex: 3,
     backgroundColor: '#FFFFFF'
