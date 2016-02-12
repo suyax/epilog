@@ -78,6 +78,7 @@ var AutoCompleteHelper = React.createClass({
 
 var styles = StyleSheet.create({
     autocomplete: {
+        fontFamily: 'Futura',
         alignSelf: 'stretch',
         height: 30,
         backgroundColor: '#FFF',

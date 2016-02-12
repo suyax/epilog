@@ -8,16 +8,18 @@ const {height, width} = Dimensions.get('window');
 
 const externalStyles = StyleSheet.create({
   viewTitle: {
+    fontFamily: 'Noteworthy',
     fontSize: 35,
     color: '#ffffff',
     alignSelf: 'center',
   },
   contentText: {
     fontSize: 15,
+    fontFamily: 'Futura',
     color: '#3d3d3d',
     marginLeft: 10,
     textAlign: 'left',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   dateText: {
     fontSize: 18,
@@ -88,6 +90,7 @@ const externalStyles = StyleSheet.create({
     width: 120,
     height: 45,
     alignSelf: 'center',
+    fontFamily: 'Noteworthy',
     textAlign: 'center',
     backgroundColor: '#957a78',
     color: '#ffffff',
@@ -105,6 +108,7 @@ const externalStyles = StyleSheet.create({
   },
   textInput: {
     height: 40,
+    fontFamily: 'Futura',
     backgroundColor:'white',
     textAlign: 'center',
     margin: 0,
