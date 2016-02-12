@@ -38,7 +38,7 @@ class EpiLogApp extends Component {
   componentWillUpdate () {
     const {viewControlActions} = this.props;
     const {tokenState, viewControlState} = this.props;
-    if(tokenState.error){
+    if(tokenState.error || !tokenState.lastUpdated){
       if(viewControlState.currentView !== 'LOGIN'){
         viewControlActions.setView('LOGIN');
       }
@@ -54,7 +54,7 @@ class EpiLogApp extends Component {
       momentViewState, momentViewActions,
       commentState, commentActions,
       updateState, updateActions,
-
+      tokenState, tokenActions,
     } = this.props;
     switch (viewControlState.currentView) {
       case "CAMERAVIEW":
@@ -75,7 +75,10 @@ class EpiLogApp extends Component {
       case "LOGIN":
         return (
           <LogIn
-          successLoggedIn={ () => { viewControlActions.setView('HOME') }}
+          successLoggedIn={ () => { 
+            tokenActions.checkTokenSuccess();
+            viewControlActions.setView('HOME'); 
+          }}
           onSignUp={ () => { viewControlActions.setView('SIGNUP') }}
           />);
       case "SIGNUP":

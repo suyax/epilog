@@ -22,7 +22,7 @@ class Home extends Component {
   render() {
     const { updates, onLogOut, onPress, onCamera} = this.props;
 
-    if (updates.loading || !updates.lastUpdated) {
+    if (updates.loading || !updates.lastUpdated || !updates.data) {
       return this.renderLoadingView();
     }
 
