@@ -7,7 +7,12 @@ var Comment = dbModels.Comment;
 // input: text, userID, momentID
 // output: new comment object
 var addOne = function (text, userID, momentID) {
-  return Comment.create({text: text, userId: userID, momentId: momentID});
+  return Comment.create({
+    text: text, 
+    userId: userID, 
+    momentId: momentID,
+    createdAt: Date.now(),
+  });
 };
 
 // get all the comments for a given moment

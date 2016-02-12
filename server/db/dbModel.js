@@ -33,14 +33,18 @@ var Story = sequelize.define('stories', {
     description: {
       type: Sequelize.STRING,
       notNull: true
-    }
-}, { timestamps: true });
+    },
+  createdAt: {type: Sequelize.BIGINT, notNull: true}, // ms since epoc UTC
+  updatedAt: {type: Sequelize.BIGINT, notNull: true}, // ms since epoc UTC
+}, { timestamps: false });
 
 var Moment = sequelize.define('moments', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   url: { type: Sequelize.STRING, notNull: true },
-  caption: { type: Sequelize.STRING, notNull: true }
-}, { timestamps: true });
+  caption: { type: Sequelize.STRING, notNull: true },
+  updatedAt: {type: Sequelize.BIGINT, notNull: true}, // ms since epoc UTC
+  createdAt: {type: Sequelize.BIGINT, notNull: true}, // ms since epoc UTC
+}, { timestamps: false });
 
 var Tag = sequelize.define('tags', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -49,8 +53,9 @@ var Tag = sequelize.define('tags', {
 
 var Comment = sequelize.define('comments', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: Sequelize.STRING, notNull: true }
-}, {timestamps: true })
+  text: { type: Sequelize.STRING, notNull: true },
+  createdAt: {type: Sequelize.BIGINT, notNull: true}, // ms since epoc UTC
+}, {timestamps: false })
 
 //join tables
 var Moments_Stories = sequelize.define('moments_stories', {});

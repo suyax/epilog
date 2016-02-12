@@ -18,7 +18,9 @@ module.exports = {
         {
           url: momentInfo.url,
           caption: momentInfo.caption,
-          userid: momentInfo.userid
+          userid: momentInfo.userid,
+          createdAt: momentInfo.createdAt || Date.now(),
+          updatedAt: momentInfo.updatedAt || Date.now(),
         }, {transaction: t})
         //next, check if new users have been added to story via moment
         .then(function (addedMoment) {

@@ -87,7 +87,7 @@ class Home extends Component {
       <View key={update.id} style={styles.container}>
         <View style={styles.storyContainer}>
             <View style={styles.timeBox}>
-              <Text style={styles.text}>{moment(update.updatedAt).fromNow()}
+              <Text style={styles.text}>{moment(parseInt(update.updatedAt)).fromNow()}
               </Text>
             </View>
           <TouchableHighlight onPress={()=>{this.props.onPress(update)}}>
