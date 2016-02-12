@@ -65,6 +65,28 @@ class Story extends Component {
       filteredMoments: moments
     };
   }
+  renderComments () {
+      const {comments, fetchComments} = this.props;
+      if(comments.loading || comments.lastUpdated === undefined){
+        return (<View><Text>Loading Comments...</Text></View>);
+      } else if (comments.error){
+        return (<View><Text>Sorry, but the Comments couldn't be loaded</Text></View>);
+      } else {
+        return (
+          <View>
+            {comments.data.map((comment)=>{
+              return(
+                <View key={comment.id}>
+                  <Text style={{fontWeight: 'bold'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal'}}>{comment.text}</Text> </Text>
+                  <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12}}>{moment(comment.createdAt).fromNow()}</Text>
+                  <Text></Text>
+                </View>
+                )
+            })}
+          </View>
+          )
+      }
+    }
 
   //helper func that filters a story's moments based on tag name
   filterMoments(event){
@@ -151,7 +173,8 @@ class Story extends Component {
             <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
             <Image
               style={styles.backdrop}
-              source={{uri: moment.url.slice()}}>
+              source={{uri: moment.url.slice()}}
+              >
             </Image>
             </TouchableHighlight>
           </View>
