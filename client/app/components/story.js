@@ -14,6 +14,7 @@ import React, {
   Modal,
 } from 'react-native';
 
+import externalStyles from '../style/external-styles.js';
 import NavBar from './navBar';
 import AutoCompleteHelper from './autoComplete';
 
@@ -22,7 +23,7 @@ class Button extends Component{
     return (
       <TouchableHighlight
         onPress={this.props.onPress}
-        style={styles.button}
+        style={[styles.button]}
         underlayColor="#a9d9d4">
           <Text style={[styles.buttonText]}>{this.props.children}</Text>
       </TouchableHighlight>
@@ -37,6 +38,7 @@ class Story extends Component {
 
   //upon initialization...
   componentWillMount() {
+    const {fetchComments, moment, comments, submitStatus} = this.props;
     //grab the story object associated with the story rendered on the story view (note: this
     //is passed in from the library view)
     const story = this.props.asset;
@@ -64,41 +66,7 @@ class Story extends Component {
       filteredMoments: moments
     };
   }
-  renderComments () {
-      const {comments, fetchComments} = this.props;
-      if(comments.loading || comments.lastUpdated === undefined){
-        return (<View><Text>Loading Comments...</Text></View>);
-      } else if (comments.error){
-        return (<View><Text>Sorry, but the Comments couldn't be loaded</Text></View>);
-      } else {
-        return (
-          <View>
-            {comments.data.map((comment)=>{
-              return(
-                <View key={comment.id}>
-                  <Text style={{fontWeight: 'bold'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal'}}>{comment.text}</Text> </Text>
-                  <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12}}>{moment(comment.createdAt).fromNow()}</Text>
-                  <Text></Text>
-                </View>
-                )
-            })}
-          </View>
-          )
-      }
-    }
 
-
-  fetch (moment) {
-    console.log('fetch',moment);
-    const {fetchComments, comments, submitStatus} = this.props;
-    if ((comments.lastUpdated === undefined && !comments.loading) ||
-      // did we load the correct set of comments?
-      comments.momentId !== moment.id ||
-      // or the last time we updated was 5 minutes ago
-      (Date.now() - comments.lastUpdated) > (5 * 60 * 1000)){
-      fetchComments(moment.id);
-    }
-  }
   //helper func that filters a story's moments based on tag name
   filterMoments(event){
     //grab tag name entered into auto complete search field
@@ -170,74 +138,29 @@ class Story extends Component {
       <View key={moment.id} style={styles.storyRow}>
         <View style={styles.storyContainer}>
           <View>
-          <TouchableHighlight
-          onPress={()=>{ console.log(moment);this.fetch(moment)}}>
             <Image
               style={styles.backdrop}
-              source={{uri: moment.url.slice()}}
-              >
+              source={{uri: moment.url}}>
             </Image>
+          </View>
+          <View>
+            <Text style={styles.headline}>{moment.caption}</Text>
+            <TouchableHighlight onPress={()=>this.props.onPress(moment)}>
+            <Text style={styles.headline}>Comment</Text>
             </TouchableHighlight>
           </View>
-          <ScrollView
-              style={styles.scrollView}
-              showsVerticalScrollIndicator={true}
-              automaticallyAdjustContentInsets={false}
-              horizontal={false}
-              snapToInterval={ Dimensions.get('window').width/2 }>
-              {this.renderComments()}
-          </ScrollView>
             <Text style={styles.text}>{moment.createdAt.slice(0,10)}
             </Text>
-        </View>
-          <Image
-          style={styles.timeLine}
-          source={require('../image/greyLine.png')}>
-          </Image>
+        </View >
+          <View
+          style={styles.timeLine}>
+          </View>
       </View>
       )
   }
 }
 
 var styles = StyleSheet.create({
-  modalButtonText: {
-    fontSize: 18,
-    margin: 25,
-    textAlign: 'center',
-  },
-  textInput: {
-    alignSelf: 'center',
-    height: 15,
-    borderRadius: 2,
-    padding: 1,
-    width: 300,
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    textAlign: 'center'
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalImage: {
-    flex:11,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-  button: {
-    borderRadius: 5,
-    flex: 1,
-    height: 44,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-  },
   storyRow: {
     flex: 1
   },
@@ -248,10 +171,12 @@ var styles = StyleSheet.create({
     width: Dimensions.get('window').width,
   },
   timeLine: {
-    flex:1,
-    alignSelf:'center',
-    width:2,
-    height: 100
+    flex: 1,
+    width: 2,
+    height: 100,
+    marginTop: 5,
+    marginLeft: Dimensions.get('window').width/2,
+    backgroundColor: '#5379ae',
   },
   storyContainer: {
     flex: 1,
@@ -268,7 +193,7 @@ var styles = StyleSheet.create({
     flex: 11,
   },
   scrollView: {
-   backgroundColor:'#92A8D1',
+    backgroundColor:'#fffaef',
   },
   thumbnail: {
     flex: 1,
@@ -287,7 +212,7 @@ var styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     fontSize: 20,
-    color: 'black'
+    color: 'white'
   },
   row: {
     flex: 1,
@@ -305,11 +230,6 @@ var styles = StyleSheet.create({
   text:{
     textAlign: 'center',
     color: ' white',
-  },
-  modalButton: {
-    alignSelf: 'center',
-    marginTop: 10,
-    color: 'black'
   },
 })
 

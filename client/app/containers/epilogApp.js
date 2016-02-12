@@ -75,9 +75,9 @@ class EpiLogApp extends Component {
       case "LOGIN":
         return (
           <LogIn
-          successLoggedIn={ () => { 
+          successLoggedIn={ () => {
             tokenActions.checkTokenSuccess();
-            viewControlActions.setView('HOME'); 
+            viewControlActions.setView('HOME');
           }}
           onSignUp={ () => { viewControlActions.setView('SIGNUP') }}
           />);
@@ -108,10 +108,7 @@ class EpiLogApp extends Component {
           <Story
           asset={viewControlState.passedProps.asset}
           onBack={()=>{viewControlActions.setView('LIBRARY')}}
-          fetchComments={commentActions.fetchComments}
-          comments={commentState.fetchedComments}
-          submitComment={commentActions.submitComment}
-          submitStatus={commentState.submitComment}
+          onPress={(moment) => viewControlActions.setView('MOMENT_VIEW', {moment: moment})}
           />);
       case "NEW_STORY":
         return (
@@ -180,4 +177,3 @@ export default connect(state => ({
     updateActions: bindActionCreators(actions.updateActions, dispatch)
   })
 )(EpiLogApp);
-
