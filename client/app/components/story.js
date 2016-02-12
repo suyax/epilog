@@ -200,13 +200,13 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
   },
   headline: {
+     width: 200,
      fontSize: 14,
      fontFamily: 'Futura',
      padding: 10,
      textAlign: 'center',
      borderRadius: 5,
-     backgroundColor: 'rgba(0,0,0,0.2)',
-     color: '#5379ae'
+     color: '#3d3d3d',
    },
   buttonText: {
     fontFamily: "Noteworthy",
@@ -220,9 +220,8 @@ var styles = StyleSheet.create({
   },
   backdrop: {
     paddingTop: 100,
-    height: 180,
-    width: 180,
-    borderRadius: 90,
+    height: 200,
+    width: 200,
     borderColor: 'rgba(255,255,255,0.3)',
     borderWidth: 8,
   },
