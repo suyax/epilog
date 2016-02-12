@@ -130,8 +130,9 @@ var EditMoment = React.createClass({
         })
         .then((response) => response.json())
         .then((responseData) => {
+          console.log('responseData: ', responseData);
           if (responseData) {
-            var storyid = responseData.id;
+            var storyid = responseData.users_stories.storyId;
             var title = storyTitle.split(' ').join('_');
             var caption = momentCaption.split(' ').join('_');
             var userid = responseData.users_stories.userId;
