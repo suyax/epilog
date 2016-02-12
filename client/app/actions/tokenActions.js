@@ -32,6 +32,9 @@ export function checkToken () {
     return ( // return the promise for convenience
       AsyncStorage.getItem('token') // get the authentication token
       .then((value) => {
+        if (value === null || value === undefined){
+          throw new Error ('no token');
+        }
         return (fetch( CHECK_TOKEN_URL, {
           method: 'GET',
           headers: {
