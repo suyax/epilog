@@ -41,7 +41,7 @@ class Capture extends Component {
             Gallery
           </Text>
         </View>
-        <View style={externalStyles.viewBody}>
+        <View style={styles.container}>
           <CameraRollView
             ref={CAMERA_ROLL_VIEW}
             batchSize={20}
@@ -59,12 +59,10 @@ class Capture extends Component {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 10,
     alignItems: 'stretch',
     justifyContent: 'space-between',
     alignSelf: 'stretch',
-    flexDirection: 'row',
-    backgroundColor: '#92A8D1',
   },
   content: {
     flex: 11,

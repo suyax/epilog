@@ -7,10 +7,14 @@ import React, {
   TouchableHighlight,
   TextInput,
   AlertIOS,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Dimensions,
+  DeviceEventEmitter,
 } from 'react-native';
 
+import {SERVER_URL} from '../urls';
 import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
+import externalStyles from '../style/external-styles.js';
 
 var STORAGE_KEY = "token"
 
@@ -27,9 +31,23 @@ class SignUp extends React.Component {
 
     this.state = {
       ...this.fields,
+      visibleHeight: Dimensions.get('window').height
     }
   }
+  componentWillMount () {
+    DeviceEventEmitter.addListener('keyboardWillShow', (e)=>{
+      let newSize = Dimensions.get('window').height - e.endCoordinates.height
+      this.setState({visibleHeight: newSize})
+    });
+    DeviceEventEmitter.addListener('keyboardWillHide', (e)=>{
+      this.setState({visibleHeight: Dimensions.get('window').height})
+    });
+  }
 
+  componentWillUnmount(){
+    DeviceEventEmitter.removeAllListeners('keyboardWillShow');
+    DeviceEventEmitter.removeAllListeners('keyboardWillHide');
+  }
   _submitForm () {
     const { firstname, lastname, email, password } = this.fields
     this.fetchSignUp(firstname, lastname, email, password);
@@ -86,119 +104,113 @@ class SignUp extends React.Component {
   render() {
     const { onLogIn } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.positionBox}>
-        </View>
-        <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-        <View style={styles.positionBox}>
-          <Text style={styles.title}>
-          Sign Up
-          </Text>
-          <TextInput
-            ref='firstname'
-            autoCapitalize={'none'}
-            placeholder={'FIRST NAME'}
-            style={[styles.input, styles.wrapper]}
-            onChangeText={(text) => this.fields.firstname = text}
-            onSubmitEditing={() => {
-              dismissKeyboard()
-              this.refs.lastname.focus()
-            }}
-            />
-
-          <TextInput
-            ref="lastname"
-            autoCapitalize={'none'}
-            placeholder={'LAST NAME'}
-            style={[styles.input, styles.wrapper]}
-            onChangeText={(text) => this.fields.lastname = text}
-            onSubmitEditing={() => {
-              this.refs.email.focus()
-              dismissKeyboard()
-            }}
-            />
-
-          <TextInput
-            ref="email"
-            autoCapitalize={'none'}
-            placeholder={'EMAIL'}
-            style={[styles.input, styles.wrapper]}
-            keyboardType={'email-address'}
-            onChangeText={(text) => this.fields.email = text}
-            onSubmitEditing={() => {
-              this.refs.password.focus()
-              dismissKeyboard()
-            }}
-            />
-
-          <TextInput
-            ref="password"
-            autoCapitalize={'none'}
-            placeholder={'PASSWORD'}
-            maxLength ={20}
-            style={[styles.input, styles.wrapper]}
-            onChangeText={(text) => this.fields.password = text}
-            onSubmitEditing={() => {
-              this._submitForm
-              dismissKeyboard()
-            }}
-            />
-        </View>
-        </TouchableWithoutFeedback>
-        <View style={styles.Container}>
-        <View style={styles.textContainer}>
-          <TouchableHighlight
-          style={styles.button}
-          onPress={this._submitForm.bind(this)}>
-            <Text style={styles.buttonText} >Register
-            </Text>
-          </TouchableHighlight>
-        </View>
-          <Text style={styles.text}>
-          Alreay have an account?
-          </Text>
-          <View style={styles.textContainer}>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={onLogIn}>
-            <View>
-              <Text style={styles.buttonText}>Login</Text>
+      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+        <View style={[externalStyles.viewBody,
+          {height: this.state.visibleHeight, justifyContent: 'flex-end'} ]}>
+          <View style={styles.positionBox}>
+            <Text style={styles.title}>Sign Up</Text>
+            
+            <View style={externalStyles.textContainer}>
+              <TextInput
+                ref='firstname'
+                autoCapitalize={'none'}
+                placeholder={'FIRST NAME'}
+                onChangeText={(text) => this.fields.firstname = text}
+                onSubmitEditing={() => {
+                  dismissKeyboard()
+                  this.refs.lastname.focus()
+                }}
+                style={[externalStyles.textInput, styles.textInput]}
+                placeholderTextColor='#000000'
+                />
             </View>
-          </TouchableHighlight>
+              
+            <View style={externalStyles.textContainer}>
+              <TextInput
+                ref="lastname"
+                autoCapitalize={'none'}
+                placeholder={'LAST NAME'}
+                onChangeText={(text) => this.fields.lastname = text}
+                onSubmitEditing={() => {
+                  this.refs.email.focus()
+                  dismissKeyboard()
+                }}
+                style={[externalStyles.textInput, styles.textInput]}
+                placeholderTextColor='#000000'
+                />
+            </View>
+
+            <View style={externalStyles.textContainer}>
+              <TextInput
+                ref="email"
+                autoCapitalize={'none'}
+                placeholder={'EMAIL'}
+                keyboardType={'email-address'}
+                onChangeText={(text) => this.fields.email = text}
+                onSubmitEditing={() => {
+                  this.refs.password.focus()
+                  dismissKeyboard()
+                }}
+                style={[externalStyles.textInput, styles.textInput]}
+                placeholderTextColor='#000000'
+                />
+            </View>
+
+            <View style={externalStyles.textContainer}>
+              <TextInput
+                ref="password"
+                autoCapitalize={'none'}
+                placeholder={'PASSWORD'}
+                maxLength ={20}
+                style={[styles.input, styles.wrapper]}
+                onChangeText={(text) => this.fields.password = text}
+                onSubmitEditing={() => {
+                  this._submitForm
+                  dismissKeyboard()
+                }}
+                style={[externalStyles.textInput, styles.textInput]}
+                placeholderTextColor='#000000'
+                />
+            </View>
+          </View>
+          <View style={styles.Container}>
+            <View style={[externalStyles.buttonContainer, styles.buttonContainer]}>
+              <TouchableHighlight onPress={this._submitForm.bind(this)}>
+                <Text style={externalStyles.button} >Register</Text>
+              </TouchableHighlight>
+            </View>
+            <View>
+              <Text style={styles.text}>
+                Alreay have an account?
+              </Text>
+            </View>
+            <View style={[externalStyles.buttonContainer, styles.buttonContainer]}>
+              <TouchableHighlight onPress={onLogIn}>
+                <Text style={externalStyles.button}>Login</Text>
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
 
 var styles = StyleSheet.create({
   container: {
-    flex:1,
-    backgroundColor:'#92A8D1',
   },
   positionBox: {
-    flex: 5
   },
-  input: {
-    height: 40,
-    backgroundColor:'white',
-    borderColor: 'gray',
-    borderWidth: 2,
-    textAlign: 'center',
-    margin: 5,
-    color: ' #2C3539'
+  textInput: {
+    color: ' #000000'
   },
   wrapper: {
     borderRadius: 5,
     marginBottom: 5,
   },
-  button: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    height: 40,
-    width: 100,
-    backgroundColor: 'white',
+  buttonContainer: {
+    marginTop: 10,
+    marginBottom: 10,
   },
   textContainer: {
     flex: 1,
