@@ -28,10 +28,20 @@ class Home extends Component {
 
     return (
       <View style={externalStyles.viewBody}>
-        <View style={externalStyles.topBar}>
-          <Text style={externalStyles.viewTitle}>
+        <View style={[externalStyles.topBar]}>
+        <View style={{flex: 1}}>
+        </View>
+          <View style={{flex: 10}}>
+          <Text style={[externalStyles.viewTitle]}>
             Home
           </Text>
+          </View>
+          <View style={[styles.titleRow, {flex:1, alignItems:'flex-end'}]}>
+          <TouchableHighlight
+            onPress={onLogOut}>
+            <View><Text style={styles.buttonText}>Log Out</Text></View>
+          </TouchableHighlight>
+          </View>
         </View>
         <View style={styles.content}>
           <View style={styles.positionBox}>
@@ -45,13 +55,6 @@ class Home extends Component {
               </View>
             </RecyclerViewBackedScrollView>
           </View>
-          <TouchableHighlight
-            style={styles.navBar}
-            onPress={onLogOut}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Log Out</Text>
-            </View>
-          </TouchableHighlight>
         </View>
         <View style={styles.navBar}>
           <NavBar />
@@ -139,7 +142,7 @@ var styles = StyleSheet.create({
   },
   content: {
     flex: 9,
-    padding: 10, 
+    padding: 10,
     justifyContent: 'center',
   },
   navBar: {
@@ -163,8 +166,10 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonText: {
-    textAlign: 'center',
+    fontFamily: "Noteworthy",
+    textAlign: 'left',
     fontSize: 20,
+    color: 'white'
   },
   positionBox: {
     flex: 10
@@ -183,7 +188,12 @@ var styles = StyleSheet.create({
   timeBox: {
     marginLeft: 8,
     marginRight: 8,
-  }
+  },
+  titleRow: {
+    marginTop: 10,
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 
 module.exports = Home;
