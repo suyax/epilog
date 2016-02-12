@@ -16,10 +16,10 @@ module.exports =  {
       })
      .then(function (moments) {
         return moments.sort(function(a, b) {
-          if (a.updatedAt < b.updatedAt) {
+          if (a.updatedAt > b.updatedAt) {
             return 1;
           }
-          if (a.updatedAt > b.updatedAt) {
+          if (a.updatedAt < b.updatedAt) {
             return -1;
           }
           return 0;
