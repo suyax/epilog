@@ -130,7 +130,6 @@ var EditMoment = React.createClass({
         })
         .then((response) => response.json())
         .then((responseData) => {
-          console.log('responseData: ', responseData);
           if (responseData) {
             var storyid = responseData.users_stories.storyId;
             var title = storyTitle.split(' ').join('_');
