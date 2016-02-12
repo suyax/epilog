@@ -203,6 +203,13 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  backdrop: {
+    paddingTop: 100,
+    height: 200,
+    width: 200,
+    borderColor: 'rgba(255,255,255,0.3)',
+    borderWidth: 8,
+  },
 });
 
 module.exports = Home;
