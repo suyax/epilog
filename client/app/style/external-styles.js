@@ -22,10 +22,10 @@ const externalStyles = StyleSheet.create({
     flexWrap: 'wrap'
   },
   dateText: {
-    fontSize: 12,
+    fontSize: 16,
     fontFamily: 'Futura',
     color: '#5379ae',
-    textAlign: 'justify',
+    // textAlign: 'justify',
   },
   storyTitle: {
     marginLeft: 10,
@@ -42,11 +42,14 @@ const externalStyles = StyleSheet.create({
     height: 150,
   },
   roundThumbnail: {
-    marginTop: 40,
+    // marginTop: 40,
     alignSelf: 'center',
-    width: 155,
-    height: 155,
-    borderRadius: 80
+    // width: 155,
+    // height: 155,
+    // borderRadius: 80
+    width: width*3/10,
+    height: width*3/10,
+    borderRadius: width*3/20
   },
   topBar: {
     flex: 1,
@@ -74,7 +77,8 @@ const externalStyles = StyleSheet.create({
   },
   horizontalLine: {
     height: 1,
-    width: 115,
+    // width: 115,
+    flex: 1,
     marginLeft: 9,
     marginTop: 2,
     marginBottom: 2,
