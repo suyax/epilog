@@ -89,7 +89,7 @@ class Home extends Component {
           <TouchableHighlight onPress={()=>{this.props.onPress(update)}}>
             <Image
               source={{uri: update.url}}
-              style={externalStyles.rectangleThumbnail}>
+              style={styles.backdrop}>
             </Image>
             </TouchableHighlight>
             <View style={styles.textBox}>
@@ -98,7 +98,7 @@ class Home extends Component {
               </Text>
             </View>
         </View>
-        <View style={externalStyles.timeLine}>
+        <View style={styles.timeLine}>
         </View>
       </View>
     );
@@ -106,6 +106,15 @@ class Home extends Component {
 }
 
 var styles = StyleSheet.create({
+  timeLine: {
+    flex: 1,
+    width: 2,
+    height: 100,
+    marginTop: 5,
+    marginBottom: 5,
+    marginLeft: Dimensions.get('window').width/10,
+    backgroundColor: '#5379ae',
+  },
   storyContainer: {
     padding: 2,
     margin: 2,
@@ -183,7 +192,7 @@ var styles = StyleSheet.create({
   },
   textBox: {
     flexDirection: 'column',
-    width: 100,
+    width: 120,
   },
   timeBox: {
     marginLeft: 8,
@@ -193,6 +202,13 @@ var styles = StyleSheet.create({
     marginTop: 10,
     flex: 1,
     justifyContent: 'center',
+  },
+  backdrop: {
+    paddingTop: 100,
+    height: 200,
+    width: 200,
+    borderColor: 'rgba(255,255,255,0.3)',
+    borderWidth: 8,
   },
 });
 

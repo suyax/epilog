@@ -89,7 +89,7 @@ class Library extends Component {
             </Text>
           </View>
         </View>
-        <View style={externalStyles.timeLine}>
+        <View style={[externalStyles.timeLine, {height:50}]}>
         </View>
       </View>
     );
@@ -103,7 +103,6 @@ var styles = StyleSheet.create({
     marginLeft: 40,
     alignSelf:'stretch',
     width:2,
-    // height: 100,
   },
   timeBox: {
     flex: 1,

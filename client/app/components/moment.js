@@ -140,8 +140,7 @@ class Moment extends Component{
                    .then(()=>this.setState({newComment:""}));
                  }}>
                    <Image
-                     style={{backgroundColor: 'white'}}
-                     source={require('../image/Submit.gif')}/>
+                     source={require('../image/gray-camera-icon.png')}/>
                </TouchableHighlight>
               </View>
             </View>
