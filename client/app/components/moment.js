@@ -77,7 +77,8 @@ class Moment extends Component{
             return(
               <View key={comment.id}>
                 <Text style={{fontWeight: 'bold', fontFamily: 'Futura'}}>{comment.user.firstName} {comment.user.lastName}: <Text style={{fontWeight: 'normal', fontFamily: 'Futura'}}>{comment.text}</Text> </Text>
-                <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12, fontFamily: 'Futura'}}>{moment(comment.createdAt).fromNow()}</Text>
+                <Text style={{fontWeight: 'normal', color: 'gray', fontStyle: 'italic', fontSize: 12, fontFamily: 'Futura'}}>{
+                  moment(+comment.createdAt).fromNow()}</Text>
                 <Text></Text>
               </View>
               )
@@ -140,7 +141,7 @@ class Moment extends Component{
                    .then(()=>this.setState({newComment:""}));
                  }}>
                    <Image
-                     source={require('../image/gray-camera-icon.png')}/>
+                     source={require('../image/Submit.gif')}/>
                </TouchableHighlight>
               </View>
             </View>

@@ -13,8 +13,7 @@ var {
   TouchableHighlight,
   NativeModules,
   AsyncStorage,
-  TouchableWithoutFeedback,
-  DeviceEventEmitter,
+  TouchableWithoutFeedback
 } = React;
 
 import AutoCompleteHelper from './autoComplete';
@@ -34,25 +33,8 @@ var EditMoment = React.createClass({
         //all tags associated with a particular story
         arrayOfStoryTags: [],
         //flag that determines if story is new or not
-        isNewStory: false,
-        // for resizing view when keyboard shows up
-        visibleHeight: Dimensions.get('window').height
+        isNewStory: false
       };
-  },
-
-  componentWillMount: function () {
-    DeviceEventEmitter.addListener('keyboardWillShow', (e)=>{
-      let newSize = Dimensions.get('window').height - e.endCoordinates.height
-      this.setState({visibleHeight: newSize})
-    });
-    DeviceEventEmitter.addListener('keyboardWillHide', (e)=>{
-      this.setState({visibleHeight: Dimensions.get('window').height})
-    });
-  },
-
-  componentWillUnmount: function(){
-    DeviceEventEmitter.removeAllListeners('keyboardWillShow');
-    DeviceEventEmitter.removeAllListeners('keyboardWillHide');
   },
 
   //upon initialization, grabs all stories associated with a particular user, assuming the user has a valid token
@@ -136,9 +118,8 @@ var EditMoment = React.createClass({
     var storyTitle = this.state.currentStory;
     var momentCaption = textInputs.caption;
     var checkStoryURL = SERVER_URL + '/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
-    var momentTags = textInputs.momentTags ? textInputs.momentTags.split(', ') : ''; // TODO this is not ideal
+    var momentTags = textInputs.momentTags.split(', ');
     asset.storyTitle = storyTitle;
-    asset.momentTags = momentTags;
 
     return AsyncStorage.getItem('token')
       .then((result) => {
@@ -155,8 +136,8 @@ var EditMoment = React.createClass({
         .then((responseData) => {
           if (responseData) {
             var storyid = responseData.users_stories.storyId;
-            var title = storyTitle.split(' ').join('&*&');
-            var caption = momentCaption.split(' ').join('&*&');
+            var title = storyTitle.split(' ').join('_');
+            var caption = momentCaption.split(' ').join('_');
             var userid = responseData.users_stories.userId;
 
             AsyncStorage.getItem('token')
@@ -173,6 +154,7 @@ var EditMoment = React.createClass({
                 };
               })
               .then((result) => {
+                console.log(result);
                 NativeModules.FileTransfer.upload(result, (err, res) => {
                   if (err) {
                   } else {
@@ -193,6 +175,7 @@ var EditMoment = React.createClass({
             return 'HOME';
           } else {
             asset.node.caption = momentCaption;
+            console.log('Asset passed to NEW_STORY: ', asset);
 
             return 'NEW_STORY';
           }
@@ -215,58 +198,60 @@ var EditMoment = React.createClass({
     var image = asset.node.image;
     var newStoryAlert;
     if(this.state.isNewStory){
-      newStoryAlert = <Text style={styles.newStoryAlert}>* This will be a brand new story!</Text>
+      newStoryAlert = <Text style={styles.newStoryAlert}>Awesome! You're creating a new story!</Text>
     }
     return (
-      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
-        <View style={[externalStyles.viewBody,{height: this.state.visibleHeight}]}>
-          <View style={externalStyles.topBar}>
-            <Text style={externalStyles.viewTitle}>
-              Add a Moment
-            </Text>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image source={image} style={styles.imageWide}/>
-          </View>
-          <View>{newStoryAlert}</View>
-          <AutoCompleteHelper
-            placeholder="Story Title"
-            data={this.state.arrayOfStoryTitles}
-            onBlur={this.getStoryTags}
-          />
-          <View style={externalStyles.textContainer}>
-              <TextInput
-                style={externalStyles.textInput}
-                placeholder={'Create a Caption'}
-                onChangeText={(text)=>textFields.caption = text}
-                onSubmitEditing={() => dismissKeyboard()}
-              />
-          </View>
-          <View style={externalStyles.textContainer}>
-              <TextInput
-                style={externalStyles.textInput}
-                placeholder={'Tag your moment'}
-                onChangeText={(text)=>textFields.momentTags = text}
-                onSubmitEditing={() => dismissKeyboard()}
-              />
-          </View>
-          <View style={externalStyles.buttonContainer}>
-            <TouchableHighlight onPress={onCancel}>
-              <View><Text style={externalStyles.button}>Cancel</Text></View>
-            </TouchableHighlight>
-            <TouchableHighlight key={asset} onPress={() => {
-                if (this.state.currentStory && textFields.caption) {
-                  this.submitMoment(textFields, asset)
-                    .then((result) => {
-                      onSubmit(result, asset);
-                    });
-                }
-            }}>
-              <View><Text style={externalStyles.button}>Submit</Text></View>
-            </TouchableHighlight>
-          </View>
+      <View style={externalStyles.viewBody}>
+        <View style={externalStyles.topBar}>
+          <Text style={externalStyles.viewTitle}>
+            Edit Moment
+          </Text>
         </View>
-      </TouchableWithoutFeedback>
+        <View style={styles.imageContainer}>
+          <Image source={image} style={styles.imageWide}/>
+        </View>
+        <View>{newStoryAlert}</View>
+        <AutoCompleteHelper
+          placeholder="Story Title"
+          data={this.state.arrayOfStoryTitles}
+          onBlur={this.getStoryTags}
+        />
+        <View style={externalStyles.textContainer}>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+            <TextInput
+              style={externalStyles.textInput}
+              placeholder={'Create a Caption'}
+              onChangeText={(text)=>textFields.caption = text}
+              onSubmitEditing={() => dismissKeyboard()}
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={externalStyles.textContainer}>
+          <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+            <TextInput
+              style={externalStyles.textInput}
+              placeholder={'Tag your moment'}
+              onChangeText={(text)=>textFields.momentTags = text}
+              onSubmitEditing={() => dismissKeyboard()}
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={externalStyles.buttonContainer}>
+          <TouchableHighlight onPress={onCancel}>
+            <View><Text style={externalStyles.button}>Cancel</Text></View>
+          </TouchableHighlight>
+          <TouchableHighlight key={asset} onPress={() => {
+              if (this.state.currentStory && textFields.caption) {
+                this.submitMoment(textFields, asset)
+                  .then((result) => {
+                    onSubmit(result, asset);
+                  });
+              }
+          }}>
+            <View><Text style={externalStyles.button}>Submit</Text></View>
+          </TouchableHighlight>
+        </View>
+      </View>
     );
   }
 });
@@ -304,11 +289,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 7,
     marginTop: 15
-  },
-  newStoryAlert: {
-    color: '#5379ae',
-    alignSelf: 'center',
-  },
+  }
 });
 
 module.exports = EditMoment;

@@ -17,7 +17,6 @@ var {
   DeviceEventEmitter,
 } = React;
 
-import dismissKeyboard from 'react-native/Libraries/Utilities/dismissKeyboard'
 import {SERVER_URL} from '../urls';
 import NavBar from './navBar';
 import externalStyles from '../style/external-styles.js';
@@ -27,23 +26,7 @@ class NewStory extends Component {
   constructor(props){
     super(props);
     this.state = {
-      visibleHeight: Dimensions.get('window').height
     }
-  }
-
-  componentWillMount () {
-    DeviceEventEmitter.addListener('keyboardWillShow', (e)=>{
-      let newSize = Dimensions.get('window').height - e.endCoordinates.height
-      this.setState({visibleHeight: newSize})
-    });
-    DeviceEventEmitter.addListener('keyboardWillHide', (e)=>{
-      this.setState({visibleHeight: Dimensions.get('window').height})
-    });
-  }
-
-  componentWillUnmount(){
-    DeviceEventEmitter.removeAllListeners('keyboardWillShow');
-    DeviceEventEmitter.removeAllListeners('keyboardWillHide');
   }
 
   submitNewStory(textInputs, asset) {
@@ -159,7 +142,7 @@ class NewStory extends Component {
     };
 
     return (
-      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
+      <View>
         <View style={[externalStyles.viewBody]}>
           <View style={externalStyles.topBar}>
             <Text style={externalStyles.viewTitle}>
@@ -176,18 +159,17 @@ class NewStory extends Component {
             />
           </View>
           <View style={externalStyles.textContainer}>
-            <TextInput 
-              style={externalStyles.textInput} 
+            <TextInput
+              style={externalStyles.textInput}
               placeholder='Story Description'
-              onChangeText={(text)=>textInputs.newStoryDescription = text} 
+              onChangeText={(text)=>textInputs.newStoryDescription = text}
             />
           </View>
           <View style={externalStyles.textContainer}>
-            <TextInput 
-              style={externalStyles.textInput} 
+            <TextInput
+              style={externalStyles.textInput}
               placeholder='Add friends to your story'
               onChangeText={(text)=>textInputs.newStoryCharacters = text}
-              onSubmitEditing={() => {dismissKeyboard()}} 
             />
           </View>
           <View style={externalStyles.buttonContainer}>
@@ -211,7 +193,7 @@ class NewStory extends Component {
             </TouchableHighlight>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </View>
     );
   }
 };
