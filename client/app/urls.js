@@ -1,7 +1,7 @@
 // export const SERVER_URL = 'http://localhost:3000';
 
 // digital ocean
-/* (add a '/' at the begining of this line to toggele SERVER_URL)
+//* (add a '/' at the begining of this line to toggele SERVER_URL)
 // Local Server
 export const SERVER_URL = "http://localhost:3000"
 /*/// Docker Server
