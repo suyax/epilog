@@ -21,22 +21,22 @@
 ## Usage
 
 ### Signing up
-> -Press the Sign Up button
-> -Enter your first name, last name, email, and password
-> -Press the Register button
+- __Press the Sign Up button__
+- __Enter your first name, last name, email, and password__
+- __Press the Register button__
 
 ### Capturing a Moment
 > Our application allows you to capture precious moments as they happen. 
- -Press the Camera icon
- -Take a picture with the Capture button
- -Press the Gallery button to go to your camera roll
- -Press any picture in your camera roll
- -Enter a title for the story your moment belongs to -- Required
- -Caption your moment -- Required
- -Tag your moment to make it easier to search for in the future -- Required
- -Press the Submit button
-   -If you added a moment to an existing story, you’re taken to the Home page
-   -If you’re adding a moment to a new story, you’re taken to the New Story page
+- __Press the Camera icon__
+- __Take a picture with the Capture button__
+- __Press the Gallery button to go to your camera roll__
+- __Press any picture in your camera roll__
+- __Enter a title for the story your moment belongs to -- Required__
+- __Caption your moment -- Required__
+- __Tag your moment to make it easier to search for in the future -- Required__
+- __Press the Submit button__
+  - __If you added a moment to an existing story, you’re taken to the Home page__
+  - __If you’re adding a moment to a new story, you’re taken to the New Story page__
 
 ### Creating a New Story
 > The New Story page allows you to add to your narrative!
