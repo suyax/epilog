@@ -3,20 +3,22 @@ var request = require('request');
 
 
 module.exports = function(app) {
-
-  app.get('/', function (req, res) {
-
-  });
-
   ////////////////////////////////////USERS//////////////////////////////////////////
 
-  //CLIENT SIDE ROUTES THAT WILL AFFECT/MAKE USE OF USER TABLE...
-
   //sign up
-    //add user info to database (including password and name etc.)
+    //add user info to database
+    // Inputs in JSON body:
+      // email: new user's email also will be used as their identifier
+      // password: new user's password
+      // firstname: new user's first name
+      // lastname: new user's last name
+    // Output in a JSON object:
+      // id: user's new id number
+    // Error:
+      // HTTP status 400
   app.post('/api/users', controller.auth.createUser);
 
-  //invited page
+  //TODO: invited page
     //verify if identifer exists in db
       //if so ask for remaining user info and create a session
       //if not, direct to sign up page
@@ -24,11 +26,22 @@ module.exports = function(app) {
   // get a token for the given user
     // this is a post request because we don't put username and
     // password in a url query
+    // Inputs in JSON body:
+      // email: new user's email also will be used as their identifier
+      // password: new user's password
+    // Output in JSON body:
+      // token: user's token
+    // Error:
+      // HTTP status 401
   app.post('/api/users/token', controller.auth.authenticateUser);
 
   // checks a token's validity
-    // input token on the request header
-    // output success or failure response depending on whether or not the token is valid
+    // Input in request header:
+      // token: the user token that needs to be validated
+    // Output:
+      // HTTP Status 200 success
+    // Error:
+      // HTTP Status 401 unauthorized 
   app.get('/api/users/token', controller.auth.authenticateToken, function (req,res) {
     // the token was successfully authenticated.
     res.end()
@@ -42,18 +55,19 @@ module.exports = function(app) {
   app.get('/api/users', controller.users.find);
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
-  //check if story is already associated to user (COMPLETED V1/CHECKED)
-  //create a new moment (COMPLETED V1/CHECKED --> excluding functionality to add moment to multiple stories)
-    //need to be able to add a comment, tag, AND potentially add a new user to a story??
 
   //add new or existing user to story
-    //get all story for a existing users (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
+    // Input in JSON body:
+      // title: new story's title
+      // description: description of new story
+      // existingUsersToInclude: 
+    // Output ???
   app.post('/api/stories', controller.stories.add);
 
 
   //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for the story as well as tags/comments for that story
-  app.get('/api/stories/:storyId', controller.stories.getOne);
+  // app.get('/api/stories/:storyId', controller.stories.getOne);
   // don't use check, use getOne above
   // app.post('/api/stories/check', controller.stories.check);
 
@@ -64,7 +78,7 @@ module.exports = function(app) {
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
   //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
-  //TODO: this need to handle filter parameters in URL query string
+  // Input: 
   app.get('/api/stories', controller.stories.getAll);
 
 
@@ -74,22 +88,24 @@ module.exports = function(app) {
 
   //get all moments (probably don't need this going forward...)
   // inputs: storyid as input parameter
-  app.get('/api/moments', controller.moments.getAll);
+  // app.get('/api/moments', controller.moments.getAll);
 
   //get one moment
-  app.get('/api/moments/:momentId', controller.moments.getOne);
+  // app.get('/api/moments/:momentId', controller.moments.getOne);
 
   ////////////////////////////////////TAGS//////////////////////////////////////////////
 
-  // TODO: momentId should be a paramater in the post, since this is a post
+  // TODO: turn momentId into a paramater in the post
+  // adding tags to a moment
   app.post('/api/tags/:momentId', controller.tags.add);
 
-  // TODO storyid should be a url query parameter
+  // TODO: turn storyid into url query parameter
+  // getting tags to a story
   app.get('/api/tags/:storyId', controller.tags.getAllByStory);
 
   ///////////////////////////////////COMMENTS///////////////////////////////////////////
 
-  app.get('/api/comments/:commentId', controller.comments.getOne);
+  // app.get('/api/comments/:commentId', controller.comments.getOne);
 
   // get all of the comments by moment or by user
   // input: momentId or userId in url query
@@ -103,7 +119,8 @@ module.exports = function(app) {
 
   ///////////////////////////////////UPDATES///////////////////////////////////////////
 
-  //get the bathSize number of latest update
+  //get the bacthSize number of latest update
+  // batchSize is a url query parameter that limits the number of updates returned
   app.get('/api/updates', controller.updates.getRecent);
 
 };
