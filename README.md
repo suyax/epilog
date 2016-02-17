@@ -42,9 +42,7 @@ Our application allows you to capture precious moments as they happen.
 - __The New Story page allows you to add to your narrative!__
 - __Enter a description for your new story -- Required__
 - __Add friends to your story__
-  - __If you have friends that use Momento, you can add them to your story by typing their__
-  - __emails in a list separated by commas and spaces __
-  - __(“friend@friend.com, anotherfriend@friend.com” or just “friend@friend.com”)__
+  - __If you have friends that use Momento, you can add them to your story by typing their emails in a list separated by commas and spaces (“friend@friend.com, anotherfriend@friend.com” or just “friend@friend.com”)__
 
 ### Commenting on Moments
 Momento allows you to leave comments on any moment you’ve captured. These comments can be viewed by anyone who’s in the story with you.
@@ -100,17 +98,17 @@ grunt seedDb
 ```
 
 For photo uploading functionality:
-1. Open RCTFileTransfer.m in /client/app/nativeModules/RCTFileTransfer
-2. Copy the contents to the clipboard
-3. Open XCode and open the client project file
-4. Go to the file structure view on the left side
-5. Navigate to Libraries/React.xcodeproj/React
-6. Right-click the Base directory
-7. Click New File, make it type iOS Source
-8. Choose Objective-C File, then click Next
-9. Name the new file RCTFileTransfer, then click Next
-10. Click Create
-11. Paste the contents of RCTFileTransfer.m from the nativeModules into the new file
+- __Open RCTFileTransfer.m in /client/app/nativeModules/RCTFileTransfer__
+- __Copy the contents to the clipboard__
+- __Open XCode and open the client project file__
+- __Go to the file structure view on the left side__
+- __Navigate to Libraries/React.xcodeproj/React__
+- __Right-click the Base directory__
+- __Click New File, make it type iOS Source__
+- __Choose Objective-C File, then click Next__
+- __Name the new file RCTFileTransfer, then click Next__
+  - __Click Create__
+  - __Paste the contents of RCTFileTransfer.m from the nativeModules into the new file__
 
 
 ## Contributing
