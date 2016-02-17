@@ -27,16 +27,16 @@
 
 ### Capturing a Moment
 > Our application allows you to capture precious moments as they happen. 
-> -Press the Camera icon
-> -Take a picture with the Capture button
-> -Press the Gallery button to go to your camera roll
-> -Press any picture in your camera roll
-> -Enter a title for the story your moment belongs to -- Required
-> -Caption your moment -- Required
-> -Tag your moment to make it easier to search for in the future -- Required
-> -Press the Submit button
->   -If you added a moment to an existing story, you’re taken to the Home page
->   -If you’re adding a moment to a new story, you’re taken to the New Story page
+ -Press the Camera icon
+ -Take a picture with the Capture button
+ -Press the Gallery button to go to your camera roll
+ -Press any picture in your camera roll
+ -Enter a title for the story your moment belongs to -- Required
+ -Caption your moment -- Required
+ -Tag your moment to make it easier to search for in the future -- Required
+ -Press the Submit button
+   -If you added a moment to an existing story, you’re taken to the Home page
+   -If you’re adding a moment to a new story, you’re taken to the New Story page
 
 ### Creating a New Story
 > The New Story page allows you to add to your narrative!
