@@ -26,7 +26,7 @@
 - __Press the Register button__
 
 ### Capturing a Moment
-> Our application allows you to capture precious moments as they happen. 
+Our application allows you to capture precious moments as they happen. 
 - __Press the Camera icon__
 - __Take a picture with the Capture button__
 - __Press the Gallery button to go to your camera roll__
@@ -39,26 +39,26 @@
   - __If you’re adding a moment to a new story, you’re taken to the New Story page__
 
 ### Creating a New Story
-> The New Story page allows you to add to your narrative!
-> -Enter a description for your new story -- Required
-> -Add friends to your story
->   -If you have friends that use Momento, you can add them to your story by typing their
->   emails in a list separated by commas and spaces 
->   (“friend@friend.com, anotherfriend@friend.com” or just “friend@friend.com”)
+- __The New Story page allows you to add to your narrative!__
+- __Enter a description for your new story -- Required__
+- __Add friends to your story__
+  - __If you have friends that use Momento, you can add them to your story by typing their__
+  - __emails in a list separated by commas and spaces __
+  - __(“friend@friend.com, anotherfriend@friend.com” or just “friend@friend.com”)__
 
 ### Commenting on Moments
-> Momento allows you to leave comments on any moment you’ve captured. These comments can be viewed by anyone who’s in the story with you.
-> -From the Home view, press any picture
-> -Type a comment at the bottom of the view
-> -Press the submit button
-> -Press the Back button to return to your Home view
+Momento allows you to leave comments on any moment you’ve captured. These comments can be viewed by anyone who’s in the story with you.
+- __From the Home view, press any picture__
+- __Type a comment at the bottom of the view__
+- __Press the submit button__
+- __Press the Back button to return to your Home view__
 
 ### Reliving your Memories
-> Each story you’ve created as well as all the moments that belong to them are available in the Library View. 
-> -Press the Library button on the bottom nav bar
-> -Press any story you want to look through
-> -You can type a tag in the top search bar to view specific moments
-> -You can also press a moment to comment on it
+Each story you’ve created as well as all the moments that belong to them are available in the Library View. 
+- __Press the Library button on the bottom nav bar__
+- __Press any story you want to look through__
+- __You can type a tag in the top search bar to view specific moments__
+- __You can also press a moment to comment on it__
 
 
 ## Requirements
