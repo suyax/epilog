@@ -136,8 +136,8 @@ var EditMoment = React.createClass({
         .then((responseData) => {
           if (responseData) {
             var storyid = responseData.users_stories.storyId;
-            var title = storyTitle.split(' ').join('_');
-            var caption = momentCaption.split(' ').join('_');
+            var title = storyTitle.split(' ').join('&*&');
+            var caption = momentCaption.split(' ').join('&*&');
             var userid = responseData.users_stories.userId;
 
             AsyncStorage.getItem('token')
