@@ -111,10 +111,10 @@ For photo uploading functionality:
   - __Paste the contents of RCTFileTransfer.m from the nativeModules into the new file__
 
 For autocomplete functionality: 
-- __Once you have installed react-native-autocomplete into /client, open XCode
+- __Once you have installed react-native-autocomplete into /client, open XCode__
 - __Go to the file structure view on the left side__
-- __Right click on Libraries, select Add files to "..." and select node_modules/react-native-autocomplete/RCTAutoComplete.xcodeproj
-- __Select your project and under Build Phases -> Link Binary With Libraries, press the + and select libRCTAutoComplete.a
+- __Right click on Libraries, select Add files to "..." and select node_modules/react-native-autocomplete/RCTAutoComplete.xcodeproj__
+- __Select your project and under Build Phases -> Link Binary With Libraries, press the + and select libRCTAutoComplete.a__
 
 
 ## Contributing
