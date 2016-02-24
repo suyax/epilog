@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
+  "engines": {
+    "node": "5.4.1"
+  },
   "dependencies": {
     "moment": "^2.11.2",
     "react-native": "^0.18.1",
