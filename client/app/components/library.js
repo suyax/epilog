@@ -32,6 +32,7 @@ class Library extends Component {
           <View style = {styles.listView}>
             {stories.data.map(
               (story) => {
+                debugger;
                 return this.renderStory(story);
               })
             }
