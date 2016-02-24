@@ -118,7 +118,7 @@ var EditMoment = React.createClass({
     var storyTitle = this.state.currentStory;
     var momentCaption = textInputs.caption;
     var checkStoryURL = SERVER_URL + '/api/stories?storyTitle=' + storyTitle.split(' ').join('%20');
-    var momentTags = textInputs.momentTags.split(', ');
+    var momentTags = textInputs.momentTags ? textInputs.momentTags.split(', ') : [];
     asset.storyTitle = storyTitle;
 
     return AsyncStorage.getItem('token')
