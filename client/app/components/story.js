@@ -14,6 +14,7 @@ import React, {
   Modal,
 } from 'react-native';
 
+import Moment from 'moment';
 import externalStyles from '../style/external-styles.js';
 import NavBar from './navBar';
 import AutoCompleteHelper from './autoComplete';
@@ -22,7 +23,6 @@ class Story extends Component {
   constructor(props) {
     super(props);
   }
-
   //upon initialization...
   componentWillMount() {
     const {fetchComments, moment, comments, submitStatus} = this.props;
@@ -145,7 +145,7 @@ class Story extends Component {
           <View>
             <Text style={styles.headline}>{moment.caption}</Text>
             <View style={{alignSelf: 'center'}}>
-            <Text style={styles.dateText}>{moment.createdAt.slice(0,10)}
+            <Text style={styles.dateText}>{Moment(parseInt(moment.createdAt)).fromNow()}
             </Text>
             </View>
           </View>

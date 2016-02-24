@@ -18,7 +18,6 @@ class Home extends Component {
   componentDidMount() {
     this.props.onLoad();
   }
-
   render() {
     const { updates, onLogOut, onPress, onCamera} = this.props;
 
@@ -62,7 +61,10 @@ class Home extends Component {
       </View>
     );
   }
-
+  formatedTime (update) {
+    var formated = moment(parseInt(update.updatedAt)).fromNow();
+    return formated.slice(0, formated.length - 3)+'\n'+ formated.slice(formated.length - 3, formated.length)
+  }
   renderLoadingView() {
     return (
       <View style={styles.container}>
@@ -78,12 +80,13 @@ class Home extends Component {
     );
   }
 
+
   renderRecentMoment(update) {
     return (
       <View key={update.id} style={styles.container}>
         <View style={styles.storyContainer}>
             <View style={styles.timeBox}>
-              <Text style={styles.text}>{moment(parseInt(update.updatedAt)).fromNow()}
+              <Text style={styles.text}>{this.formatedTime(update)}
               </Text>
             </View>
           <TouchableHighlight onPress={()=>{this.props.onPress(update)}}>
