@@ -61,7 +61,7 @@ class Home extends Component {
       </View>
     );
   }
-  formatedTime (update) {
+  formattedTime (update) {
     var formated = moment(parseInt(update.updatedAt)).fromNow();
     return formated.slice(0, formated.length - 3)+'\n'+ formated.slice(formated.length - 3, formated.length)
   }
@@ -86,7 +86,7 @@ class Home extends Component {
       <View key={update.id} style={styles.container}>
         <View style={styles.storyContainer}>
             <View style={styles.timeBox}>
-              <Text style={styles.text}>{this.formatedTime(update)}
+              <Text style={styles.text}>{this.formattedTime(update)}
               </Text>
             </View>
           <TouchableHighlight onPress={()=>{this.props.onPress(update)}}>
