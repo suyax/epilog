@@ -74,7 +74,7 @@ class Library extends Component {
             onShowUnderlay={this.onHighlight}
             onHideUnderlay={this.onUnhighlight}>
             <Image
-              source={{uri: story.moments[0].url}}
+              source={{uri: story.moments[0] ? story.moments[0].url : undefined}}
               style={externalStyles.roundThumbnail}
             >
             </Image>
