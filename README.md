@@ -145,7 +145,12 @@ For autocomplete functionality:
 - __Select your project and under Build Phases -> Link Binary With Libraries, press the + and select libRCTAutoComplete.a__
 
 ### API Endpoints
-![alt tag](https://github.com/suyax/momento/blob/master/API%20endpoint/Slide1.png)
+![alt tag](API%20endpoint/Slide1.png)
+![alt tag](API%20endpoint/Slide2.png)
+![alt tag](API%20endpoint/Slide3.png)
+![alt tag](API%20endpoint/Slide4.png)
+![alt tag](API%20endpoint/Slide5.png)
+![alt tag](API%20endpoint/Slide6.png)
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
