@@ -144,6 +144,14 @@ For autocomplete functionality:
 - __Right click on Libraries, select Add files to "..." and select node_modules/react-native-autocomplete/RCTAutoComplete.xcodeproj__
 - __Select your project and under Build Phases -> Link Binary With Libraries, press the + and select libRCTAutoComplete.a__
 
+For camera functionality:
+
+- __`npm install react-native-camera@https://github.com/lwansbrough/react-native-camera.git --save`__
+- __In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`__
+- __Go to `node_modules` ➜ `react-native-camera` and add `RCTCamera.xcodeproj`__
+- __In XCode, in the project navigator, select your project. Add libRCTCamera.a to your project's Build Phases ➜ Link Binary With Libraries__
+- Click RCTCamera.xcodeproj in the project navigator and go the Build Settings tab. Make sure 'All' is toggled on (instead of 'Basic'). In the Search Paths section, look for Header Search Paths and make sure it contains both $(SRCROOT)/../../react-native/React and $(SRCROOT)/../../../React - mark both as recursive.__
+
 ### API Endpoints
 ![alt tag](API%20endpoint/Slide1.png)
 ![alt tag](API%20endpoint/Slide2.png)
