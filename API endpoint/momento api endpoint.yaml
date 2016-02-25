@@ -1,5 +1,3 @@
-# this is an example of the Uber API
-# as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
   title: Momento API
@@ -20,7 +18,7 @@ paths:
   /users:
     post:
       summary: Create User
-      description: 
+      description:
         The user endpoint used by sign up page: add user info to database (including password and name etc.)
       tags:
         - users
@@ -56,8 +54,8 @@ paths:
             $ref: '#/definitions/Error'
     get:
       summary: add existing user to a story
-      description: 
-        specify a group of users by their emails and add them to one story 
+      description:
+        specify a group of users by their emails and add them to one story
       tags:
         - users
       parameters:
@@ -121,7 +119,7 @@ paths:
           type: string
       responses:
         200:
-          description: Authorized 
+          description: Authorized
           schema:
             $ref: '#/definitions/Token'
         401:
@@ -192,7 +190,7 @@ paths:
   /moments:
     post:
       summary: Post new moment
-      description: Post new moment to database  
+      description: Post new moment to database
       parameters:
         - name: token
           in: header
@@ -221,7 +219,7 @@ paths:
           type: string
         - name: mimeType
           in: query
-          description: image 
+          description: image
           required: true
           type: string
       tags:
@@ -242,7 +240,7 @@ paths:
   /tags/{momentId}:
     post:
       summary: Add tags for a specific moment
-      description: Given a moment id , add tags to a moment
+      description: Given a moment id ,add tags to a moment
       tags:
         - tags
       parameters:
@@ -277,7 +275,7 @@ paths:
       tags:
         - tags
       parameters:
-        - name: 
+        - name:
           in: query
           description: Story id
           required: true
@@ -357,8 +355,8 @@ paths:
   /updates:
     get:
       summary: get latest updated moment
-      description: 
-        get latest updated moment by updatedAt 
+      description:
+        get latest updated moment by updatedAt
       tags:
         - updates
       parameters:
@@ -381,7 +379,6 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/Error'
-  
 definitions:
   User:
     type: object
@@ -419,7 +416,6 @@ definitions:
       users:
         type: array
         description: all users belong to this story
-        
   Moment:
     type: object
     properties:
@@ -456,7 +452,7 @@ definitions:
       text:
         type: string
         description: text content of the comment
-      createdAt: 
+      createdAt:
         type: string
         description: created at this time since epoc UTC
       updatedAt:
@@ -465,7 +461,7 @@ definitions:
   Update:
     type: object
     properties:
-      id: 
+      id:
         type: integer
         description: Unique identifier for each moment
       updatedAt:
