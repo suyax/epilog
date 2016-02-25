@@ -5,11 +5,8 @@ import React, {
   Text,
   View,
   TouchableHighlight,
-  TextInput,
-  AlertIOS,
 } from 'react-native';
 
-import NavBar from './navBar';
 import externalStyles from '../style/external-styles.js';
 var STORAGE_KEY = 'token';
 
@@ -44,25 +41,31 @@ class LogOut extends React.Component {
         <View style={styles.positionBox}>
         </View>
         <View style={styles.positionBox}>
-          <Text style={styles.text}>
-          Are you sure you want to log out?
-          </Text>
+          <View style={styles.positionBox}>
+            <Text style={styles.text}>
+            Are you sure you want to log out?
+            </Text>
+          </View>
           <View style={externalStyles.buttonContainer}>
-          <TouchableHighlight
-          onPress={this.destoryToken.bind(this)}>
-          <View>
-            <Text style={externalStyles.button}>LogOut</Text>
+              <TouchableHighlight
+              onPress={this.destoryToken.bind(this)}>
+                <View>
+                  <Text style={externalStyles.button}>LogOut</Text>
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight
+              onPress={this.goHome.bind(this)}>
+                <View>
+                  <Text style={[externalStyles.button, styles.positionBox]}>Stay</Text>
+                </View>
+              </TouchableHighlight>
           </View>
-          </TouchableHighlight>
-          <TouchableHighlight
-          onPress={this.goHome.bind(this)}>
-          <View>
-            <Text style={externalStyles.button}>Stay</Text>
-          </View>
-          </TouchableHighlight>
-          </View>
+        <View style={styles.positionBox}>
         </View>
       </View>
+      <View style={styles.positionBox}>
+      </View>
+    </View>
     );
   }
 }
