@@ -15,6 +15,7 @@
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
+    1. [API api Endpoints](#api)
 1. [Team](#team)
 1. [Contributing](#contributing)
 
@@ -26,7 +27,7 @@
 - __Press the Register button__
 
 ### Capturing a Moment
-Our application allows you to capture precious moments as they happen. 
+Our application allows you to capture precious moments as they happen.
 - __Press the Camera icon__
 - __Take a picture with the Capture button__
 - __Press the Gallery button to go to your camera roll__
@@ -52,7 +53,7 @@ Momento allows you to leave comments on any moment you’ve captured. These comm
 - __Press the Back button to return to your Home view__
 
 ### Reliving your Memories
-Each story you’ve created as well as all the moments that belong to them are available in the Library View. 
+Each story you’ve created as well as all the moments that belong to them are available in the Library View.
 - __Press the Library button on the bottom nav bar__
 - __Press any story you want to look through__
 - __You can type a tag in the top search bar to view specific moments__
@@ -137,13 +138,14 @@ For photo uploading functionality:
   - __Click Create__
   - __Paste the contents of RCTFileTransfer.m from the nativeModules into the new file__
 
-For autocomplete functionality: 
+For autocomplete functionality:
 - __Once you have installed react-native-autocomplete into /client, open XCode__
 - __Go to the file structure view on the left side__
 - __Right click on Libraries, select Add files to "..." and select node_modules/react-native-autocomplete/RCTAutoComplete.xcodeproj__
 - __Select your project and under Build Phases -> Link Binary With Libraries, press the + and select libRCTAutoComplete.a__
 
-
+### API Endpoints
+![alt tag](https://github.com/suyax/momento/blob/master/API%20endpoint/Slide1.png)
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
