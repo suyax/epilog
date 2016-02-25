@@ -19,7 +19,7 @@ module.exports = function(app) {
   app.post('/api/users', controller.auth.createUser);
 
   //TODO: invited page
-    //verify if identifer exists in db
+    //verify if identifier exists in db
       //if so ask for remaining user info and create a session
       //if not, direct to sign up page
 
@@ -41,7 +41,7 @@ module.exports = function(app) {
     // Output:
       // HTTP Status 200 success
     // Error:
-      // HTTP Status 401 unauthorized 
+      // HTTP Status 401 unauthorized
   app.get('/api/users/token', controller.auth.authenticateToken, function (req,res) {
     // the token was successfully authenticated.
     res.end()
@@ -56,14 +56,13 @@ module.exports = function(app) {
 
   ////////////////////////////////////STORIES//////////////////////////////////////////
 
-  //add new or existing user to story
+  //add existing user to story
     // Input in JSON body:
       // title: new story's title
       // description: description of new story
-      // existingUsersToInclude: 
-    // Output ???
+      // existingUsersToInclude:
+    // Output user Ids
   app.post('/api/stories', controller.stories.add);
-
 
   //get one story for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for the story as well as tags/comments for that story
@@ -77,8 +76,7 @@ module.exports = function(app) {
   //get all stories for a given user (COMPLETED V1 + CHECKED WITH NEW AUTHENTICATE TOKEN METHOD)
     //needs to include all users for each of those stories
     //eventually needs to include all moments tags and comments
-  //NOTE: will need to refactor once we have access to sessions. for now using userId in req.params
-  // Input: 
+  //NOTE: will need to re-factor once we have access to sessions. for now using userId in req.params
   app.get('/api/stories', controller.stories.getAll);
 
 
@@ -95,7 +93,7 @@ module.exports = function(app) {
 
   ////////////////////////////////////TAGS//////////////////////////////////////////////
 
-  // TODO: turn momentId into a paramater in the post
+  // TODO: turn momentId into a parameter in the post
   // adding tags to a moment
   app.post('/api/tags/:momentId', controller.tags.add);
 

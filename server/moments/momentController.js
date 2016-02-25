@@ -42,13 +42,13 @@ module.exports =  {
 
       // Preserve binding to file inside fs.stat
       var fileData = file;
-        
+
       // Check if the image file already exists
       fs.stat(filepath, function (err, file) {
 
         // If the image exists, respond with an error
         if (file && file.isFile()) {
-          res.status(500).end('Image already exists.');
+          res.status(409).end('Image already exists.');
         } else {
 
           // Open a file stream

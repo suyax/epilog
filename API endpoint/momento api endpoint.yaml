@@ -1,0 +1,489 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Momento API
+  description: Support Momento RESTful requests
+  version: "1.0.0"
+# the domain of the service
+host: 104.131.118.27
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /api
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /users:
+    post:
+      summary: Create User
+      description: 
+        The user endpoint used by sign up page: add user info to database (including password and name etc.)
+      tags:
+        - users
+      parameters:
+        - name: email
+          in: body
+          description: User email also will be served as identifier
+          required: true
+          type: string
+        - name: password
+          in: body
+          description: User password
+          required: true
+          type: string
+        - name: firstname
+          in: body
+          description: User first name
+          required: true
+          type: string
+        - name: lastname
+          in: body
+          description: User last name
+          required: true
+          type: string
+      responses:
+        200:
+          description: user id
+          schema:
+            $ref: '#/definitions/User'
+        400:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: add existing user to a story
+      description: 
+        specify a group of users by their emails and add them to one story 
+      tags:
+        - users
+      parameters:
+        - name: emails
+          in: header
+          description: User emails
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: User token
+          required: true
+          type: string
+      responses:
+        201:
+          description: user ids
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          description: Can not find
+          schema:
+            $ref: '#/definitions/Error'
+  /users/token:
+    post:
+      summary: Post user info and get a token for this user
+      description:
+        The user token endpoint returns a token for the specific user
+      tags:
+        - token
+      parameters:
+        - name: email
+          in: body
+          description: User email also will be used as identifier
+          required: true
+          type: string
+        - name: password
+          in: body
+          description: User password
+          required: true
+          type: string
+      responses:
+        200:
+          description: Give user a token
+          schema:
+            $ref: '#/definitions/Token'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: checks a token's validity
+      description:
+        check the token that sent from user and response based on token is valid or not
+      tags:
+        - token
+      parameters:
+        - name: token
+          in: header
+          description: User's token
+          required: true
+          type: string
+      responses:
+        200:
+          description: Authorized 
+          schema:
+            $ref: '#/definitions/Token'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+  /stories:
+    post:
+      summary: Add a story
+      description: The stories endpoint give respond based on add new or existing story
+      parameters:
+        - name: token
+          in: header
+          description: User's token
+          required: true
+          type: string
+        - name: title
+          in: body
+          description: Story title
+          required: true
+          type: string
+        - name: description
+          in: body
+          description: Story description
+          required: true
+          type: string
+        - name: existingUserToInclue
+          in: body
+          description: Array fo existing user id
+          required: true
+          type: string
+      tags:
+        - stories
+      responses:
+        201:
+          description: successfully add a new story
+          schema:
+            $ref: '#/definitions/Story'
+        404:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Get all stories for a given user
+      description: Given a user id return all stories data of this user
+      parameters:
+        - name: token
+          in: header
+          description: User's token
+          required: true
+          type: string
+        - name: user id
+          in: body
+          description: User id
+          required: true
+          type: JSON
+      tags:
+        - stories
+      responses:
+        200:
+          description: Get all stories of one user
+          schema:
+            $ref: '#/definitions/Story'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+  /moments:
+    post:
+      summary: Post new moment
+      description: Post new moment to database  
+      parameters:
+        - name: token
+          in: header
+          description: User's token
+          required: true
+          type: string
+        - name: tags
+          in: header
+          description: Tags belong to this moment
+          required: true
+          type: string
+        - name: images
+          in: query
+          description: mimeType
+          required: true
+          type: string
+        - name: uri
+          in: query
+          description: image uri
+          required: true
+          type: string
+        - name: fileName
+          in: query
+          description: Indluced title, caption, storyid, userid, seperate by'_'and end with .png
+          required: true
+          type: string
+        - name: mimeType
+          in: query
+          description: image 
+          required: true
+          type: string
+      tags:
+        - moments
+      responses:
+        201:
+          description: Successfully Add A New Moment
+          schema:
+            $ref: '#/definitions/Story'
+        409:
+          description: Image Already Exsit
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /tags/{momentId}:
+    post:
+      summary: Add tags for a specific moment
+      description: Given a moment id , add tags to a moment
+      tags:
+        - tags
+      parameters:
+        - name: tags
+          in: header
+          description: array of tag
+          required: true
+          type: array
+          items:
+            type: string
+        - name: momentId
+          in: query
+          description: momentId
+          required: true
+          type: interger
+      responses:
+        201:
+          description: Successfully Add A New Tag
+          schema:
+            $ref: '#/definitions/Tag'
+        409:
+          description: Tag Already Exsit
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
+  /tags/{storyId}:
+    get:
+      summary: Get all the tags by giving story
+      tags:
+        - tags
+      parameters:
+        - name: 
+          in: query
+          description: Story id
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: User token
+          required: true
+          type: string
+      responses:
+        201:
+          description: Successfully return all tags from one story
+          schema:
+            $ref: '#/definitions/Tag'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+  /comments:
+    post:
+      summary: Add one comment
+      description: add one comment to moment
+      parameters:
+        - name: token
+          in: header
+          description: User's token
+          required: true
+          type: string
+        - name: text
+          in: body
+          description: comment content
+          required: true
+          type: string
+        - name: momentId
+          in: body
+          description: id of one moment
+          required: true
+          type: integer
+      tags:
+        - comments
+      responses:
+        201:
+          description: Success
+          schema:
+            $ref: '#/definitions/Comment'
+        404:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Get all comments for a given user or for a given moment
+      description: Given a user id or moment id return all comment data of this user or this moment
+      parameters:
+        - name: token
+          in: header
+          description: User's token
+          required: true
+          type: string
+        - name: user id / moment id
+          in: query
+          description: User id / moment id
+          required: true
+          type: integer
+      tags:
+        - comments
+      responses:
+        200:
+          description: Success
+          schema:
+              type: array
+              items:
+                $ref: '#/definitions/Comment'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+  /updates:
+    get:
+      summary: get latest updated moment
+      description: 
+        get latest updated moment by updatedAt 
+      tags:
+        - updates
+      parameters:
+        - name: userId
+          in: body
+          description: User id
+          required: true
+          type: integer
+        - name: token
+          in: header
+          description: User token
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Update'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+  
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier representing a specific user
+  Token:
+    type: object
+    properties:
+      token:
+        type: string
+        description: Unique token for authentication
+  Story:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier for each story
+      title:
+        type: string
+        description: title of the story
+      description:
+        type: string
+        description: description of the story
+      createdAt:
+        type: string
+        description: created at this time since epoc UTC
+      updatedAt:
+        type: string
+        description: updated at this time since epoc UTC
+      moments:
+        type: array
+        description: all moments belong to this story
+      users:
+        type: array
+        description: all users belong to this story
+        
+  Moment:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier for each moment
+      url:
+        type: string
+        description: url of each moment image
+      caption:
+        type: string
+        description: caption of the story
+      createdAt:
+        type: string
+        description: created at this time since epoc UTC
+      updatedAt:
+        type: string
+        description: updated at this time since epoc UTC
+  Tag:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier for each tag
+      name:
+        type: string
+        description: name of each tag
+  Comment:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Unique identifier for each comment
+      text:
+        type: string
+        description: text content of the comment
+      createdAt: 
+        type: string
+        description: created at this time since epoc UTC
+      updatedAt:
+        type: string
+        description: updated at this time since epoc UTC
+  Update:
+    type: object
+    properties:
+      id: 
+        type: integer
+        description: Unique identifier for each moment
+      updatedAt:
+        type: string
+        description: updated at this time since epoc UTC
+      url:
+        type: string
+        description: url of each moment image
+      caption:
+        type: string
+        description: caption of the story
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

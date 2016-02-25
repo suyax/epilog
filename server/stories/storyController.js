@@ -9,20 +9,20 @@ module.exports =  {
     //modify req.body.existingUsersToInclude to include the storyCreator
     req.body.existingUsersToInclude.unshift(storyCreator);
     var storyData = {
-  	  title: req.body.title,
-  	  description: req.body.description,
-      //NOTE: for this to work, expecting an array of user ids
+      title: req.body.title,
+      description: req.body.description,
+      //expecting an array of user ids
       existingUsersToInclude: req.body.existingUsersToInclude
-      //eventually will want to do something with new users!!
-  	};
+      //TODO: handle new users
+    };
 
-  	storyModel.add(storyData)
-  	  .then(function (results){
-  	    res.status(201).json(results);
-  	  })
-  	  .catch(function (error){
-  	    res.status(404).json();
-  	  });
+    storyModel.add(storyData)
+      .then(function (results){
+        res.status(201).json(results);
+      })
+      .catch(function (error){
+        res.status(404).json();
+      });
   },
 
   getOne: function (req, res) {
