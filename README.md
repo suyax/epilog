@@ -75,8 +75,8 @@ Each story you’ve created as well as all the moments that belong to them are a
     - Modules: 
       - Bcrypt: 0.0.3
       - Bluebird: 3.1.4
-      - Body-parser: 1.14.2
-      - Jwt-simple: 0.4.1
+      - Body-Parser: 1.14.2
+      - Jwt-Simple: 0.4.1
 - Postgres: 9.5.0.0
 - Sequelize: 3.18.0
 
