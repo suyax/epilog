@@ -64,33 +64,33 @@ Each story you’ve created as well as all the moments that belong to them are a
 ###Backend
 
 ####Deployment
--Appetize.io
--Docker
--Grunt: 0.4.4
+- Appetize.io
+- Docker
+- Grunt: 0.4.4
 
 ####RESTful API Server
--Express: 4.13.3
--Node: 5.4.1
-  -Npm: 3.5.3
-    -Bcrypt: 0.0.3
-    -Bluebird: 3.1.4
-    -Body-parser: 1.14.2
-    -Jwt-simple": 0.4.1
--Postgres: 9.5.0.0
--Sequelize: 3.18.0
+- Express: 4.13.3
+- Node: 5.4.1
+  - Npm: 3.5.3
+    - Bcrypt: 0.0.3
+    - Bluebird: 3.1.4
+    - Body-parser: 1.14.2
+    - Jwt-simple": 0.4.1
+- Postgres: 9.5.0.0
+- Sequelize: 3.18.0
 
 ###Frontend
 
--Moment: 2.11.2
--React Native: 0.18.1
--React Native Modules
-  -Autocomplete: 0.1.3
-  -Camera: 0.3.8
-  -File-Transfer: 0.0.3
--React-Redux: 4.0.6
--Redux: 3.0.5
--Redux-Thunk: 1.0.3
--XCode: 7.2.1
+- Moment: 2.11.2
+- React Native: 0.18.1
+- React Native Modules
+  - Autocomplete: 0.1.3
+  - Camera: 0.3.8
+  - File-Transfer: 0.0.3
+- React-Redux: 4.0.6
+- Redux: 3.0.5
+- Redux-Thunk: 1.0.3
+- XCode: 7.2.1
 
 ## Development
 
