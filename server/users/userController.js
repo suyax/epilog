@@ -40,7 +40,7 @@ module.exports =  {
   },
 
   remove: function (req, res){
-  },s
+  },
   addFriend: function (req, res){
   },
   removeFriend: function (req, res){
